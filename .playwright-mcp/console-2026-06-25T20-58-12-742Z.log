@@ -1,0 +1,2 @@
+[     662ms] [LOG] %cSocket connected. color: green; font-weight: bold; @ http://localhost/framework/ext/Socket/Socket.js:52
+[    4647ms] [LOG] button clicked @ http://localhost/playwright/page.js:10

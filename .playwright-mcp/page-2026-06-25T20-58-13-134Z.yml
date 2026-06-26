@@ -1,0 +1,44 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - link [ref=e4] [cursor=pointer]:
+      - /url: /
+      - img [ref=e5]
+    - link "playwright" [ref=e8] [cursor=pointer]:
+      - /url: /playwright/
+  - generic [ref=e9]:
+    - generic [ref=e12]:
+      - generic [ref=e14]:
+        - generic [ref=e16]: arrow_right
+        - link "ai" [ref=e17] [cursor=pointer]:
+          - /url: /ai/
+      - generic [ref=e19]:
+        - generic [ref=e21]: arrow_right
+        - link "framework" [ref=e22] [cursor=pointer]:
+          - /url: /framework/
+      - generic [ref=e24]:
+        - generic [ref=e26]: arrow_right
+        - link "html" [ref=e27] [cursor=pointer]:
+          - /url: /html/
+      - link "layout" [ref=e30] [cursor=pointer]:
+        - /url: /layout/
+      - link "playwright" [ref=e33] [cursor=pointer]:
+        - /url: /playwright/
+      - generic [ref=e35]:
+        - generic [ref=e37]: arrow_right
+        - link "styles" [ref=e38] [cursor=pointer]:
+          - /url: /styles/
+      - generic [ref=e40]:
+        - generic [ref=e42]: arrow_right
+        - link "test" [ref=e43] [cursor=pointer]:
+          - /url: /test/
+      - link "theme" [ref=e46] [cursor=pointer]:
+        - /url: /theme/
+    - generic [ref=e47]:
+      - generic [ref=e48]:
+        - heading "Playwright Test Page" [level=1] [ref=e49]
+        - paragraph [ref=e50]: This page is for experimenting with Playwright.
+        - generic [ref=e51]: Ready.
+        - button "Click me" [ref=e52] [cursor=pointer]
+      - link [ref=e54] [cursor=pointer]:
+        - /url: /
+        - img [ref=e55]

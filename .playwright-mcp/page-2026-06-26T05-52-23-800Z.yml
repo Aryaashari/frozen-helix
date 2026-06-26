@@ -1,0 +1,164 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - link [ref=e4] [cursor=pointer]:
+      - /url: /
+      - img [ref=e5]
+    - generic [ref=e6]:
+      - link "framework" [ref=e8] [cursor=pointer]:
+        - /url: /framework/
+      - link "ext" [ref=e10] [cursor=pointer]:
+        - /url: /framework/ext/
+      - link "Splitter" [ref=e12] [cursor=pointer]:
+        - /url: /framework/ext/Splitter/
+  - generic [ref=e13]:
+    - generic [ref=e16]:
+      - generic [ref=e18]:
+        - generic [ref=e20]: arrow_right
+        - link "ai" [ref=e21] [cursor=pointer]:
+          - /url: /ai/
+      - generic [ref=e22]:
+        - generic [ref=e23]:
+          - generic [ref=e25]: arrow_right
+          - link "framework" [ref=e26] [cursor=pointer]:
+            - /url: /framework/
+        - generic [ref=e27]:
+          - generic [ref=e29]:
+            - generic [ref=e31]: arrow_right
+            - link "core" [ref=e32] [cursor=pointer]:
+              - /url: /framework/core/
+          - link "css" [ref=e35] [cursor=pointer]:
+            - /url: /framework/css/
+          - generic [ref=e37]:
+            - generic [ref=e39]: arrow_right
+            - link "dum" [ref=e40] [cursor=pointer]:
+              - /url: /framework/dum/
+          - generic [ref=e41]:
+            - generic [ref=e42]:
+              - generic [ref=e44]: arrow_right
+              - link "ext" [ref=e45] [cursor=pointer]:
+                - /url: /framework/ext/
+            - generic [ref=e46]:
+              - link "CodeEditor" [ref=e49] [cursor=pointer]:
+                - /url: /framework/ext/CodeEditor/
+              - generic [ref=e51]:
+                - generic [ref=e53]: arrow_right
+                - link "Component" [ref=e54] [cursor=pointer]:
+                  - /url: /framework/ext/Component/
+              - generic [ref=e56]:
+                - generic [ref=e58]: arrow_right
+                - link "Dir" [ref=e59] [cursor=pointer]:
+                  - /url: /framework/ext/Dir/
+              - link "Directory" [ref=e62] [cursor=pointer]:
+                - /url: /framework/ext/Directory/
+              - generic [ref=e64]:
+                - generic [ref=e66]: arrow_right
+                - link "Draggable" [ref=e67] [cursor=pointer]:
+                  - /url: /framework/ext/Draggable/
+              - generic [ref=e69]:
+                - generic [ref=e71]: arrow_right
+                - link "File" [ref=e72] [cursor=pointer]:
+                  - /url: /framework/ext/File/
+              - link "HashPage" [ref=e75] [cursor=pointer]:
+                - /url: /framework/ext/HashPage/
+              - generic [ref=e77]:
+                - generic [ref=e79]: arrow_right
+                - link "HashPager" [ref=e80] [cursor=pointer]:
+                  - /url: /framework/ext/HashPager/
+              - link "HashRouter" [ref=e83] [cursor=pointer]:
+                - /url: /framework/ext/HashRouter/
+              - link "Inspector" [ref=e86] [cursor=pointer]:
+                - /url: /framework/ext/Inspector/
+              - link "Keys" [ref=e89] [cursor=pointer]:
+                - /url: /framework/ext/Keys/
+              - link "Layout" [ref=e92] [cursor=pointer]:
+                - /url: /framework/ext/Layout/
+              - generic [ref=e94]:
+                - generic [ref=e96]: arrow_right
+                - link "Lew42" [ref=e97] [cursor=pointer]:
+                  - /url: /framework/ext/Lew42/
+              - generic [ref=e99]:
+                - generic [ref=e101]: arrow_right
+                - link "List" [ref=e102] [cursor=pointer]:
+                  - /url: /framework/ext/List/
+              - link "Markdown" [ref=e105] [cursor=pointer]:
+                - /url: /framework/ext/Markdown/
+              - link "Module" [ref=e108] [cursor=pointer]:
+                - /url: /framework/ext/Module/
+              - link "Notes" [ref=e111] [cursor=pointer]:
+                - /url: /framework/ext/Notes/
+              - link "Page" [ref=e114] [cursor=pointer]:
+                - /url: /framework/ext/Page/
+              - generic [ref=e116]:
+                - generic [ref=e118]: arrow_right
+                - link "Saver" [ref=e119] [cursor=pointer]:
+                  - /url: /framework/ext/Saver/
+              - link "Splitter" [ref=e122] [cursor=pointer]:
+                - /url: /framework/ext/Splitter/
+              - link "Thing" [ref=e125] [cursor=pointer]:
+                - /url: /framework/ext/Thing/
+              - link "Todo" [ref=e128] [cursor=pointer]:
+                - /url: /framework/ext/Todo/
+              - link "Toolbar" [ref=e131] [cursor=pointer]:
+                - /url: /framework/ext/Toolbar/
+              - generic [ref=e133]:
+                - generic [ref=e135]: arrow_right
+                - link "WebApp" [ref=e136] [cursor=pointer]:
+                  - /url: /framework/ext/WebApp/
+              - generic [ref=e138]:
+                - generic [ref=e140]: arrow_right
+                - link "WebEditor" [ref=e141] [cursor=pointer]:
+                  - /url: /framework/ext/WebEditor/
+          - generic [ref=e143]:
+            - generic [ref=e145]: arrow_right
+            - link "game" [ref=e146] [cursor=pointer]:
+              - /url: /framework/game/
+          - generic [ref=e148]:
+            - generic [ref=e150]: arrow_right
+            - link "lib" [ref=e151] [cursor=pointer]:
+              - /url: /framework/lib/
+          - generic [ref=e153]:
+            - generic [ref=e155]: arrow_right
+            - link "ui" [ref=e156] [cursor=pointer]:
+              - /url: /framework/ui/
+          - generic [ref=e158]:
+            - generic [ref=e160]: arrow_right
+            - link "ux" [ref=e161] [cursor=pointer]:
+              - /url: /framework/ux/
+      - generic [ref=e163]:
+        - generic [ref=e165]: arrow_right
+        - link "html" [ref=e166] [cursor=pointer]:
+          - /url: /html/
+      - link "layout" [ref=e169] [cursor=pointer]:
+        - /url: /layout/
+      - link "playwright" [ref=e172] [cursor=pointer]:
+        - /url: /playwright/
+      - generic [ref=e174]:
+        - generic [ref=e176]: arrow_right
+        - link "styles" [ref=e177] [cursor=pointer]:
+          - /url: /styles/
+      - generic [ref=e179]:
+        - generic [ref=e181]: arrow_right
+        - link "test" [ref=e182] [cursor=pointer]:
+          - /url: /test/
+      - link "theme" [ref=e185] [cursor=pointer]:
+        - /url: /theme/
+    - generic [ref=e186]:
+      - generic [ref=e187]:
+        - heading "Splitter" [level=1] [ref=e188]
+        - paragraph [ref=e189]: Drag-to-resize handle. Uses Pointer Capture API — works even when dragging outside the element.
+        - generic [ref=e190]:
+          - generic [ref=e191]: Horizontal — drag to resize left and right panels
+          - generic [ref=e193]:
+            - generic [ref=e194]: Left (200px)
+            - generic [ref=e196]: Main content
+            - generic [ref=e198]: Right (160px)
+          - paragraph
+          - paragraph [ref=e199]: Double-click a handle to reset to its default size.
+        - generic [ref=e200]:
+          - generic [ref=e201]: Vertical — drag to resize top panel
+          - generic [ref=e203]:
+            - generic [ref=e204]: Top panel (120px)
+            - generic [ref=e206]: Bottom panel
+      - link [ref=e208] [cursor=pointer]:
+        - /url: /
+        - img [ref=e209]

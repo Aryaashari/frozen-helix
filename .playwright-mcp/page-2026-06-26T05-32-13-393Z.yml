@@ -1,0 +1,188 @@
+- generic [ref=e6]:
+  - generic [ref=e7]:
+    - generic [ref=e8]:
+      - generic [ref=e10]: dashboard
+      - generic [ref=e11]: WebApp1
+    - button "undo" [ref=e13] [cursor=pointer]:
+      - generic [ref=e14]: undo
+    - button "redo" [ref=e15] [cursor=pointer]:
+      - generic [ref=e16]: redo
+    - generic [ref=e18]:
+      - generic [ref=e19]: Saved
+      - button "Save" [ref=e20] [cursor=pointer]
+  - generic [ref=e21]:
+    - generic [ref=e22]:
+      - generic [ref=e23]:
+        - generic [ref=e24] [cursor=pointer]:
+          - generic [ref=e25]: near_me
+          - generic [ref=e26]: Select
+          - generic [ref=e27]: V
+        - generic [ref=e28] [cursor=pointer]:
+          - generic [ref=e29]: crop_square
+          - generic [ref=e30]: Frame
+          - generic [ref=e31]: F
+        - generic [ref=e32] [cursor=pointer]:
+          - generic [ref=e33]: title
+          - generic [ref=e34]: Text
+          - generic [ref=e35]: T
+        - generic [ref=e36] [cursor=pointer]:
+          - generic [ref=e37]: image
+          - generic [ref=e38]: Image
+          - generic [ref=e39]: I
+        - generic [ref=e40] [cursor=pointer]:
+          - generic [ref=e41]: smart_button
+          - generic [ref=e42]: Button
+          - generic [ref=e43]: B
+      - generic [ref=e45]:
+        - generic [ref=e46]: Snapping
+        - generic [ref=e47]:
+          - generic [ref=e48]: Grid
+          - generic [ref=e50] [cursor=pointer]:
+            - checkbox [checked]
+        - generic [ref=e52]:
+          - generic [ref=e53]: Snap
+          - generic [ref=e55] [cursor=pointer]:
+            - checkbox [checked]
+        - generic [ref=e57]:
+          - generic [ref=e58]: Pixel
+          - generic [ref=e60] [cursor=pointer]:
+            - checkbox
+        - generic [ref=e62]:
+          - generic [ref=e63]: Size
+          - generic [ref=e66]: "8"
+      - generic [ref=e67]:
+        - generic [ref=e68]: View
+        - generic [ref=e69]:
+          - generic [ref=e70]: Zoom
+          - generic [ref=e72]:
+            - button "50" [ref=e73] [cursor=pointer]
+            - button "100" [ref=e74] [cursor=pointer]
+            - button "200" [ref=e75] [cursor=pointer]
+        - generic [ref=e76]:
+          - generic [ref=e77]: Theme
+          - generic [ref=e79]:
+            - button "light" [ref=e80] [cursor=pointer]
+            - button "dark" [ref=e81] [cursor=pointer]
+    - generic [ref=e85]:
+      - generic [ref=e86]:
+        - button "Toast info" [ref=e87] [cursor=pointer]
+        - button "Toast success" [ref=e88] [cursor=pointer]
+        - button "Toast error" [ref=e89] [cursor=pointer]
+        - button "Toast + Undo" [ref=e90] [cursor=pointer]
+      - generic [ref=e91]:
+        - button "Confirm dialog" [ref=e92] [cursor=pointer]
+        - button "Alert dialog" [ref=e93] [cursor=pointer]
+        - button "Prompt dialog" [ref=e94] [cursor=pointer]
+      - generic [ref=e95]: Right-click anywhere on the canvas for context menu. Drag panel edges to resize.
+    - generic [ref=e98]:
+      - generic [ref=e99]:
+        - generic [ref=e100] [cursor=pointer]: Design
+        - generic [ref=e101] [cursor=pointer]: Inspect
+      - generic [ref=e104]:
+        - generic [ref=e105]:
+          - button "Typography chevron_right" [ref=e106] [cursor=pointer]:
+            - generic [ref=e107]: Typography
+            - generic [ref=e108]: chevron_right
+          - generic [ref=e111]:
+            - generic [ref=e112]:
+              - generic [ref=e113]: Family
+              - combobox [ref=e115] [cursor=pointer]:
+                - option "Default" [selected]
+                - option "Sans-serif"
+                - option "Serif"
+                - option "Mono"
+            - generic [ref=e116]:
+              - generic [ref=e117]: Size
+              - generic [ref=e120]: "16"
+            - generic [ref=e121]:
+              - generic [ref=e122]: Weight
+              - generic [ref=e124]:
+                - button "Rg" [ref=e125] [cursor=pointer]
+                - button "Md" [ref=e126] [cursor=pointer]
+                - button "Sb" [ref=e127] [cursor=pointer]
+                - button "Bd" [ref=e128] [cursor=pointer]
+            - generic [ref=e129]:
+              - generic [ref=e130]: Align
+              - generic [ref=e132]:
+                - button "format_align_left" [ref=e133] [cursor=pointer]:
+                  - generic [ref=e134]: format_align_left
+                - button "format_align_center" [ref=e135] [cursor=pointer]:
+                  - generic [ref=e136]: format_align_center
+                - button "format_align_right" [ref=e137] [cursor=pointer]:
+                  - generic [ref=e138]: format_align_right
+            - generic [ref=e139]:
+              - generic [ref=e140]: Color
+              - generic [ref=e142]:
+                - textbox [ref=e143] [cursor=pointer]: "#1b1b19"
+                - textbox "#000000" [ref=e144]: "#1b1b19"
+        - generic [ref=e145]:
+          - button "Layout chevron_right" [ref=e146] [cursor=pointer]:
+            - generic [ref=e147]: Layout
+            - generic [ref=e148]: chevron_right
+          - generic [ref=e151]:
+            - generic [ref=e152]:
+              - generic [ref=e153]: Direction
+              - generic [ref=e155]:
+                - button "more_horiz" [ref=e156] [cursor=pointer]:
+                  - generic [ref=e157]: more_horiz
+                - button "more_vert" [ref=e158] [cursor=pointer]:
+                  - generic [ref=e159]: more_vert
+            - generic [ref=e160]:
+              - generic [ref=e161]: Gap
+              - generic [ref=e164]: "16"
+            - generic [ref=e165]:
+              - generic [ref=e166]: Pad
+              - generic [ref=e169]: "16"
+            - generic [ref=e170]:
+              - generic [ref=e171]: Align
+              - generic [ref=e173]:
+                - button "Start" [ref=e174] [cursor=pointer]
+                - button "Ctr" [ref=e175] [cursor=pointer]
+                - button "End" [ref=e176] [cursor=pointer]
+                - button "Fill" [ref=e177] [cursor=pointer]
+        - generic [ref=e178]:
+          - button "Style chevron_right" [ref=e179] [cursor=pointer]:
+            - generic [ref=e180]: Style
+            - generic [ref=e181]: chevron_right
+          - generic [ref=e184]:
+            - generic [ref=e185]:
+              - generic [ref=e186]: BG
+              - generic [ref=e188]:
+                - textbox [ref=e189] [cursor=pointer]: "#ffffff"
+                - textbox "#000000" [ref=e190]: "#ffffff"
+            - generic [ref=e191]:
+              - generic [ref=e192]: Radius
+              - generic [ref=e195]: "8"
+            - generic [ref=e196]:
+              - generic [ref=e197]: Shadow
+              - generic [ref=e199] [cursor=pointer]:
+                - checkbox
+            - generic [ref=e201]:
+              - generic [ref=e202]: Opacity
+              - generic [ref=e204]:
+                - slider [ref=e205] [cursor=pointer]: "100"
+                - generic [ref=e206]: "100"
+            - generic [ref=e207]:
+              - generic [ref=e208]: Border
+              - generic [ref=e211]: "0"
+        - generic [ref=e212]:
+          - button "Effects chevron_right" [ref=e213] [cursor=pointer]:
+            - generic [ref=e214]: Effects
+            - generic [ref=e215]: chevron_right
+          - generic [ref=e217]:
+            - generic [ref=e218]:
+              - generic [ref=e219]: Blur
+              - generic [ref=e221]:
+                - slider [ref=e222] [cursor=pointer]: "0"
+                - generic [ref=e223]: "0"
+            - generic [ref=e224]:
+              - generic [ref=e225]: Overflow
+              - generic [ref=e227]:
+                - button "visible" [ref=e228] [cursor=pointer]
+                - button "hidden" [ref=e229] [cursor=pointer]
+  - generic [ref=e230]:
+    - generic [ref=e231]: W 500
+    - generic [ref=e232]: H 400
+    - generic [ref=e234]: x 0, y 0
+    - generic [ref=e236]: 100%
+    - generic [ref=e237]: WebApp1 Demo

@@ -1,0 +1,136 @@
+[     358ms] [LOG] %cSocket connected. color: green; font-weight: bold; @ http://localhost:3131/framework/ext/Socket/Socket.js:52
+[   38257ms] [LOG] %cSocket connected. color: green; font-weight: bold; @ http://localhost:3131/framework/ext/Socket/Socket.js:52
+[   53944ms] [LOG] %cSocket connected. color: green; font-weight: bold; @ http://localhost:3131/framework/ext/Socket/Socket.js:52
+[   76572ms] [LOG] %cSocket connected. color: green; font-weight: bold; @ http://localhost:3131/framework/ext/Socket/Socket.js:52
+[ 1539596ms] [WARNING] Socket closed, attempting reconnect @ http://localhost:3131/framework/ext/Socket/Socket.js:32
+[ 1539598ms] [ERROR] WebSocket connection to 'ws://localhost:3131/' failed: Error in connection establishment: net::ERR_NETWORK_IO_SUSPENDED @ http://localhost:3131/framework/ext/Socket/Socket.js:28
+[ 1539598ms] [WARNING] Socket error: Event 0 fails. @ http://localhost:3131/framework/ext/Socket/Socket.js:38
+[ 1539598ms] [WARNING] Attempting to reconnect in 1 second(s). @ http://localhost:3131/framework/ext/Socket/Socket.js:42
+[ 1539598ms] [WARNING] Socket closed, attempting reconnect @ http://localhost:3131/framework/ext/Socket/Socket.js:32
+[ 1539599ms] [ERROR] WebSocket connection to 'ws://localhost:3131/' failed: Error in connection establishment: net::ERR_NETWORK_IO_SUSPENDED @ http://localhost:3131/framework/ext/Socket/Socket.js:28
+[ 1539599ms] [WARNING] Socket error: Event 1 fails. @ http://localhost:3131/framework/ext/Socket/Socket.js:38
+[ 1539599ms] [WARNING] Attempting to reconnect in 2 second(s). @ http://localhost:3131/framework/ext/Socket/Socket.js:42
+[ 1539599ms] [WARNING] Socket closed, attempting reconnect @ http://localhost:3131/framework/ext/Socket/Socket.js:32
+[ 1539599ms] [ERROR] WebSocket connection to 'ws://localhost:3131/' failed: Error in connection establishment: net::ERR_NETWORK_IO_SUSPENDED @ http://localhost:3131/framework/ext/Socket/Socket.js:28
+[ 1539599ms] [WARNING] Socket error: Event 2 fails. @ http://localhost:3131/framework/ext/Socket/Socket.js:38
+[ 1539600ms] [WARNING] Attempting to reconnect in 3 second(s). @ http://localhost:3131/framework/ext/Socket/Socket.js:42
+[ 1539600ms] [WARNING] Socket closed, attempting reconnect @ http://localhost:3131/framework/ext/Socket/Socket.js:32
+[ 1539600ms] [ERROR] WebSocket connection to 'ws://localhost:3131/' failed: Error in connection establishment: net::ERR_NETWORK_IO_SUSPENDED @ http://localhost:3131/framework/ext/Socket/Socket.js:28
+[ 1539600ms] [WARNING] Socket error: Event 3 fails. @ http://localhost:3131/framework/ext/Socket/Socket.js:38
+[ 1539601ms] [WARNING] Attempting to reconnect in 4 second(s). @ http://localhost:3131/framework/ext/Socket/Socket.js:42
+[ 1539601ms] [WARNING] Socket closed, attempting reconnect @ http://localhost:3131/framework/ext/Socket/Socket.js:32
+[ 8805266ms] [LOG] %cSocket connected. color: green; font-weight: bold; @ http://localhost:3131/framework/ext/Socket/Socket.js:52
+[ 8805282ms] [LOG] %cSocket connected. color: green; font-weight: bold; @ http://localhost:3131/framework/ext/Socket/Socket.js:52
+[ 8805297ms] [LOG] %cSocket connected. color: green; font-weight: bold; @ http://localhost:3131/framework/ext/Socket/Socket.js:52
+[ 8805313ms] [LOG] %cSocket connected. color: green; font-weight: bold; @ http://localhost:3131/framework/ext/Socket/Socket.js:52
+[ 8805328ms] [LOG] %cSocket connected. color: green; font-weight: bold; @ http://localhost:3131/framework/ext/Socket/Socket.js:52
+[12432513ms] [WARNING] Socket closed, attempting reconnect @ http://localhost:3131/framework/ext/Socket/Socket.js:32
+[12432513ms] [WARNING] Socket closed, attempting reconnect @ http://localhost:3131/framework/ext/Socket/Socket.js:32
+[12432513ms] [WARNING] Socket closed, attempting reconnect @ http://localhost:3131/framework/ext/Socket/Socket.js:32
+[12432513ms] [WARNING] Socket closed, attempting reconnect @ http://localhost:3131/framework/ext/Socket/Socket.js:32
+[12432513ms] [WARNING] Socket closed, attempting reconnect @ http://localhost:3131/framework/ext/Socket/Socket.js:32
+[12432514ms] [ERROR] WebSocket connection to 'ws://localhost:3131/' failed: Error in connection establishment: net::ERR_NETWORK_IO_SUSPENDED @ http://localhost:3131/framework/ext/Socket/Socket.js:28
+[12432514ms] [WARNING] Socket error: Event 4 fails. @ http://localhost:3131/framework/ext/Socket/Socket.js:38
+[12432514ms] [ERROR] Socket error, giving up. @ http://localhost:3131/framework/ext/Socket/Socket.js:45
+[12432514ms] [WARNING] Socket closed, attempting reconnect @ http://localhost:3131/framework/ext/Socket/Socket.js:32
+[12432507ms] Event
+[12432514ms] [ERROR] WebSocket connection to 'ws://localhost:3131/' failed: Error in connection establishment: net::ERR_NETWORK_IO_SUSPENDED @ http://localhost:3131/framework/ext/Socket/Socket.js:28
+[12432514ms] [ERROR] WebSocket connection to 'ws://localhost:3131/' failed: Error in connection establishment: net::ERR_NETWORK_IO_SUSPENDED @ http://localhost:3131/framework/ext/Socket/Socket.js:28
+[12432514ms] [WARNING] Socket error: Event 4 fails. @ http://localhost:3131/framework/ext/Socket/Socket.js:38
+[12432514ms] [ERROR] Socket error, giving up. @ http://localhost:3131/framework/ext/Socket/Socket.js:45
+[12432514ms] [WARNING] Socket closed, attempting reconnect @ http://localhost:3131/framework/ext/Socket/Socket.js:32
+[12432514ms] [ERROR] WebSocket connection to 'ws://localhost:3131/' failed: Error in connection establishment: net::ERR_NETWORK_IO_SUSPENDED @ http://localhost:3131/framework/ext/Socket/Socket.js:28
+[12432514ms] [WARNING] Socket error: Event 4 fails. @ http://localhost:3131/framework/ext/Socket/Socket.js:38
+[12432514ms] [ERROR] Socket error, giving up. @ http://localhost:3131/framework/ext/Socket/Socket.js:45
+[12432514ms] [WARNING] Socket closed, attempting reconnect @ http://localhost:3131/framework/ext/Socket/Socket.js:32
+[12432514ms] [ERROR] WebSocket connection to 'ws://localhost:3131/' failed: Error in connection establishment: net::ERR_NETWORK_IO_SUSPENDED @ http://localhost:3131/framework/ext/Socket/Socket.js:28
+[12432508ms] Event
+[12432515ms] [WARNING] Socket error: Event 4 fails. @ http://localhost:3131/framework/ext/Socket/Socket.js:38
+[12432515ms] [ERROR] Socket error, giving up. @ http://localhost:3131/framework/ext/Socket/Socket.js:45
+[12432515ms] [WARNING] Socket closed, attempting reconnect @ http://localhost:3131/framework/ext/Socket/Socket.js:32
+[12432508ms] Event
+[12432515ms] [WARNING] Socket error: Event 4 fails. @ http://localhost:3131/framework/ext/Socket/Socket.js:38
+[12432515ms] [ERROR] Socket error, giving up. @ http://localhost:3131/framework/ext/Socket/Socket.js:45
+[12432515ms] [WARNING] Socket closed, attempting reconnect @ http://localhost:3131/framework/ext/Socket/Socket.js:32
+[12432508ms] Event
+[12432508ms] Event
+[19698391ms] [LOG] %cSocket connected. color: green; font-weight: bold; @ http://localhost:3131/framework/ext/Socket/Socket.js:52
+[19698406ms] [LOG] %cSocket connected. color: green; font-weight: bold; @ http://localhost:3131/framework/ext/Socket/Socket.js:52
+[19698422ms] [LOG] %cSocket connected. color: green; font-weight: bold; @ http://localhost:3131/framework/ext/Socket/Socket.js:52
+[19698438ms] [LOG] %cSocket connected. color: green; font-weight: bold; @ http://localhost:3131/framework/ext/Socket/Socket.js:52
+[19698454ms] [LOG] %cSocket connected. color: green; font-weight: bold; @ http://localhost:3131/framework/ext/Socket/Socket.js:52
+[23325447ms] [WARNING] Socket closed, attempting reconnect @ http://localhost:3131/framework/ext/Socket/Socket.js:32
+[23325447ms] [WARNING] Socket closed, attempting reconnect @ http://localhost:3131/framework/ext/Socket/Socket.js:32
+[23325447ms] [WARNING] Socket closed, attempting reconnect @ http://localhost:3131/framework/ext/Socket/Socket.js:32
+[23325447ms] [WARNING] Socket closed, attempting reconnect @ http://localhost:3131/framework/ext/Socket/Socket.js:32
+[23325447ms] [WARNING] Socket closed, attempting reconnect @ http://localhost:3131/framework/ext/Socket/Socket.js:32
+[23325449ms] [ERROR] WebSocket connection to 'ws://localhost:3131/' failed: Error in connection establishment: net::ERR_NETWORK_IO_SUSPENDED @ http://localhost:3131/framework/ext/Socket/Socket.js:28
+[23325449ms] [WARNING] Socket error: Event 4 fails. @ http://localhost:3131/framework/ext/Socket/Socket.js:38
+[23325449ms] [ERROR] Socket error, giving up. @ http://localhost:3131/framework/ext/Socket/Socket.js:45
+[23325449ms] [WARNING] Socket closed, attempting reconnect @ http://localhost:3131/framework/ext/Socket/Socket.js:32
+[23325449ms] [ERROR] WebSocket connection to 'ws://localhost:3131/' failed: Error in connection establishment: net::ERR_NETWORK_IO_SUSPENDED @ http://localhost:3131/framework/ext/Socket/Socket.js:28
+[23325449ms] [ERROR] WebSocket connection to 'ws://localhost:3131/' failed: Error in connection establishment: net::ERR_NETWORK_IO_SUSPENDED @ http://localhost:3131/framework/ext/Socket/Socket.js:28
+[23325449ms] [ERROR] WebSocket connection to 'ws://localhost:3131/' failed: Error in connection establishment: net::ERR_NETWORK_IO_SUSPENDED @ http://localhost:3131/framework/ext/Socket/Socket.js:28
+[23325449ms] [ERROR] WebSocket connection to 'ws://localhost:3131/' failed: Error in connection establishment: net::ERR_NETWORK_IO_SUSPENDED @ http://localhost:3131/framework/ext/Socket/Socket.js:28
+[23325444ms] Event
+[23325449ms] [WARNING] Socket error: Event 4 fails. @ http://localhost:3131/framework/ext/Socket/Socket.js:38
+[23325449ms] [ERROR] Socket error, giving up. @ http://localhost:3131/framework/ext/Socket/Socket.js:45
+[23325449ms] [WARNING] Socket closed, attempting reconnect @ http://localhost:3131/framework/ext/Socket/Socket.js:32
+[23325450ms] [WARNING] Socket error: Event 4 fails. @ http://localhost:3131/framework/ext/Socket/Socket.js:38
+[23325450ms] [ERROR] Socket error, giving up. @ http://localhost:3131/framework/ext/Socket/Socket.js:45
+[23325450ms] [WARNING] Socket closed, attempting reconnect @ http://localhost:3131/framework/ext/Socket/Socket.js:32
+[23325450ms] [WARNING] Socket error: Event 4 fails. @ http://localhost:3131/framework/ext/Socket/Socket.js:38
+[23325450ms] [ERROR] Socket error, giving up. @ http://localhost:3131/framework/ext/Socket/Socket.js:45
+[23325450ms] [WARNING] Socket closed, attempting reconnect @ http://localhost:3131/framework/ext/Socket/Socket.js:32
+[23325450ms] [WARNING] Socket error: Event 4 fails. @ http://localhost:3131/framework/ext/Socket/Socket.js:38
+[23325450ms] [ERROR] Socket error, giving up. @ http://localhost:3131/framework/ext/Socket/Socket.js:45
+[23325450ms] [WARNING] Socket closed, attempting reconnect @ http://localhost:3131/framework/ext/Socket/Socket.js:32
+[23325445ms] Event
+[23325445ms] Event
+[23325445ms] Event
+[23325445ms] Event
+[23325450ms] [ERROR] WebSocket connection to 'ws://localhost:3131/' failed: Error in connection establishment: net::ERR_NETWORK_IO_SUSPENDED @ http://localhost:3131/framework/ext/Socket/Socket.js:28
+[23325450ms] [WARNING] Socket error: Event 4 fails. @ http://localhost:3131/framework/ext/Socket/Socket.js:38
+[23325450ms] [ERROR] Socket error, giving up. @ http://localhost:3131/framework/ext/Socket/Socket.js:45
+[23325450ms] [WARNING] Socket closed, attempting reconnect @ http://localhost:3131/framework/ext/Socket/Socket.js:32
+[23325446ms] Event
+[30591035ms] [LOG] %cSocket connected. color: green; font-weight: bold; @ http://localhost:3131/framework/ext/Socket/Socket.js:52
+[30591051ms] [LOG] %cSocket connected. color: green; font-weight: bold; @ http://localhost:3131/framework/ext/Socket/Socket.js:52
+[30591067ms] [LOG] %cSocket connected. color: green; font-weight: bold; @ http://localhost:3131/framework/ext/Socket/Socket.js:52
+[30591083ms] [LOG] %cSocket connected. color: green; font-weight: bold; @ http://localhost:3131/framework/ext/Socket/Socket.js:52
+[30591098ms] [LOG] %cSocket connected. color: green; font-weight: bold; @ http://localhost:3131/framework/ext/Socket/Socket.js:52
+[34217692ms] [WARNING] Socket closed, attempting reconnect @ http://localhost:3131/framework/ext/Socket/Socket.js:32
+[34217693ms] [WARNING] Socket closed, attempting reconnect @ http://localhost:3131/framework/ext/Socket/Socket.js:32
+[34217693ms] [WARNING] Socket closed, attempting reconnect @ http://localhost:3131/framework/ext/Socket/Socket.js:32
+[34217693ms] [WARNING] Socket closed, attempting reconnect @ http://localhost:3131/framework/ext/Socket/Socket.js:32
+[34217693ms] [WARNING] Socket closed, attempting reconnect @ http://localhost:3131/framework/ext/Socket/Socket.js:32
+[34217693ms] [ERROR] WebSocket connection to 'ws://localhost:3131/' failed: Error in connection establishment: net::ERR_NETWORK_IO_SUSPENDED @ http://localhost:3131/framework/ext/Socket/Socket.js:28
+[34217693ms] [WARNING] Socket error: Event 4 fails. @ http://localhost:3131/framework/ext/Socket/Socket.js:38
+[34217693ms] [ERROR] Socket error, giving up. @ http://localhost:3131/framework/ext/Socket/Socket.js:45
+[34217694ms] [WARNING] Socket closed, attempting reconnect @ http://localhost:3131/framework/ext/Socket/Socket.js:32
+[34217694ms] [ERROR] WebSocket connection to 'ws://localhost:3131/' failed: Error in connection establishment: net::ERR_NETWORK_IO_SUSPENDED @ http://localhost:3131/framework/ext/Socket/Socket.js:28
+[34217686ms] Event
+[34217694ms] [WARNING] Socket error: Event 4 fails. @ http://localhost:3131/framework/ext/Socket/Socket.js:38
+[34217694ms] [ERROR] Socket error, giving up. @ http://localhost:3131/framework/ext/Socket/Socket.js:45
+[34217694ms] [WARNING] Socket closed, attempting reconnect @ http://localhost:3131/framework/ext/Socket/Socket.js:32
+[34217694ms] [ERROR] WebSocket connection to 'ws://localhost:3131/' failed: Error in connection establishment: net::ERR_NETWORK_IO_SUSPENDED @ http://localhost:3131/framework/ext/Socket/Socket.js:28
+[34217694ms] [ERROR] WebSocket connection to 'ws://localhost:3131/' failed: Error in connection establishment: net::ERR_NETWORK_IO_SUSPENDED @ http://localhost:3131/framework/ext/Socket/Socket.js:28
+[34217694ms] [ERROR] WebSocket connection to 'ws://localhost:3131/' failed: Error in connection establishment: net::ERR_NETWORK_IO_SUSPENDED @ http://localhost:3131/framework/ext/Socket/Socket.js:28
+[34217687ms] Event
+[34217694ms] [WARNING] Socket error: Event 4 fails. @ http://localhost:3131/framework/ext/Socket/Socket.js:38
+[34217694ms] [ERROR] Socket error, giving up. @ http://localhost:3131/framework/ext/Socket/Socket.js:45
+[34217694ms] [WARNING] Socket closed, attempting reconnect @ http://localhost:3131/framework/ext/Socket/Socket.js:32
+[34217694ms] [WARNING] Socket error: Event 4 fails. @ http://localhost:3131/framework/ext/Socket/Socket.js:38
+[34217694ms] [ERROR] Socket error, giving up. @ http://localhost:3131/framework/ext/Socket/Socket.js:45
+[34217695ms] [WARNING] Socket closed, attempting reconnect @ http://localhost:3131/framework/ext/Socket/Socket.js:32
+[34217695ms] [WARNING] Socket error: Event 4 fails. @ http://localhost:3131/framework/ext/Socket/Socket.js:38
+[34217695ms] [ERROR] Socket error, giving up. @ http://localhost:3131/framework/ext/Socket/Socket.js:45
+[34217695ms] [WARNING] Socket closed, attempting reconnect @ http://localhost:3131/framework/ext/Socket/Socket.js:32
+[34217687ms] Event
+[34217687ms] Event
+[34217687ms] Event
+[36446127ms] [LOG] %cSocket connected. color: green; font-weight: bold; @ http://localhost:3131/framework/ext/Socket/Socket.js:52
+[36446143ms] [LOG] %cSocket connected. color: green; font-weight: bold; @ http://localhost:3131/framework/ext/Socket/Socket.js:52
+[36446159ms] [LOG] %cSocket connected. color: green; font-weight: bold; @ http://localhost:3131/framework/ext/Socket/Socket.js:52
+[36446175ms] [LOG] %cSocket connected. color: green; font-weight: bold; @ http://localhost:3131/framework/ext/Socket/Socket.js:52
+[36446191ms] [LOG] %cSocket connected. color: green; font-weight: bold; @ http://localhost:3131/framework/ext/Socket/Socket.js:52

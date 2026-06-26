@@ -1,0 +1,4 @@
+[      53ms] [ERROR] TypeError: Failed to execute 'insertBefore' on 'Node': parameter 1 is not of type 'Node'.
+    at http://localhost:3131/framework/ext/WebApp/1/page.js:35:18 @ http://localhost:3131/framework/core/App/App.js:94
+[     335ms] [LOG] %cSocket connected. color: green; font-weight: bold; @ http://localhost:3131/framework/ext/Socket/Socket.js:52
+[   14310ms] [LOG] %cSocket connected. color: green; font-weight: bold; @ http://localhost:3131/framework/ext/Socket/Socket.js:52

@@ -2,6 +2,22 @@
 
 A local-first JS framework and app platform. Static HTML + ES modules served from Node, with a WebSocket channel to the local filesystem for persistence. No bundler, no build step, no React.
 
+If we want this to be the best framework in the world, it has to be the simplest and easiest to use, so everyone wants to use it.
+
+Use snake_case, not camelCase, for vars, methods, args, but prefer short, single words, to avoid underscores (_), when possible.
+
+When generating CSS: Don't use rems, use ems.  My rems are hyper-responsive (get way too small, bad for text).
+
+Always use the view-guide skill, when creating HTML.
+
+When thinking, try to stay hyper focused on one problem and solution at a time.
+
+When generating code, keep it as simple as possible, easy to read, add comments.  When responding to questions in chat, keep it short and simple.
+
+Always look for readme.md's, create them when they're not present, and update them with information they were lacking.  Every directory can have a readme.
+
+You have the Playwright MCP attached, use it for UI testing.
+
 ## Tech Stack
 
 - **Server**: Node.js, custom HTTP + WebSocket server (`Server/` submodule)
@@ -47,7 +63,7 @@ Key rule: **lean into List**. If a class manages a group of things — test case
 
 ## Class Progression Pattern
 
-Complex classes evolve through numbered subfolders: `0/`, `1/`, `2/`, etc.
+Complex classes evolve through numbered subfolders: `0/`, `1/`, `2/`, etc. Variants can also use **words** instead of numbers when the versions are distinct by role rather than cumulative capability — e.g. `class Saver` → `MemorySaver`, `FileSaver`, `LocalStorageSaver`, `CollectionSaver`. Word-named variants live in flat files under the module folder rather than subfolders; numbers are for layered progression where each level extends the last. These can be combined arbitrarily — `Thing/0/0/`, `Thing/0/1/`, `Thing/Blue/4/15/` are all valid. The sub-folder levels just mean: this thing, at this variant, at this version.
 
 ```
 framework/core/Item/
@@ -55,13 +71,21 @@ framework/core/Item/
   0/
     Item0.js        ← MVP: in-memory only, get/set/dirty/save
     page.js         ← test page for Item0
+	readme.md
   1/
     Item1.js        ← adds: saver pattern + async load() via saver
     page.js
+	readme.md
   2/
     Item2.js        ← adds: children, parent chain, list support
     page.js
+	readme.md
 ```
+
+**Important: Design Brilliantly Simple APIs**
+Each class is an API.  Think about future dev's usage of your object.  Use sensible defaults, but allow config.  Don't require 2 steps if 1 would work.  Simplicity is gold.  Use nested methods to break logical portions into parts, to make it easier to read/use.  I use `<base_method_name>_<sub_part>()`.  Like `initialize_part()` or `render_something()`, to indicate it's logically part of that parent method.
+
+We want the overall architecture to read cleanly.  We want to follow known patterns when possible (like creating a `new Thing()` to manage a specific aspect of the logic), to reduce cognitive load on future devs.  If we want this to be the best framework in the world, it has to be the simplest and easiest to use, so everyone wants to use it.
 
 **Rules:**
 - Each level must be fully functional and testable on its own.
@@ -102,10 +126,13 @@ frozen-helix/
         App/           ← App singleton
         Events/        ← on/off/emit base class
       ext/             ← extensions built on core
-        File/          ← FileSaver (WebSocket RPC)
-        CollectionSaver/ ← Persist whole List to one JSON file
-        MemorySaver/   ← In-memory saver for tests
-        LocalStorageSaver/ ← browser localStorage
+        File/          ← File class (old pre-Item persistence, kept for compat)
+        Saver/         ← All saver backends
+          Saver.js     ← base class (no-op contract)
+          FileSaver/   ← JSON file via WebSocket RPC (per Item)
+          ListSaver/   ← JSON array file via WebSocket RPC (whole List)
+          MemorySaver/ ← In-memory saver for tests
+          LocalStorageSaver/ ← browser localStorage
         Store/         ← Named Item registry (Store.item(name) → FileSaver-backed Item9)
         Notes/         ← NoteItem + NoteList demo
         Todo/          ← TodoItem + TodoList demo
@@ -128,7 +155,7 @@ The old system used `File` + `Component` (see `ext/File/`, `ext/Component/`). Th
 
 The new system replaces `Component` with `Item`. The migration is additive: old Component code stays, new Item code is written fresh in `core/Item/`.
 
-**Current phase:** Item0–Item9 and List0–List8 fully implemented with Node test suites. Savers: FileSaver (per-item), CollectionSaver (whole List → one file), LocalStorageSaver, MemorySaver — all with Node tests. Test0 (Node-runnable) and Test1 (browser renderer via View) both implemented. Demo apps: ext/Todo/, ext/Notes/. Higher-level: ext/Store/ (named Item registry). **26 suites, 26/26 passing. 21/21 Playwright browser tests passing.**
+**Current phase:** Item0–Item9 and List0–List8 fully implemented with Node test suites. Savers: FileSaver (per-item), ListSaver (whole List → one file), LocalStorageSaver, MemorySaver — all under ext/Saver/, all with Node tests. Test0 (Node-runnable) and Test1 (browser renderer via View) both implemented. Demo apps: ext/Todo/, ext/Notes/. Higher-level: ext/Store/ (named Item registry). **26 suites, 26/26 passing. 21/21 Playwright browser tests passing.**
 
 - `core/Item/Item.js` → Item9 (checkpoint/undo/redo)
 - `core/List/List.js` → List8 (index_by: O(1) lookup)

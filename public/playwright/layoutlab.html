@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body { font-family: "Geist", system-ui, sans-serif; -webkit-font-smoothing: antialiased; color: #1b1b19; overflow: hidden; }
+  ::-webkit-scrollbar { width: 11px; height: 11px; }
+  ::-webkit-scrollbar-thumb { background: #d8d8d4; border-radius: 6px; border: 3px solid transparent; background-clip: content-box; }
+  ::-webkit-scrollbar-thumb:hover { background: #c2c2bd; border: 3px solid transparent; background-clip: content-box; }
+  [contenteditable]:focus { box-shadow: 0 0 0 2px rgba(91,87,214,.35); border-radius: 3px; }
+</style>
+</helmet>
+<div style="display:flex; flex-direction:column; height:100vh; width:100vw; background:#f4f4f3;">
+
+  <header style="height:53px; flex:none; display:flex; align-items:center; gap:14px; padding:0 16px; background:#ffffff; border-bottom:1px solid #ececea; z-index:5;">
+    <div style="display:flex; align-items:center; gap:9px;">
+      <div style="width:22px; height:22px; border-radius:6px; background:#5b57d6; display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:2px; padding:4px;">
+        <div style="background:rgba(255,255,255,.95); border-radius:1px;"></div>
+        <div style="background:rgba(255,255,255,.55); border-radius:1px;"></div>
+        <div style="background:rgba(255,255,255,.55); border-radius:1px;"></div>
+        <div style="background:rgba(255,255,255,.95); border-radius:1px;"></div>
+      </div>
+      <span style="font-weight:600; font-size:14.5px; letter-spacing:-0.01em;">Layout&nbsp;Lab</span>
+    </div>
+
+    <div style="width:7px; height:14px; transform:skewX(-16deg); border-right:1.5px solid #dededb;"></div>
+    {{ docSwitcher }}
+
+    <div style="width:1px; height:24px; background:#ececea; margin:0 2px;"></div>
+    {{ deviceToggle }}
+    {{ fidelityToggle }}
+
+    <div style="flex:1;"></div>
+
+    {{ themeControl }}
+    {{ zoomControl }}
+    <div style="width:1px; height:24px; background:#ececea; margin:0 2px;"></div>
+    <button onClick="{{ clearAll }}" style="font-family:inherit; font-size:13px; font-weight:500; color:#6b6b66; background:transparent; border:1px solid #e6e6e3; border-radius:8px; padding:7px 12px; cursor:pointer;" style-hover="background:#f6f6f5; color:#1b1b19;">Clear</button>
+  </header>
+
+  <div style="flex:1; display:flex; min-height:0;">
+
+    <aside style="width:268px; flex:none; background:#ffffff; border-right:1px solid #ececea; overflow-y:auto; overflow-x:hidden;">
+      {{ paletteEl }}
+    </aside>
+
+    <main data-ll-canvas="1" style="flex:1; min-width:0; background:#f4f4f3; overflow:auto; position:relative;">
+      {{ canvasEl }}
+    </main>
+
+    <aside style="width:288px; flex:none; background:#ffffff; border-left:1px solid #ececea; overflow-y:auto; overflow-x:hidden;">
+      {{ inspectorEl }}
+    </aside>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.themes = {
+      indigo:  { accent:'#4f46e5', soft:'#eef2ff', dot:'#4f46e5' },
+      emerald: { accent:'#059669', soft:'#ecfdf5', dot:'#059669' },
+      rose:    { accent:'#e11d48', soft:'#fff1f2', dot:'#e11d48' },
+      amber:   { accent:'#d97706', soft:'#fffbeb', dot:'#d97706' },
+      slate:   { accent:'#334155', soft:'#f1f5f9', dot:'#334155' },
+    };
+    this.CHROME = '#5b57d6';
+    this.LIBRARY = [
+      { type:'navbar',     label:'Navbar',          cat:'Header',       variants:['Logo + links','Centered','Logo + CTA','With search'] },
+      { type:'hero',       label:'Hero',            cat:'Hero',         variants:['Centered','Split right','Image background','Split left'] },
+      { type:'features',   label:'Feature grid',    cat:'Content',      variants:['Cards','Icon list','Alternating'], cols:3 },
+      { type:'sidebar',    label:'Content + sidebar',cat:'Content',     variants:['Sidebar right','Sidebar left'] },
+      { type:'gallery',    label:'Gallery',         cat:'Media',        variants:['Even grid','Mosaic','Row'], cols:3 },
+      { type:'pricing',    label:'Pricing',         cat:'Conversion',   variants:['3 tiers','2 tiers','Comparison'] },
+      { type:'testimonial',label:'Testimonials',    cat:'Social proof', variants:['Single quote','3 columns','Logo cloud'] },
+      { type:'cta',        label:'CTA banner',      cat:'Conversion',   variants:['Centered','Split'] },
+      { type:'footer',     label:'Footer',          cat:'Footer',       variants:['4 column','Minimal','Newsletter'] },
+    ];
+    this.defaults = {
+      navbar: { brand:'Acme', l1:'Product', l2:'Features', l3:'Pricing', l4:'Docs', cta:'Get started', search:'Search' },
+      hero: { eyebrow:'New', title:'Build something people love', sub:'A short, punchy value proposition that explains what you do — in one calm breath.', b1:'Get started', b2:'Learn more' },
+      features: { title:'Everything you need', sub:'Powerful, composable pieces that help your team move faster.',
+        f1t:'Fast', f1d:'Lightning quick performance, right out of the box.',
+        f2t:'Flexible', f2d:'Bends to whatever workflow you throw at it.',
+        f3t:'Reliable', f3d:'Built to scale with quiet confidence.',
+        f4t:'Secure', f4d:'Your data stays safe, private, and yours.',
+        f5t:'Simple', f5d:'Clean by default, powerful when you need it.',
+        f6t:'Open', f6d:'Plays well with the stack you already love.' },
+      sidebar: { title:'How it works', p1:'Start with a blank canvas and drag in the pieces you need. Each section is fully editable — change the copy, swap the variant, tune the columns.', p2:'When a layout clicks, save it to your library and reuse it across new pages in a single drag.', s1t:'On this page', s1a:'Getting started', s1b:'Core concepts', s1c:'Examples', s2t:'Resources', s2a:'Documentation', s2b:'Community' },
+      gallery: { title:'Selected work' },
+      pricing: { title:'Simple, honest pricing', sub:'Start free. Upgrade only when it pays for itself.',
+        p1n:'Starter', p1p:'$0', p2n:'Pro', p2p:'$24', p3n:'Team', p3p:'$59' },
+      testimonial: { title:'Loved by teams everywhere', quote:'This completely changed how our team ships. We went from weeks of back-and-forth to a layout everyone agreed on in an afternoon.', name:'Alex Rivera', role:'Head of Product, Northwind' },
+      cta: { title:'Ready to build your next layout?', sub:'Drag, drop, and ship — no setup required.', b1:'Start free' },
+      footer: { brand:'Acme', tagline:'Beautiful layouts, assembled in minutes.', c1:'Product', c2:'Company', c3:'Resources', news:'Get product updates', email:'you@email.com', b1:'Subscribe', copy:'© 2026 Acme, Inc. All rights reserved.' },
+    };
+
+    const data = this.loadDocs();
+    this.state = {
+      docs: data.docs,
+      currentId: data.currentId,
+      lib: data.lib,
+      tree: data.cur.tree,
+      device: data.cur.device,
+      fidelity: data.cur.fidelity,
+      theme: data.cur.theme,
+      selected: 'root',
+      hoverContainer: null,
+      hoverIndex: null,
+      menuOpen: false,
+      renamingId: null,
+      fit: 1,
+    };
+  }
+
+  // ---------- node model ----------
+  rootFrame(children){ return { id:'root', kind:'frame', layout:'flex', dir:'col', gap:0, wrap:false, justify:'start', align:'stretch', gridCols:2, pad:0, bg:'#ffffff', radius:0, w:{mode:'fill'}, h:{mode:'hug'}, children:children||[] }; }
+  newFrame(extra){ return Object.assign({ id:this.uid(), kind:'frame', layout:'flex', dir:'col', gap:16, wrap:false, justify:'start', align:'stretch', gridCols:2, pad:16, bg:'transparent', radius:0, w:{mode:'fill'}, h:{mode:'hug'}, children:[] }, extra||{}); }
+  seedTree(){
+    const secs=['navbar','hero','features','testimonial','cta','footer'].map((t)=>({ id:this.uid(), kind:'section', type:t, variant:0, cols:(this.meta(t).cols||3), content:{}, w:{mode:'fill'}, h:{mode:'hug'} }));
+    return this.rootFrame(secs);
+  }
+  blocksToTree(blocks){
+    return this.rootFrame((blocks||[]).map(b=>({ id:b.id||this.uid(), kind:'section', type:b.type, variant:b.variant||0, cols:b.cols||(this.meta(b.type).cols||3), content:b.content||{}, w:{mode:'fill'}, h:{mode:'hug'} })));
+  }
+  normalizeTree(t){ if(t && t.kind==='frame' && t.children) return t; return this.seedTree(); }
+
+  // ---------- persistence ----------
+  loadDocs() {
+    let raw=null; try { raw = JSON.parse(localStorage.getItem('layoutlab.v4')); } catch(e){}
+    if(raw && raw.docs && raw.docs.length){
+      const cur = raw.docs.find(d=>d.id===raw.currentId) || raw.docs[0];
+      return { docs:raw.docs, currentId:cur.id, lib:raw.lib||[],
+        cur:{ tree:this.normalizeTree(cur.tree), device:cur.device||'desktop', fidelity:cur.fidelity||'styled', theme:cur.theme||'indigo' } };
+    }
+    // migrate from v3 (flat blocks per doc)
+    let v3=null; try{ v3=JSON.parse(localStorage.getItem('layoutlab.v3')); }catch(e){}
+    if(v3 && v3.docs && v3.docs.length){
+      const docs=v3.docs.map(d=>({ id:d.id, name:d.name, tree:this.blocksToTree(d.blocks), device:d.device||'desktop', fidelity:d.fidelity||'styled', theme:d.theme||'indigo', updatedAt:d.updatedAt||Date.now() }));
+      const cur=docs.find(d=>d.id===v3.currentId)||docs[0];
+      return { docs, currentId:cur.id, lib:(v3.lib||[]).map(li=>this.libFromV3(li)), cur:{ tree:cur.tree, device:cur.device, fidelity:cur.fidelity, theme:cur.theme } };
+    }
+    // migrate from v2 (single canvas)
+    let old=null; try{ old=JSON.parse(localStorage.getItem('layoutlab.v2')); }catch(e){}
+    let tree, dev='desktop', fid='styled', th='indigo', lib=[];
+    if(old && old.blocks && old.blocks.length){ tree=this.blocksToTree(old.blocks); dev=old.device||dev; fid=old.fidelity||fid; th=old.theme||th; lib=(old.lib||[]).map(li=>this.libFromV3(li)); }
+    else { tree=this.seedTree(); }
+    const id='doc'+Date.now().toString(36);
+    const docs=[{ id, name:'My first page', tree, device:dev, fidelity:fid, theme:th, updatedAt:Date.now() }];
+    return { docs, currentId:id, lib, cur:{ tree, device:dev, fidelity:fid, theme:th } };
+  }
+  libFromV3(li){ if(li.node) return li; return { id:li.id||this.uid(), name:li.name, node:{ id:this.uid(), kind:'section', type:li.type, variant:li.variant||0, cols:li.cols||3, content:li.content||{}, w:{mode:'fill'}, h:{mode:'hug'} } }; }
+  syncCurrent(s){
+    return s.docs.map(d => d.id===s.currentId
+      ? { ...d, tree:s.tree, device:s.device, fidelity:s.fidelity, theme:s.theme, updatedAt:Date.now() }
+      : d);
+  }
+  persist() {
+    const s = this.state;
+    try { localStorage.setItem('layoutlab.v4', JSON.stringify({ docs:this.syncCurrent(s), currentId:s.currentId, lib:s.lib })); } catch(e){}
+  }
+  componentDidUpdate(){ this.persist(); }
+  componentDidMount(){
+    this.recompute();
+    this._onResize = () => this.recompute();
+    window.addEventListener('resize', this._onResize);
+    this._onDocClick = (e)=>{
+      if(!this.state.menuOpen) return;
+      const m=document.querySelector('[data-doc-menu]'), b=document.querySelector('[data-doc-btn]');
+      if(m && !m.contains(e.target) && b && !b.contains(e.target)) this.setState({ menuOpen:false, renamingId:null });
+    };
+    document.addEventListener('mousedown', this._onDocClick);
+  }
+  componentWillUnmount(){ window.removeEventListener('resize', this._onResize); document.removeEventListener('mousedown', this._onDocClick); }
+
+  // ---------- documents ----------
+  createDoc(){
+    const id='doc'+Date.now().toString(36)+Math.random().toString(36).slice(2,4);
+    this.setState(s=>{
+      const docs=this.syncCurrent(s);
+      const n = docs.filter(d=>/^Untitled/.test(d.name)).length;
+      docs.push({ id, name:'Untitled'+(n?' '+(n+1):''), tree:this.rootFrame([]), device:'desktop', fidelity:s.fidelity, theme:s.theme, updatedAt:Date.now() });
+      return { docs, currentId:id, tree:this.rootFrame([]), device:'desktop', fidelity:s.fidelity, theme:s.theme, selected:'root', hoverContainer:null, hoverIndex:null, menuOpen:false, renamingId:null };
+    }, ()=>this.recompute());
+  }
+  loadDoc(id){
+    if(id===this.state.currentId){ this.setState({ menuOpen:false, renamingId:null }); return; }
+    this.setState(s=>{
+      const docs=this.syncCurrent(s);
+      const t=docs.find(d=>d.id===id); if(!t) return { menuOpen:false };
+      return { docs, currentId:id, tree:this.normalizeTree(t.tree), device:t.device||'desktop', fidelity:t.fidelity||'styled', theme:t.theme||'indigo', selected:'root', hoverContainer:null, hoverIndex:null, menuOpen:false, renamingId:null };
+    }, ()=>this.recompute());
+  }
+  duplicateDoc(id){
+    const nid='doc'+Date.now().toString(36)+Math.random().toString(36).slice(2,4);
+    this.setState(s=>{
+      const docs=this.syncCurrent(s);
+      const src=docs.find(d=>d.id===id); if(!src) return {};
+      const copy={ ...src, id:nid, name:src.name+' copy', tree:JSON.parse(JSON.stringify(this.normalizeTree(src.tree))), updatedAt:Date.now() };
+      const i=docs.findIndex(d=>d.id===id); docs.splice(i+1,0,copy);
+      return { docs, currentId:nid, tree:copy.tree, device:copy.device, fidelity:copy.fidelity, theme:copy.theme, selected:'root', hoverContainer:null, hoverIndex:null, renamingId:null };
+    }, ()=>this.recompute());
+  }
+  renameDoc(id,name){ this.setState(s=>({ docs:s.docs.map(d=>d.id===id?{...d,name:(name&&name.trim())||d.name}:d), renamingId:null })); }
+  deleteDoc(id){
+    this.setState(s=>{
+      if(s.docs.length<=1) return {};
+      let docs=this.syncCurrent(s).filter(d=>d.id!==id);
+      if(id===s.currentId){ const t=docs[0]; return { docs, currentId:t.id, tree:this.normalizeTree(t.tree), device:t.device||'desktop', fidelity:t.fidelity||'styled', theme:t.theme||'indigo', selected:'root', hoverContainer:null, hoverIndex:null, renamingId:null }; }
+      return { docs, renamingId:null };
+    });
+  }
+  curDoc(){ return this.state.docs.find(d=>d.id===this.state.currentId) || {}; }
+  relTime(ts){ if(!ts) return ''; const d=Math.floor((Date.now()-ts)/1000);
+    if(d<60) return 'just now'; if(d<3600) return Math.floor(d/60)+'m ago'; if(d<86400) return Math.floor(d/3600)+'h ago'; return Math.floor(d/86400)+'d ago'; }
+  recompute(){
+    const el = document.querySelector('[data-ll-canvas]');
+    if (!el) return;
+    const fw = this.state.device==='mobile' ? 390 : 1180;
+    const avail = el.clientWidth - 80;
+    const fit = Math.max(0.34, Math.min(1, avail / fw));
+    if (Math.abs(fit - this.state.fit) > 0.005) this.setState({ fit });
+  }
+
+  // ---------- helpers ----------
+  uid(){ return 'b' + Date.now().toString(36) + Math.random().toString(36).slice(2,5); }
+  isWF(){ return this.state.fidelity === 'wireframe'; }
+  acc(){ return this.themes[this.state.theme]; }
+  c(b,k){ const v = b.content && b.content[k]; return (v===undefined||v===null) ? (this.defaults[b.type]||{})[k] : v; }
+  meta(type){ return this.LIBRARY.find(x=>x.type===type) || {}; }
+  get mob(){ return this.state.device === 'mobile'; }
+
+  // ---------- tree utilities ----------
+  clone(t){ return JSON.parse(JSON.stringify(t)); }
+  walk(node, fn, parent){ fn(node, parent); if(node.children) node.children.forEach(c=>this.walk(c, fn, node)); }
+  findIn(root, id){ let f=null; this.walk(root, (n)=>{ if(n.id===id) f=n; }); return f; }
+  parentIn(root, id){ let p=null; this.walk(root, (n,par)=>{ if(n.id===id) p=par; }); return p; }
+  findNode(id){ return this.findIn(this.state.tree, id); }
+  parentOf(id){ return this.parentIn(this.state.tree, id); }
+  ancestors(id){ const path=[]; let cur=id; const root=this.state.tree;
+    while(cur){ const n=this.findIn(root,cur); if(!n) break; path.unshift(n); const p=this.parentIn(root,cur); cur=p?p.id:null; }
+    return path; }
+  reid(node){ node.id=this.uid(); if(node.children) node.children.forEach(c=>this.reid(c)); return node; }
+  mutTree(fn, extra){ this.setState(s=>{ const t=this.clone(s.tree); fn(t); return Object.assign({tree:t}, extra||{}); }); }
+  isDescendant(rootNode, id){ let found=false; this.walk(rootNode,(n)=>{ if(n.id===id) found=true; }); return found; }
+
+  // ---------- node operations ----------
+  newId(){ return this.uid(); }
+  makeNode(d){
+    if(d.kind==='sec'){ const m=this.meta(d.type); return { id:this.uid(), kind:'section', type:d.type, variant:0, cols:(m.cols||3), content:{}, w:{mode:'fill'}, h:{mode:'hug'} }; }
+    if(d.kind==='lib'){ return this.reid(this.clone(d.item.node)); }
+    switch(d.prim){
+      case 'frame': return this.newFrame();
+      case 'columns': return this.newFrame({ layout:'flex', dir:'row', gap:24, pad:16, children:[ this.newFrame({pad:20,bg:'#f4f4f3',radius:8}), this.newFrame({pad:20,bg:'#f4f4f3',radius:8}) ] });
+      case 'text': return { id:this.uid(), kind:'text', text:'Double-click to edit text', size:16, weight:400, color:'#1b1b19', align:'left', w:{mode:'hug'}, h:{mode:'hug'} };
+      case 'image': return { id:this.uid(), kind:'image', radius:12, w:{mode:'fill'}, h:{mode:'fixed',px:200} };
+    }
+    return this.newFrame();
+  }
+  insertNode(node, parentId, index){
+    this.setState(s=>{ const t=this.clone(s.tree); const p=this.findIn(t, parentId); if(!p) return {};
+      if(!p.children) p.children=[]; const i = index==null ? p.children.length : Math.max(0, Math.min(p.children.length, index));
+      p.children.splice(i, 0, node);
+      return { tree:t, selected:node.id, hoverContainer:null, hoverIndex:null };
+    });
+  }
+  moveNode(id, parentId, index){
+    if(id===parentId || id==='root') { this.setState({hoverContainer:null,hoverIndex:null}); return; }
+    this.setState(s=>{ const t=this.clone(s.tree);
+      const moving=this.findIn(t,id); if(!moving) return {hoverContainer:null,hoverIndex:null};
+      if(this.isDescendant(moving, parentId)) return {hoverContainer:null,hoverIndex:null};
+      const oldP=this.parentIn(t,id); if(!oldP) return {hoverContainer:null,hoverIndex:null};
+      const from=oldP.children.findIndex(c=>c.id===id);
+      const newP=this.findIn(t,parentId); if(!newP) return {hoverContainer:null,hoverIndex:null}; if(!newP.children) newP.children=[];
+      let to = index==null ? newP.children.length : index;
+      const [it]=oldP.children.splice(from,1);
+      if(oldP===newP && from<to) to--;
+      to=Math.max(0, Math.min(newP.children.length, to));
+      newP.children.splice(to, 0, it);
+      return { tree:t, selected:id, hoverContainer:null, hoverIndex:null };
+    });
+  }
+  removeNode(id){ if(id==='root') return; this.mutTree(t=>{ const p=this.parentIn(t,id); if(p) p.children=p.children.filter(c=>c.id!==id); }, {}); this.setState(s=>({ selected: s.selected===id ? ((this.parentOf(id)||{}).id||'root') : s.selected })); }
+  duplicateNode(id){ if(id==='root') return; this.setState(s=>{ const t=this.clone(s.tree); const p=this.parentIn(t,id); if(!p) return {}; const i=p.children.findIndex(c=>c.id===id); const copy=this.reid(this.clone(p.children[i])); p.children.splice(i+1,0,copy); return { tree:t, selected:copy.id }; }); }
+  nudge(id,dir){ this.setState(s=>{ const t=this.clone(s.tree); const p=this.parentIn(t,id); if(!p) return {}; const i=p.children.findIndex(c=>c.id===id); const j=i+dir; if(j<0||j>=p.children.length) return {}; const tmp=p.children[i]; p.children[i]=p.children[j]; p.children[j]=tmp; return { tree:t }; }); }
+  updateNode(id, patch){ this.mutTree(t=>{ const n=this.findIn(t,id); if(n) Object.assign(n, patch); }); }
+  setSize(id, dim, patch){ this.mutTree(t=>{ const n=this.findIn(t,id); if(n) n[dim]=Object.assign({mode:'hug',px:160}, n[dim]||{}, patch); }); }
+  setContent(id,k,val){ this.mutTree(t=>{ const n=this.findIn(t,id); if(n) n.content=Object.assign({}, n.content||{}, {[k]:val}); }); }
+  setVariant(id,v){ this.updateNode(id,{variant:v}); }
+  setCols(id,n){ this.updateNode(id,{cols:n}); }
+  clearAll(){ const root=this.state.tree; if(root.children && root.children.length && !confirm('Clear this page?')) return; this.mutTree(t=>{ t.children=[]; }, {selected:'root'}); }
+  saveToLib(id){
+    const n=this.findNode(id); if(!n) return;
+    const dflt = n.kind==='section' ? this.meta(n.type).label : (n.kind==='frame' ? (n.layout==='grid'?'Grid':(n.dir==='row'?'Row group':'Column group')) : (n.kind.charAt(0).toUpperCase()+n.kind.slice(1)));
+    const name = prompt('Save to library as:', dflt); if(!name) return;
+    const node=this.reid(this.clone(n));
+    this.setState(s=>({ lib:[...s.lib, { id:this.uid(), name, node }] }));
+  }
+  removeLib(id){ this.setState(s=>({ lib:s.lib.filter(x=>x.id!==id) })); }
+  addFromPalette(d){ const sel=this.findNode(this.state.selected); const pid=(sel && sel.kind==='frame') ? sel.id : 'root'; this.insertNode(this.makeNode(d), pid, null); }
+
+  // ---------- drag & drop (nesting) ----------
+  clearHover(){ if(this.state.hoverContainer!=null) this.setState({hoverContainer:null, hoverIndex:null}); }
+  indexInContainer(pnode, containerEl, e){
+    const childEls=[...containerEl.children].filter(c=>c.getAttribute && c.getAttribute('data-node-id'));
+    const grid = pnode.layout==='grid';
+    const row = pnode.layout==='flex' && pnode.dir==='row';
+    let idx=childEls.length;
+    if(grid){
+      for(let i=0;i<childEls.length;i++){ const r=childEls[i].getBoundingClientRect();
+        if(e.clientY < r.top - 2){ idx=i; break; }
+        if(e.clientY <= r.bottom){ if(e.clientX < r.left + r.width/2){ idx=i; break; } } }
+    } else {
+      for(let i=0;i<childEls.length;i++){ const r=childEls[i].getBoundingClientRect();
+        const mid = row ? r.left + r.width/2 : r.top + r.height/2;
+        const pos = row ? e.clientX : e.clientY;
+        if(pos < mid){ idx=i; break; } }
+    }
+    return idx;
+  }
+  onCanvasOver(e){
+    if(!this.drag) return;
+    e.preventDefault();
+    if(e.dataTransfer){ try{ e.dataTransfer.dropEffect = this.drag.kind==='move' ? 'move' : 'copy'; }catch(x){} }
+    let el=document.elementFromPoint(e.clientX, e.clientY);
+    let nodeEl = el && el.closest ? el.closest('[data-node-id]') : null;
+    if(!nodeEl){ this.clearHover(); return; }
+    let node=this.findNode(nodeEl.getAttribute('data-node-id'));
+    if(!node){ this.clearHover(); return; }
+    // never drop a moved element into itself or its own descendants — climb to an ancestor
+    if(this.drag.kind==='move'){
+      const dragEl=document.querySelector('[data-node-id="'+this.drag.id+'"]');
+      while(nodeEl && dragEl && (dragEl===nodeEl || dragEl.contains(nodeEl))){
+        nodeEl = nodeEl.parentElement ? nodeEl.parentElement.closest('[data-node-id]') : null;
+        node = nodeEl ? this.findNode(nodeEl.getAttribute('data-node-id')) : null;
+      }
+      if(!nodeEl || !node){ this.clearHover(); return; }
+    }
+    let pid, idx;
+    if(node.kind==='frame'){
+      pid=node.id; idx=this.indexInContainer(node, nodeEl, e);
+    } else {
+      // a leaf or section: insert as a sibling in its parent, before/after based on the pointer
+      const parentEl = nodeEl.parentElement ? nodeEl.parentElement.closest('[data-node-id]') : null;
+      if(!parentEl){ this.clearHover(); return; }
+      const pnode=this.findNode(parentEl.getAttribute('data-node-id')); if(!pnode){ this.clearHover(); return; }
+      const sibs=[...parentEl.children].filter(c=>c.getAttribute && c.getAttribute('data-node-id'));
+      const myPos=sibs.indexOf(nodeEl);
+      const r=nodeEl.getBoundingClientRect();
+      const row = pnode.layout==='flex' && pnode.dir==='row';
+      const after = row ? (e.clientX > r.left + r.width/2) : (e.clientY > r.top + r.height/2);
+      pid=pnode.id; idx=myPos + (after?1:0);
+    }
+    if(this.state.hoverContainer!==pid || this.state.hoverIndex!==idx) this.setState({ hoverContainer:pid, hoverIndex:idx });
+  }
+  onCanvasLeave(e){ if(this.canvasRef && this.canvasRef.contains(e.relatedTarget)) return; this.clearHover(); }
+  onCanvasDrop(e){
+    e.preventDefault();
+    let { hoverContainer, hoverIndex } = this.state;
+    const d=this.drag; this.drag=null;
+    if(!d){ this.clearHover(); return; }
+    if(hoverContainer==null){ hoverContainer='root'; hoverIndex=null; }
+    if(d.kind==='move') this.moveNode(d.id, hoverContainer, hoverIndex);
+    else this.insertNode(this.makeNode(d), hoverContainer, hoverIndex);
+  }
+
+  // ================= SLOTS =================
+  h(){ return React.createElement; }
+  bar(w,ht,o){ o=o||{}; return React.createElement('div',{style:{width:w,height:ht,borderRadius:ht>20?8:5,background:o.d?'#d9d9d6':'#e7e7e4',marginBottom:o.mb||0,flex:o.flex}}); }
+  edit(b,k,style){
+    return React.createElement('span',{
+      contentEditable:true, suppressContentEditableWarning:true, spellCheck:false,
+      onClick:(e)=>e.stopPropagation(),
+      onBlur:(e)=>this.setContent(b.id,k,e.currentTarget.textContent),
+      style:Object.assign({outline:'none',cursor:'text',display:'inline-block',minWidth:8},style)
+    }, this.c(b,k));
+  }
+  heading(b,k,o){ o=o||{};
+    if(this.isWF()) return this.bar(o.w||'62%', o.h||18, {mb:o.mb});
+    return React.createElement('div',{style:{marginBottom:o.mb||0,maxWidth:o.mw}},
+      this.edit(b,k,{fontSize:o.fs||32,fontWeight:o.fw||700,lineHeight:1.12,letterSpacing:'-0.022em',color:o.color||'#1a1a18'}));
+  }
+  para(b,k,o){ o=o||{}; const lines=o.lines||2;
+    if(this.isWF()){
+      const ws=['100%','94%','82%','70%'];
+      return React.createElement('div',{style:{maxWidth:o.mw,margin:o.center?'0 auto':undefined}},
+        Array.from({length:lines}).map((_,i)=>this.bar(ws[i%ws.length],10,{mb:8,key:i})));
+    }
+    return React.createElement('p',{style:{margin:0,maxWidth:o.mw,textAlign:o.center?'center':'left',marginLeft:o.center?'auto':undefined,marginRight:o.center?'auto':undefined}},
+      this.edit(b,k,{fontSize:o.fs||15.5,fontWeight:400,lineHeight:1.62,color:o.color||'#6c6c66',display:'block'}));
+  }
+  btn(b,k,o){ o=o||{}; const a=this.acc();
+    if(this.isWF()) return React.createElement('div',{style:{height:o.h||40,minWidth:o.w||108,borderRadius:9,background:o.primary?'#cfcfcc':'#e7e7e4',display:'inline-flex',alignItems:'center',justifyContent:'center'}},
+      React.createElement('div',{style:{width:46,height:8,borderRadius:4,background:o.primary?'#bdbdb9':'#d3d3cf'}}));
+    const st = o.primary
+      ? {background:o.onDark?'#ffffff':a.accent,color:o.onDark?'#1a1a18':'#fff',fontWeight:600}
+      : {background:o.onDark?'rgba(255,255,255,.12)':'#fff',color:o.onDark?'#fff':'#2a2a27',fontWeight:500,border:o.onDark?'1px solid rgba(255,255,255,.4)':'1px solid #e4e4e0'};
+    return React.createElement('span',{style:Object.assign({display:'inline-flex',alignItems:'center',padding:'11px 19px',borderRadius:9,fontSize:14,lineHeight:1,cursor:'text'},st)}, this.edit(b,k,{color:'inherit',fontWeight:'inherit'}));
+  }
+  imgGlyph(color,sz){ sz=sz||30; const h=React.createElement;
+    return h('svg',{width:sz,height:sz,viewBox:'0 0 24 24',fill:'none',stroke:color,strokeWidth:1.5,strokeLinecap:'round',strokeLinejoin:'round'},
+      h('rect',{x:3,y:4,width:18,height:16,rx:2}), h('circle',{cx:8.5,cy:9.5,r:1.7}), h('path',{d:'M20 16l-5-5L6 20'}));
+  }
+  img(o){ o=o||{}; const a=this.acc(); const wf=this.isWF();
+    return React.createElement('div',{style:{
+      width:o.w||'100%', height:o.h||220, borderRadius:o.r==null?12:o.r,
+      background: wf ? '#e8e8e5' : 'linear-gradient(135deg,'+a.soft+' 0%, #fbfbfa 100%)',
+      border: wf ? 'none' : '1px solid '+a.soft,
+      display:'flex',alignItems:'center',justifyContent:'center',flex:o.flex,overflow:'hidden',alignSelf:o.stretch?'stretch':undefined}},
+      this.imgGlyph(wf?'#cdcdc9':this.shade(a.accent,0.55), o.glyph||34));
+  }
+  shade(hex,amt){ // mix toward white by amt
+    const n=parseInt(hex.slice(1),16); let r=(n>>16)&255,g=(n>>8)&255,b=n&255;
+    r=Math.round(r+(255-r)*amt); g=Math.round(g+(255-g)*amt); b=Math.round(b+(255-b)*amt);
+    return 'rgb('+r+','+g+','+b+')';
+  }
+  avatar(sz){ sz=sz||44; const a=this.acc(); const wf=this.isWF();
+    return React.createElement('div',{style:{width:sz,height:sz,borderRadius:'50%',flex:'none',background:wf?'#e3e3e0':a.soft,border:wf?'none':'1px solid '+a.soft}}); }
+  icon(o){ o=o||{}; const a=this.acc(); const wf=this.isWF(); const h=React.createElement;
+    return h('div',{style:{width:o.sz||44,height:o.sz||44,borderRadius:11,flex:'none',background:wf?'#e7e7e4':a.soft,display:'flex',alignItems:'center',justifyContent:'center'}},
+      h('div',{style:{width:16,height:16,borderRadius:5,background:wf?'#cfcfcc':a.accent,opacity:wf?1:.85}})); }
+  logo(b){ const a=this.acc(); const wf=this.isWF(); const h=React.createElement;
+    return h('div',{style:{display:'flex',alignItems:'center',gap:9}},
+      h('div',{style:{width:26,height:26,borderRadius:7,background:wf?'#d7d7d3':a.accent,flex:'none'}}),
+      wf ? this.bar(64,13) : this.edit(b,'brand',{fontSize:17,fontWeight:700,letterSpacing:'-0.02em',color:'#1a1a18'})); }
+  navlink(b,k){ if(this.isWF()) return this.bar(42,10); return this.edit(b,k,{fontSize:14,fontWeight:500,color:'#52524d'}); }
+
+  pad(){ return this.mob ? '34px 22px' : '62px 56px'; }
+  section(children,o){ o=o||{};
+    return React.createElement('div',{style:{background:o.bg||'#ffffff',padding:o.pad||this.pad(),width:'100%'}},
+      React.createElement('div',{style:{maxWidth:o.max||1080,margin:'0 auto',width:'100%'}}, children)); }
+
+  // ================= BLOCKS =================
+  renderBlock(b){
+    switch(b.type){
+      case 'navbar': return this.bNavbar(b);
+      case 'hero': return this.bHero(b);
+      case 'features': return this.bFeatures(b);
+      case 'sidebar': return this.bSidebar(b);
+      case 'gallery': return this.bGallery(b);
+      case 'pricing': return this.bPricing(b);
+      case 'testimonial': return this.bTestimonial(b);
+      case 'cta': return this.bCta(b);
+      case 'footer': return this.bFooter(b);
+      default: return null;
+    }
+  }
+  effCols(b){ if(this.mob) return b.type==='gallery'?2:1; return b.cols; }
+
+  bNavbar(b){ const h=React.createElement; const mob=this.mob; const wf=this.isWF(); const a=this.acc();
+    const links = ['l1','l2','l3','l4'].map((k,i)=>h('span',{key:i},this.navlink(b,k)));
+    const menu = h('div',{style:{display:'flex',flexDirection:'column',gap:4,padding:'6px'}},
+      [0,1,2].map(i=>h('div',{key:i,style:{width:20,height:2,borderRadius:2,background:'#9a9a94'}})));
+    const wrap = (inner)=>h('div',{style:{background:'#fff',borderBottom:'1px solid #eeeeec',padding:mob?'14px 20px':'16px 40px'}},inner);
+    if(mob) return wrap(h('div',{style:{display:'flex',alignItems:'center',justifyContent:'space-between'}}, this.logo(b), menu));
+    if(b.variant===1) return wrap(h('div',{style:{display:'flex',flexDirection:'column',alignItems:'center',gap:14}},
+      this.logo(b), h('div',{style:{display:'flex',gap:30}},links)));
+    if(b.variant===2) return wrap(h('div',{style:{display:'flex',alignItems:'center',justifyContent:'space-between'}},
+      this.logo(b), h('div',{style:{display:'flex',gap:30}},links), this.btn(b,'cta',{primary:true,h:38})));
+    if(b.variant===3) return wrap(h('div',{style:{display:'flex',alignItems:'center',gap:24}},
+      this.logo(b),
+      h('div',{style:{flex:1,maxWidth:420,display:'flex',alignItems:'center',gap:9,background:wf?'#f1f1ef':'#f5f5f4',border:'1px solid #ececea',borderRadius:9,padding:'9px 13px'}},
+        h('div',{style:{width:14,height:14,borderRadius:'50%',border:'2px solid #b6b6b1',flex:'none'}}),
+        wf?this.bar(90,9):h('span',{style:{fontSize:14,color:'#9a9a94'}},this.c(b,'search'))),
+      h('div',{style:{display:'flex',gap:26}},links.slice(0,2)),
+      this.avatar(34)));
+    return wrap(h('div',{style:{display:'flex',alignItems:'center',justifyContent:'space-between'}},
+      this.logo(b), h('div',{style:{display:'flex',alignItems:'center',gap:30}}, ...links, this.btn(b,'cta',{primary:true,h:38}))));
+  }
+
+  bHero(b){ const h=React.createElement; const mob=this.mob; const wf=this.isWF(); const a=this.acc();
+    const eyebrow = h('div',{style:{display:'inline-flex',alignItems:'center',gap:7,padding:'5px 12px',borderRadius:99,background:wf?'#eeeeec':a.soft,marginBottom:18}},
+      h('div',{style:{width:6,height:6,borderRadius:'50%',background:wf?'#bdbdb9':a.accent}}),
+      wf?this.bar(40,9):this.edit(b,'eyebrow',{fontSize:12.5,fontWeight:600,color:wf?'#000':a.accent,letterSpacing:'0.01em'}));
+    const buttons=(onDark)=>h('div',{style:{display:'flex',gap:12,flexWrap:'wrap',marginTop:26,justifyContent:b.variant===0||b.variant===2?'center':'flex-start'}},
+      this.btn(b,'b1',{primary:true,onDark}), this.btn(b,'b2',{onDark}));
+    const textCol=(center)=>h('div',{style:{flex:1,textAlign:center?'center':'left'}},
+      eyebrow,
+      this.heading(b,'title',{fs:mob?34:52,mb:18,mw:center?720:undefined,color:'#171715'}),
+      h('div',{style:{margin:center?'0 auto':0,maxWidth:center?560:480}}, this.para(b,'sub',{fs:17.5,lines:2,center})),
+      buttons(false));
+    if(b.variant===2){ // image bg
+      return this.section(
+        h('div',{style:{position:'relative',borderRadius:18,overflow:'hidden',minHeight:mob?360:440,display:'flex',alignItems:'center',justifyContent:'center',padding:mob?'40px 24px':'72px',background:wf?'#dededb':'linear-gradient(135deg,'+this.shade(a.accent,0.05)+','+this.shade(a.accent,0.45)+')'}},
+          h('div',{style:{position:'relative',textAlign:'center',color:'#fff',maxWidth:640}},
+            this.heading(b,'title',{fs:mob?34:52,mb:18,color:wf?'#8f8f8a':'#fff'}),
+            this.para(b,'sub',{fs:17.5,lines:2,center:true,color:wf?'#a8a8a3':'rgba(255,255,255,.92)'}),
+            h('div',{style:{display:'flex',gap:12,justifyContent:'center',marginTop:26,flexWrap:'wrap'}},
+              this.btn(b,'b1',{primary:true,onDark:true}), this.btn(b,'b2',{onDark:true})))),
+        {pad:this.pad()});
+    }
+    if(b.variant===0) return this.section(h('div',null,
+      h('div',{style:{textAlign:'center'}}, eyebrow,
+        this.heading(b,'title',{fs:mob?36:56,mb:20,mw:760,color:'#171715'}),
+        h('div',{style:{margin:'0 auto',maxWidth:580}},this.para(b,'sub',{fs:18,lines:2,center:true})),
+        buttons(false)),
+      h('div',{style:{marginTop:44}}, this.img({h:mob?220:380,r:16}))));
+    const imgEl=this.img({h:mob?240:400,r:16,flex:1,stretch:true});
+    const cols = b.variant===3 ? [imgEl, textCol(false)] : [textCol(false), imgEl];
+    return this.section(h('div',{style:{display:'flex',flexDirection:mob?'column':'row',gap:mob?32:56,alignItems:'center'}}, ...cols));
+  }
+
+  bFeatures(b){ const h=React.createElement; const cols=this.effCols(b); const a=this.acc(); const wf=this.isWF();
+    const head=h('div',{style:{textAlign:'center',marginBottom:46,maxWidth:600,marginLeft:'auto',marginRight:'auto'}},
+      this.heading(b,'title',{fs:this.mob?28:38,mb:14}), this.para(b,'sub',{fs:16.5,lines:1,center:true}));
+    if(b.variant===2){ // alternating
+      const rows=[['f1t','f1d'],['f2t','f2d']];
+      return this.section(h('div',null, head,
+        h('div',{style:{display:'flex',flexDirection:'column',gap:this.mob?36:54}},
+          rows.map((r,i)=>h('div',{key:i,style:{display:'flex',flexDirection:this.mob?'column':'row',gap:this.mob?20:48,alignItems:'center',flexDirection:this.mob?'column':(i%2?'row-reverse':'row')}},
+            this.img({h:this.mob?200:280,r:14,flex:1,stretch:true}),
+            h('div',{style:{flex:1}}, this.icon({sz:40}), h('div',{style:{height:16}}),
+              this.heading(b,r[0],{fs:24,mb:12}), this.para(b,r[1],{fs:16,lines:2})))))));
+    }
+    const items=[['f1t','f1d'],['f2t','f2d'],['f3t','f3d'],['f4t','f4d'],['f5t','f5d'],['f6t','f6d']].slice(0, cols>=4?Math.min(8,cols*2):6);
+    const card=(it,i)=>{ const inner=h('div',{key:i,style:{textAlign:b.variant===1?'center':'left'}},
+        h('div',{style:{display:'flex',justifyContent:b.variant===1?'center':'flex-start'}},this.icon({})),
+        h('div',{style:{height:16}}),
+        this.heading(b,it[0],{fs:19,mb:9}), this.para(b,it[1],{fs:15,lines:2,center:b.variant===1}));
+      if(b.variant===0) return h('div',{key:i,style:{border:'1px solid #ededea',borderRadius:14,padding:24,background:'#fff'}}, inner);
+      return inner; };
+    return this.section(h('div',null, head,
+      h('div',{style:{display:'grid',gridTemplateColumns:'repeat('+cols+',1fr)',gap:b.variant===0?22:30}}, items.map(card))));
+  }
+
+  bSidebar(b){ const h=React.createElement; const mob=this.mob; const a=this.acc(); const wf=this.isWF();
+    const main=h('div',{style:{flex:'2.1',minWidth:0}},
+      this.heading(b,'title',{fs:mob?28:36,mb:18}),
+      this.para(b,'p1',{fs:16.5,lines:3,mw:640}),
+      h('div',{style:{height:22}}), this.img({h:mob?200:260,r:14}),
+      h('div',{style:{height:22}}), this.para(b,'p2',{fs:16.5,lines:2,mw:640}));
+    const sideCard=(tKey,links)=>h('div',{style:{border:'1px solid #ededea',borderRadius:13,padding:18,background:'#fff'}},
+      this.heading(b,tKey,{fs:14.5,mb:14,w:'50%',h:11}),
+      h('div',{style:{display:'flex',flexDirection:'column',gap:11}},
+        links.map((k,i)=>h('div',{key:i,style:{display:'flex',alignItems:'center',gap:9}},
+          h('div',{style:{width:5,height:5,borderRadius:'50%',background:wf?'#cfcfcc':a.accent,flex:'none'}}),
+          wf?this.bar(['78%','62%','70%'][i%3],9):this.edit(b,k,{fontSize:14,color:'#56564f'})))));
+    const aside=h('div',{style:{flex:'1',minWidth:mob?'auto':220,display:'flex',flexDirection:'column',gap:16}},
+      sideCard('s1t',['s1a','s1b','s1c']), sideCard('s2t',['s2a','s2b']));
+    const arr = b.variant===1 ? [aside,main] : [main,aside];
+    return this.section(h('div',{style:{display:'flex',flexDirection:mob?'column':'row',gap:mob?28:44,alignItems:'flex-start'}}, ...arr));
+  }
+
+  bGallery(b){ const h=React.createElement; const cols=this.effCols(b); const a=this.acc();
+    const head=h('div',{style:{marginBottom:26}}, this.heading(b,'title',{fs:this.mob?26:32,mb:0}));
+    if(b.variant===2){ const n=this.mob?3:5;
+      return this.section(h('div',null, head,
+        h('div',{style:{display:'flex',gap:16}}, Array.from({length:n}).map((_,i)=>h('div',{key:i,style:{flex:1}}, this.img({h:this.mob?150:200,r:12}))))));
+    }
+    if(b.variant===1){ // mosaic
+      const spans=[['span 2','span 2'],['span 1','span 1'],['span 1','span 1'],['span 1','span 2'],['span 2','span 1'],['span 1','span 1']];
+      return this.section(h('div',null, head,
+        h('div',{style:{display:'grid',gridTemplateColumns:'repeat('+Math.max(3,cols)+',1fr)',gridAutoRows:this.mob?70:120,gap:14}},
+          spans.map((s,i)=>h('div',{key:i,style:{gridColumn:this.mob?'span 1':s[0],gridRow:this.mob?'span 1':s[1]}}, this.img({h:'100%',r:12,glyph:30}))))));
+    }
+    const n = cols*2;
+    return this.section(h('div',null, head,
+      h('div',{style:{display:'grid',gridTemplateColumns:'repeat('+cols+',1fr)',gap:16}},
+        Array.from({length:n}).map((_,i)=>h('div',{key:i}, this.img({h:this.mob?130:180,r:12}))))));
+  }
+
+  bPricing(b){ const h=React.createElement; const a=this.acc(); const wf=this.isWF(); const mob=this.mob;
+    const head=h('div',{style:{textAlign:'center',marginBottom:44,maxWidth:560,marginLeft:'auto',marginRight:'auto'}},
+      this.heading(b,'title',{fs:mob?28:38,mb:14}), this.para(b,'sub',{fs:16.5,lines:1,center:true}));
+    const featLine=(on)=>h('div',{style:{display:'flex',alignItems:'center',gap:10,padding:'7px 0'}},
+      h('div',{style:{width:17,height:17,borderRadius:'50%',flex:'none',background:wf?'#e7e7e4':(on?a.soft:'#f1f1ef'),display:'flex',alignItems:'center',justifyContent:'center'}},
+        h('div',{style:{width:6,height:6,borderRadius:'50%',background:wf?'#cfcfcc':(on?a.accent:'#cfcfcc')}})),
+      this.bar(['72%','58%','66%','50%'][Math.floor(Math.random()*0)] || '64%',9));
+    const tiers = b.variant===1?2:3;
+    if(b.variant===2){ // comparison table
+      const rows=5;
+      return this.section(h('div',null, head,
+        h('div',{style:{border:'1px solid #ededea',borderRadius:14,overflow:'hidden'}},
+          h('div',{style:{display:'grid',gridTemplateColumns:'1.4fr 1fr 1fr 1fr',background:'#fafafa',borderBottom:'1px solid #ededea',padding:'16px 20px',gap:12}},
+            h('div',null), ['p1n','p2n','p3n'].map((k,i)=>h('div',{key:i,style:{textAlign:'center'}},wf?this.bar('60%',11):this.edit(b,k,{fontSize:15,fontWeight:600})))),
+          Array.from({length:rows}).map((_,r)=>h('div',{key:r,style:{display:'grid',gridTemplateColumns:'1.4fr 1fr 1fr 1fr',padding:'14px 20px',gap:12,borderBottom:r<rows-1?'1px solid #f1f1ef':'none',alignItems:'center'}},
+            this.bar('70%',10),
+            [0,1,2].map(c=>h('div',{key:c,style:{display:'flex',justifyContent:'center'}},
+              h('div',{style:{width:18,height:18,borderRadius:'50%',background:(c>=r%2)?(wf?'#e1e1de':a.soft):'#f3f3f1',display:'flex',alignItems:'center',justifyContent:'center'}},
+                (c>=r%2)?h('div',{style:{width:7,height:7,borderRadius:'50%',background:wf?'#c4c4c0':a.accent}}):null))))))));
+    }
+    const names=['p1n','p2n','p3n'], prices=['p1p','p2p','p3p'];
+    const card=(i)=>{ const popular=(tiers===3&&i===1)||(tiers===2&&i===1);
+      return h('div',{key:i,style:{border:popular?'1.5px solid '+(wf?'#c9c9c5':a.accent):'1px solid #ededea',borderRadius:16,padding:26,background:'#fff',boxShadow:popular?'0 12px 32px rgba(0,0,0,.06)':'none',position:'relative'}},
+        popular?h('div',{style:{position:'absolute',top:18,right:18,fontSize:11,fontWeight:600,padding:'4px 10px',borderRadius:99,background:wf?'#eeeeec':a.soft,color:wf?'#8a8a85':a.accent}},'Popular'):null,
+        wf?this.bar('46%',13,{mb:14}):this.edit(b,names[i],{fontSize:15,fontWeight:600,color:'#56564f'}),
+        h('div',{style:{height:10}}),
+        h('div',{style:{display:'flex',alignItems:'flex-end',gap:4}}, this.heading(b,prices[i],{fs:42,mb:0}), wf?null:h('span',{style:{fontSize:14,color:'#9a9a94',marginBottom:8}},'/mo')),
+        h('div',{style:{height:18}}),
+        h('div',null, [0,1,2,3].map(j=>h('div',{key:j},featLine(true)))),
+        h('div',{style:{height:18}}),
+        this.btnFull(b,popular)); };
+    return this.section(h('div',null, head,
+      h('div',{style:{display:'grid',gridTemplateColumns:mob?'1fr':'repeat('+tiers+',1fr)',gap:22,alignItems:'start'}},
+        Array.from({length:tiers}).map((_,i)=>card(i)))));
+  }
+  btnFull(b,primary){ const a=this.acc(); const wf=this.isWF();
+    if(wf) return React.createElement('div',{style:{height:42,width:'100%',borderRadius:9,background:primary?'#cfcfcc':'#ededea'}});
+    return React.createElement('div',{style:{height:42,width:'100%',borderRadius:9,display:'flex',alignItems:'center',justifyContent:'center',fontSize:14,fontWeight:600,cursor:'pointer',
+      background:primary?a.accent:'#fff',color:primary?'#fff':'#2a2a27',border:primary?'none':'1px solid #e4e4e0'}},'Choose plan'); }
+
+  bTestimonial(b){ const h=React.createElement; const a=this.acc(); const wf=this.isWF(); const mob=this.mob;
+    if(b.variant===2){ const n=mob?4:6;
+      return this.section(h('div',{style:{textAlign:'center'}},
+        this.heading(b,'title',{fs:mob?24:30,mb:36}),
+        h('div',{style:{display:'flex',flexWrap:'wrap',justifyContent:'center',gap:mob?28:44,alignItems:'center'}},
+          Array.from({length:n}).map((_,i)=>h('div',{key:i,style:{width:108,height:30,borderRadius:7,background:wf?'#e7e7e4':'#f1f1ef',display:'flex',alignItems:'center',justifyContent:'center',gap:7,opacity:.85}},
+            h('div',{style:{width:18,height:18,borderRadius:5,background:wf?'#cfcfcc':a.accent,opacity:.7}}),
+            h('div',{style:{width:40,height:8,borderRadius:4,background:wf?'#cfcfcc':'#c4c4bf'}}))))));
+    }
+    if(b.variant===1){ const quotes=mob?1:3;
+      return this.section(h('div',null,
+        h('div',{style:{textAlign:'center',marginBottom:40}},this.heading(b,'title',{fs:mob?26:34,mb:0})),
+        h('div',{style:{display:'grid',gridTemplateColumns:'repeat('+quotes+',1fr)',gap:22}},
+          Array.from({length:quotes}).map((_,i)=>h('div',{key:i,style:{border:'1px solid #ededea',borderRadius:14,padding:24,background:'#fff'}},
+            h('div',{style:{fontSize:30,lineHeight:1,color:wf?'#dcdcd8':a.accent,fontWeight:700,marginBottom:8}},'\u201C'),
+            this.para(b,i===0?'quote':'title',{fs:15.5,lines:3,color:'#3f3f3a'}),
+            h('div',{style:{display:'flex',alignItems:'center',gap:12,marginTop:18}}, this.avatar(40),
+              h('div',null, wf?this.bar(70,10,{mb:6}):this.edit(b,'name',{fontSize:14,fontWeight:600}), h('div',{style:{height:4}}), wf?this.bar(54,8):this.edit(b,'role',{fontSize:13,color:'#9a9a94'})))))) ));
+    }
+    return this.section(h('div',{style:{textAlign:'center',maxWidth:780,margin:'0 auto'}},
+      h('div',{style:{fontSize:54,lineHeight:.6,color:wf?'#dcdcd8':a.accent,fontWeight:700,marginBottom:18}},'\u201C'),
+      wf?h('div',{style:{maxWidth:680,margin:'0 auto'}},[0,1,2].map(i=>this.bar(['96%','100%','64%'][i],16,{mb:12,key:i}))):
+        React.createElement('div',{style:{fontSize:mob?22:30,fontWeight:600,lineHeight:1.4,letterSpacing:'-0.02em',color:'#26261f'}}, this.edit(b,'quote',{fontWeight:600})),
+      h('div',{style:{display:'flex',alignItems:'center',justifyContent:'center',gap:13,marginTop:30}}, this.avatar(48),
+        h('div',{style:{textAlign:'left'}}, wf?this.bar(80,11,{mb:6}):this.edit(b,'name',{fontSize:15,fontWeight:600}), h('div',{style:{height:4}}), wf?this.bar(120,9):this.edit(b,'role',{fontSize:13.5,color:'#9a9a94'})))));
+  }
+
+  bCta(b){ const h=React.createElement; const a=this.acc(); const wf=this.isWF(); const mob=this.mob;
+    const inner = b.variant===1
+      ? h('div',{style:{display:'flex',flexDirection:mob?'column':'row',alignItems:mob?'flex-start':'center',justifyContent:'space-between',gap:24}},
+          h('div',{style:{maxWidth:560}}, this.heading(b,'title',{fs:mob?26:34,mb:12}), this.para(b,'sub',{fs:16.5,lines:1})),
+          h('div',{style:{flex:'none'}}, this.btn(b,'b1',{primary:true,h:46})))
+      : h('div',{style:{textAlign:'center',maxWidth:620,margin:'0 auto'}},
+          this.heading(b,'title',{fs:mob?28:40,mb:14}), h('div',{style:{margin:'0 auto',maxWidth:480}},this.para(b,'sub',{fs:17,lines:1,center:true})),
+          h('div',{style:{marginTop:26,display:'flex',justifyContent:'center'}}, this.btn(b,'b1',{primary:true,h:48})));
+    return this.section(h('div',{style:{borderRadius:18,padding:mob?'36px 26px':'56px 48px',background:wf?'#efefed':a.soft}}, inner), {pad:this.pad()});
+  }
+
+  bFooter(b){ const h=React.createElement; const a=this.acc(); const wf=this.isWF(); const mob=this.mob;
+    const linkCol=(titleKey)=>h('div',{style:{flex:1,minWidth:120}},
+      this.heading(b,titleKey,{fs:13.5,mb:16,w:'50%',h:10}),
+      h('div',{style:{display:'flex',flexDirection:'column',gap:12}}, ['78%','62%','70%','55%'].map((w,i)=>wf?this.bar(w,9,{key:i}):h('div',{key:i,style:{fontSize:13.5,color:'#7a7a74'}},['Overview','Pricing','Changelog','Docs','Careers'][(i+ titleKey.length)%5]))));
+    const social=h('div',{style:{display:'flex',gap:10}}, [0,1,2].map(i=>h('div',{key:i,style:{width:30,height:30,borderRadius:8,background:wf?'#e7e7e4':'#f1f1ef'}})));
+    let inner;
+    if(b.variant===1){ inner=h('div',{style:{display:'flex',flexDirection:mob?'column':'row',alignItems:mob?'flex-start':'center',justifyContent:'space-between',gap:18}},
+        this.logo(b), h('div',{style:{display:'flex',gap:24}}, ['c1','c2','c3'].map((k,i)=>h('span',{key:i},this.navlink(b,k))), social)); }
+    else if(b.variant===2){ inner=h('div',{style:{display:'flex',flexDirection:mob?'column':'row',gap:mob?28:60,justifyContent:'space-between'}},
+        h('div',{style:{flex:'1.4',maxWidth:380}}, this.logo(b), h('div',{style:{height:14}}), this.heading(b,'news',{fs:18,mb:14,w:'80%',h:13}),
+          h('div',{style:{display:'flex',gap:10,flexWrap:'wrap'}},
+            h('div',{style:{flex:1,minWidth:180,border:'1px solid #e4e4e0',borderRadius:9,padding:'11px 14px',display:'flex',alignItems:'center'}}, wf?this.bar('60%',9):h('span',{style:{fontSize:14,color:'#9a9a94'}},this.c(b,'email'))),
+            this.btn(b,'b1',{primary:true,h:42}))),
+        h('div',{style:{display:'flex',gap:40}}, linkCol('c1'), linkCol('c2'))); }
+    else { inner=h('div',null,
+        h('div',{style:{display:'flex',flexDirection:mob?'column':'row',gap:mob?28:48}},
+          h('div',{style:{flex:'1.5',maxWidth:300}}, this.logo(b), h('div',{style:{height:14}}), this.para(b,'tagline',{fs:14.5,lines:2})),
+          h('div',{style:{display:'flex',flex:2,gap:40,flexWrap:'wrap'}}, linkCol('c1'), linkCol('c2'), linkCol('c3'))),
+        h('div',{style:{height:1,background:'#ededea',margin:'30px 0 20px'}}),
+        h('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center',flexWrap:'wrap',gap:12}},
+          wf?this.bar(180,10):h('span',{style:{fontSize:13.5,color:'#9a9a94'}},this.c(b,'copy')), social)); }
+    return this.section(inner, {bg:'#fff', pad:mob?'34px 22px':'48px 56px'});
+  }
+
+  // ================= CHROME =================
+  seg(opts, active, onSel){ const h=React.createElement;
+    return h('div',{style:{display:'flex',background:'#f1f1ef',borderRadius:9,padding:3,gap:2}},
+      opts.map(o=>{ const on=o.v===active;
+        return h('button',{key:o.v,onClick:()=>onSel(o.v),title:o.label,style:{display:'flex',alignItems:'center',gap:6,fontFamily:'inherit',fontSize:13,fontWeight:on?600:500,color:on?'#1a1a18':'#7c7c76',background:on?'#fff':'transparent',border:'none',borderRadius:7,padding:'6px 11px',cursor:'pointer',boxShadow:on?'0 1px 3px rgba(0,0,0,.08)':'none'}},
+          o.icon||null, o.label); }));
+  }
+  ico(name){ const h=React.createElement; const p={width:14,height:14,viewBox:'0 0 24 24',fill:'none',stroke:'currentColor',strokeWidth:2,strokeLinecap:'round',strokeLinejoin:'round'};
+    if(name==='desktop') return h('svg',p,h('rect',{x:2,y:3,width:20,height:14,rx:2}),h('path',{d:'M8 21h8M12 17v4'}));
+    if(name==='mobile') return h('svg',p,h('rect',{x:7,y:2,width:10,height:20,rx:2}),h('path',{d:'M11 18h2'}));
+    if(name==='wire') return h('svg',p,h('rect',{x:3,y:3,width:18,height:18,rx:2}),h('path',{d:'M3 9h18M9 9v12'}));
+    if(name==='styled') return h('svg',p,h('circle',{cx:13.5,cy:6.5,r:2.5}),h('circle',{cx:17.5,cy:10.5,r:2.5}),h('circle',{cx:8.5,cy:7.5,r:2.5}),h('circle',{cx:6.5,cy:12.5,r:2.5}),h('path',{d:'M12 2a10 10 0 100 20 2.5 2.5 0 002.5-2.5c0-.6-.2-1.1-.6-1.5-.4-.4-.6-.9-.6-1.5A2.5 2.5 0 0116.3 14H18a4 4 0 004-4 8 8 0 00-10-6'}));
+    return null;
+  }
+
+  renderDocSwitcher(){ const h=React.createElement; const self=this; const s=this.state; const cur=this.curDoc();
+    const chev=h('svg',{width:13,height:13,viewBox:'0 0 24 24',fill:'none',stroke:'currentColor',strokeWidth:2.2,strokeLinecap:'round',strokeLinejoin:'round',style:{opacity:.55,transform:s.menuOpen?'rotate(180deg)':'none',transition:'transform .12s'}},h('path',{d:'M6 9l6 6 6-6'}));
+    const pageIco=(active)=>h('svg',{width:15,height:15,viewBox:'0 0 24 24',fill:'none',stroke:active?this.CHROME:'#a6a6a0',strokeWidth:1.8,strokeLinecap:'round',strokeLinejoin:'round',style:{flex:'none'}},h('path',{d:'M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z'}),h('path',{d:'M14 3v5h5'}));
+    const btn=h('button',{'data-doc-btn':'1',onClick:()=>self.setState(st=>({menuOpen:!st.menuOpen,renamingId:null})),
+      style:{display:'flex',alignItems:'center',gap:8,maxWidth:240,fontFamily:'inherit',fontSize:13.5,fontWeight:600,color:'#28281f',background:s.menuOpen?'#f3f3f1':'transparent',border:'1px solid '+(s.menuOpen?'#e6e6e3':'transparent'),borderRadius:9,padding:'6px 9px',cursor:'pointer'},'style-hover':'background:#f6f6f5;'},
+      pageIco(true),
+      h('span',{style:{whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}},cur.name||'Untitled'),
+      chev);
+    let menu=null;
+    if(s.menuOpen){
+      const ico=(name)=>{ const p={width:14,height:14,viewBox:'0 0 24 24',fill:'none',stroke:'currentColor',strokeWidth:1.9,strokeLinecap:'round',strokeLinejoin:'round'};
+        if(name==='rename') return h('svg',p,h('path',{d:'M12 20h9'}),h('path',{d:'M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z'}));
+        if(name==='dup') return h('svg',p,h('rect',{x:9,y:9,width:11,height:11,rx:2}),h('path',{d:'M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1'}));
+        if(name==='del') return h('svg',p,h('path',{d:'M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m2 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6'}));
+        if(name==='plus') return h('svg',p,h('path',{d:'M12 5v14M5 12h14'})); return null; };
+      const docs=s.docs.slice().sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0));
+      const rowAct=(label,name,fn,danger)=>h('button',{title:label,onClick:(e)=>{e.stopPropagation();fn();},
+        style:{width:26,height:26,display:'flex',alignItems:'center',justifyContent:'center',borderRadius:7,border:'none',background:'transparent',color:danger?'#c0392b':'#8a8a84',cursor:'pointer'},'style-hover':danger?'background:#fdeeed;':'background:#ececea;'},ico(name));
+      const row=(d)=>{ const active=d.id===s.currentId; const renaming=s.renamingId===d.id; const count=(d.blocks||[]).length;
+        return h('div',{key:d.id,onClick:()=>{ if(!renaming) self.loadDoc(d.id); },
+          style:{display:'flex',alignItems:'center',gap:10,padding:'8px 9px',borderRadius:10,cursor:'pointer',background:active?'#f0effc':'transparent'},'style-hover':active?'background:#f0effc;':'background:#f6f6f5;'},
+          pageIco(active),
+          h('div',{style:{flex:1,minWidth:0}},
+            renaming
+              ? h('input',{autoFocus:true,defaultValue:d.name,onClick:(e)=>e.stopPropagation(),
+                  onKeyDown:(e)=>{ if(e.key==='Enter') self.renameDoc(d.id,e.currentTarget.value); if(e.key==='Escape') self.setState({renamingId:null}); },
+                  onBlur:(e)=>self.renameDoc(d.id,e.currentTarget.value),
+                  style:{width:'100%',fontFamily:'inherit',fontSize:13.5,fontWeight:600,color:'#28281f',border:'1px solid '+this.CHROME,borderRadius:6,padding:'3px 6px',outline:'none',background:'#fff'}})
+              : h('div',{style:{fontSize:13.5,fontWeight:active?600:550,color:'#28281f',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}},d.name),
+            h('div',{style:{fontSize:11.5,color:'#a6a6a0',marginTop:1}}, count+(count===1?' block':' blocks')+' · '+this.relTime(d.updatedAt))),
+          renaming?null:h('div',{className:'doc-acts',style:{display:'flex',gap:2,flex:'none'}},
+            rowAct('Rename','rename',()=>self.setState({renamingId:d.id})),
+            rowAct('Duplicate','dup',()=>self.duplicateDoc(d.id)),
+            s.docs.length>1?rowAct('Delete','del',()=>{ if(confirm('Delete "'+d.name+'"?')) self.deleteDoc(d.id); },true):null)); };
+      menu=h('div',{'data-doc-menu':'1',style:{position:'absolute',top:46,left:0,width:312,background:'#fff',border:'1px solid #e8e8e5',borderRadius:14,boxShadow:'0 12px 40px rgba(0,0,0,.14)',padding:8,zIndex:50}},
+        h('div',{style:{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'4px 8px 8px'}},
+          h('span',{style:{fontSize:11,fontWeight:600,letterSpacing:'0.06em',textTransform:'uppercase',color:'#a8a8a2'}},'Pages'),
+          h('span',{style:{fontSize:11.5,color:'#bcbcb6'}},s.docs.length)),
+        h('div',{style:{maxHeight:340,overflowY:'auto'}}, docs.map(row)),
+        h('div',{style:{height:1,background:'#f0f0ee',margin:'8px 4px'}}),
+        h('button',{onClick:()=>self.createDoc(),style:{display:'flex',alignItems:'center',gap:9,width:'100%',fontFamily:'inherit',fontSize:13.5,fontWeight:600,color:this.CHROME,background:'transparent',border:'none',borderRadius:9,padding:'9px 9px',cursor:'pointer'},'style-hover':'background:#f0effc;'},
+          h('div',{style:{width:22,height:22,borderRadius:6,background:'#f0effc',display:'flex',alignItems:'center',justifyContent:'center',color:this.CHROME}},ico('plus')),
+          'Create new page'));
+    }
+    return h('div',{style:{position:'relative'}}, btn, menu);
+  }
+
+  renderPalette(){ const h=React.createElement; const self=this;
+    const PRIMS=[
+      {prim:'frame',label:'Frame',sub:'Flex / grid container'},
+      {prim:'columns',label:'Columns',sub:'2-up · 50 / 50'},
+      {prim:'text',label:'Text',sub:'Editable text'},
+      {prim:'image',label:'Image',sub:'Image placeholder'},
+    ];
+    const cats=[]; const seen={};
+    this.LIBRARY.forEach(it=>{ if(!seen[it.cat]){ seen[it.cat]=[]; cats.push(it.cat);} seen[it.cat].push(it); });
+    const card=(thumb, title, sub, drag, add)=>h('div',{ key:title, draggable:true,
+        onDragStart:()=>{ self.drag=drag; }, onDragEnd:()=>{ self.drag=null; },
+        onClick:add, title:'Drag onto the canvas, or click to add',
+        style:{display:'flex',alignItems:'center',gap:12,padding:'9px 10px',borderRadius:10,cursor:'grab',userSelect:'none'}, 'style-hover':'background:#f6f6f5;'},
+      h('div',{style:{width:46,height:34,flex:'none',borderRadius:7,border:'1px solid #ececea',background:'#fafafa',padding:5,display:'flex',flexDirection:'column',justifyContent:'center'}}, thumb),
+      h('div',{style:{minWidth:0}},
+        h('div',{style:{fontSize:13.5,fontWeight:600,color:'#28281f',lineHeight:1.2}}, title),
+        h('div',{style:{fontSize:11.5,color:'#a0a09a',marginTop:2,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}, sub)));
+    const heading=(t,color)=>h('div',{style:{fontSize:11,fontWeight:600,letterSpacing:'0.06em',textTransform:'uppercase',color:color||'#a8a8a2',padding:'4px 12px 8px'}},t);
+
+    const primEls=h('div',{key:'prim',style:{marginBottom:6}}, heading('Elements'),
+      PRIMS.map(p=>card(this.primMini(p.prim), p.label, p.sub, {kind:'prim',prim:p.prim}, ()=>self.addFromPalette({kind:'prim',prim:p.prim}))));
+
+    const sectionEls=cats.map(cat=>h('div',{key:cat,style:{marginBottom:6}}, heading(cat),
+      seen[cat].map(it=>card(this.mini(it.type), it.label, it.variants.length+' variants', {kind:'sec',type:it.type}, ()=>self.addFromPalette({kind:'sec',type:it.type})))));
+
+    const libEls = this.state.lib.length ? h('div',{style:{marginTop:8,borderTop:'1px solid #f0f0ee',paddingTop:10}},
+      heading('My library', this.CHROME),
+      this.state.lib.map(li=>h('div',{key:li.id,draggable:true,
+          onDragStart:()=>{ self.drag={kind:'lib',item:li}; }, onDragEnd:()=>{self.drag=null;},
+          onClick:()=>self.addFromPalette({kind:'lib',item:li}),
+          style:{display:'flex',alignItems:'center',gap:12,padding:'9px 10px',borderRadius:10,cursor:'grab'},'style-hover':'background:#f6f6f5;'},
+        h('div',{style:{width:46,height:34,flex:'none',borderRadius:7,border:'1px solid #ececea',background:'#fafafa',padding:5,display:'flex',flexDirection:'column',justifyContent:'center'}}, li.node.kind==='section'?this.mini(li.node.type):this.primMini(li.node.kind==='frame'?(li.node.dir==='row'||li.node.layout==='grid'?'columns':'frame'):li.node.kind)),
+        h('div',{style:{flex:1,minWidth:0}}, h('div',{style:{fontSize:13.5,fontWeight:600,color:'#28281f',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}},li.name),
+          h('div',{style:{fontSize:11.5,color:'#a0a09a',marginTop:2}}, li.node.kind==='section'?this.meta(li.node.type).label:(li.node.kind.charAt(0).toUpperCase()+li.node.kind.slice(1)))),
+        h('button',{onClick:(e)=>{e.stopPropagation();self.removeLib(li.id);},title:'Remove',style:{flex:'none',width:22,height:22,borderRadius:6,border:'none',background:'transparent',color:'#bcbcb6',cursor:'pointer',fontSize:15,lineHeight:1}},'\u00D7')))) : null;
+
+    return h('div',{style:{padding:'14px 8px 24px'}},
+      h('div',{style:{fontSize:12.5,color:'#9a9a94',padding:'0 12px 12px',lineHeight:1.5}},'Drag onto the canvas — or click to add to the selected container.'),
+      primEls,
+      h('div',{style:{height:1,background:'#f0f0ee',margin:'8px 8px'}}),
+      sectionEls, libEls);
+  }
+  primMini(kind){ const h=React.createElement; const c='#cdcdc8'; const cD='#b8b8b2';
+    const box=(s)=>h('div',{style:Object.assign({background:c,borderRadius:1.5},s)});
+    if(kind==='frame') return h('div',{style:{border:'1.5px dashed '+cD,borderRadius:3,height:'100%',display:'flex',alignItems:'center',justifyContent:'center'}}, box({width:10,height:6,borderRadius:1.5}));
+    if(kind==='columns') return h('div',{style:{display:'flex',gap:3,height:'100%',alignItems:'stretch'}}, box({flex:1,height:'100%',borderRadius:2}), box({flex:1,height:'100%',borderRadius:2}));
+    if(kind==='text') return h('div',{style:{display:'flex',flexDirection:'column',gap:2.5}}, box({width:'90%',height:3,background:cD}), box({width:'70%',height:3}), box({width:'80%',height:3}));
+    if(kind==='image') return h('div',{style:{height:'100%',borderRadius:2,background:'#e4e4e0',display:'flex',alignItems:'center',justifyContent:'center'}}, h('div',{style:{width:8,height:8,borderRadius:'50%',background:cD}}));
+    return box({width:'100%',height:'100%'});
+  }
+  mini(type){ const h=React.createElement; const c='#cdcdc8'; const cD='#b8b8b2';
+    const box=(s)=>h('div',{style:Object.assign({background:c,borderRadius:1.5},s)});
+    const W={display:'flex',gap:2};
+    switch(type){
+      case 'navbar': return h('div',{style:{display:'flex',alignItems:'center',justifyContent:'space-between'}}, box({width:8,height:5,background:cD}), h('div',{style:W},box({width:5,height:3}),box({width:5,height:3}),box({width:5,height:3})));
+      case 'hero': return h('div',null, box({width:'70%',height:5,marginBottom:2.5,background:cD}), box({width:'92%',height:2.5,marginBottom:2}), box({width:14,height:4,background:cD,borderRadius:2}));
+      case 'features': return h('div',{style:{display:'flex',gap:3}}, [0,1,2].map(i=>h('div',{key:i,style:{flex:1}}, box({width:6,height:6,borderRadius:2,marginBottom:2}), box({width:'100%',height:2.5}))));
+      case 'sidebar': return h('div',{style:{display:'flex',gap:3}}, h('div',{style:{flex:2}},box({width:'100%',height:'18px',height:18,borderRadius:2})), h('div',{style:{flex:1,display:'flex',flexDirection:'column',gap:2}},box({width:'100%',height:8,borderRadius:2}),box({width:'100%',height:8,borderRadius:2})));
+      case 'gallery': return h('div',{style:{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:2}}, [0,1,2,3,4,5].map(i=>box({key:i,width:'100%',height:7,borderRadius:1.5})));
+      case 'pricing': return h('div',{style:{display:'flex',gap:3,alignItems:'flex-end'}}, [10,14,10].map((hh,i)=>box({key:i,flex:1,height:hh,borderRadius:2,background:i===1?cD:c})));
+      case 'testimonial': return h('div',{style:{display:'flex',flexDirection:'column',alignItems:'center',gap:2}}, box({width:'80%',height:3}), box({width:'90%',height:3}), h('div',{style:{width:6,height:6,borderRadius:'50%',background:cD,marginTop:1}}));
+      case 'cta': return h('div',{style:{background:'#e9e9e6',borderRadius:2,padding:'4px 0',display:'flex',flexDirection:'column',alignItems:'center',gap:2}}, box({width:'60%',height:3,background:cD}), box({width:14,height:4,borderRadius:2,background:cD}));
+      case 'footer': return h('div',{style:{display:'flex',gap:3}}, box({width:10,height:'100%',height:14,borderRadius:1.5,background:cD}), [0,1,2].map(i=>h('div',{key:i,style:{flex:1,display:'flex',flexDirection:'column',gap:1.5}}, box({width:'100%',height:2}),box({width:'80%',height:2}),box({width:'90%',height:2}))));
+      default: return null;
+    }
+  }
+
+  nodeName(p){ if(p.id==='root') return 'Page'; if(p.kind==='section') return this.meta(p.type).label; if(p.kind==='frame') return p.layout==='grid'?'Grid':(p.dir==='row'?'Row':'Column'); if(p.kind==='text') return 'Text'; return p.kind.charAt(0).toUpperCase()+p.kind.slice(1); }
+  stepperCtl(val,onChange,min,max){ const h=React.createElement;
+    const b=(label,fn,dis)=>h('button',{onClick:fn,disabled:dis,style:{width:34,height:34,borderRadius:8,border:'1px solid #e6e6e3',background:dis?'#f6f6f5':'#fff',color:dis?'#cfcfca':'#3a3a35',fontSize:17,cursor:dis?'default':'pointer',fontFamily:'inherit'}},label);
+    return h('div',{style:{display:'flex',alignItems:'center',gap:12}}, b('\u2212',()=>onChange(Math.max(min,val-1)),val<=min), h('div',{style:{minWidth:24,textAlign:'center',fontSize:16,fontWeight:600}},val), b('+',()=>onChange(Math.min(max,val+1)),val>=max)); }
+
+  renderInspector(){ const h=React.createElement; const self=this; const s=this.state;
+    let n=this.findNode(s.selected) || this.findNode('root') || s.tree;
+    const isRoot=n.id==='root';
+    const wrap=(children)=>h('div',{style:{padding:'16px 16px 36px'}},children);
+    const group=(label,control,mb)=>h('div',{style:{marginBottom:mb==null?18:mb}}, label?h('div',{style:{fontSize:11.5,fontWeight:600,color:'#7c7c76',marginBottom:9}},label):null, control);
+    const twoCol=(a,b)=>h('div',{style:{display:'flex',gap:10}}, h('div',{style:{flex:1,minWidth:0}},a), h('div',{style:{flex:1,minWidth:0}},b));
+    const divider=()=>h('div',{style:{height:1,background:'#f0f0ee',margin:'2px 0 18px'}});
+    const numInput=(val,onChange,suffix,min,max)=>h('div',{style:{display:'flex',alignItems:'center',gap:6,border:'1px solid #e6e6e3',borderRadius:8,padding:'0 10px',height:34,background:'#fff'}},
+      h('input',{type:'number',value:val,onChange:(e)=>{ let v=parseInt(e.target.value,10); if(isNaN(v)) v=0; if(min!=null)v=Math.max(min,v); if(max!=null)v=Math.min(max,v); onChange(v); }, style:{width:'100%',minWidth:0,border:'none',outline:'none',fontFamily:'inherit',fontSize:13.5,color:'#28281f',background:'transparent'}}),
+      suffix?h('span',{style:{fontSize:12,color:'#a8a8a2'}},suffix):null);
+    const selectCtl=(opts,val,onChange)=>h('select',{value:val,onChange:(e)=>onChange(e.target.value),style:{width:'100%',fontFamily:'inherit',fontSize:13.5,color:'#28281f',border:'1px solid #e6e6e3',borderRadius:8,padding:'8px 10px',background:'#fff',cursor:'pointer',appearance:'none'}}, opts.map(o=>h('option',{key:o.v,value:o.v},o.label)));
+    const toggle=(on,onClick)=>h('button',{onClick,style:{width:40,height:24,borderRadius:99,border:'none',background:on?this.CHROME:'#d8d8d4',position:'relative',cursor:'pointer',padding:0,flex:'none',transition:'background .12s'}}, h('div',{style:{position:'absolute',top:3,left:on?19:3,width:18,height:18,borderRadius:'50%',background:'#fff',transition:'left .12s',boxShadow:'0 1px 2px rgba(0,0,0,.2)'}}));
+    const swatches=(val,onSel)=>{ const a=this.acc(); const list=['transparent','#ffffff','#f4f4f3','#ececea','#1b1b19',a.soft,a.accent];
+      return h('div',{style:{display:'flex',gap:8,flexWrap:'wrap'}}, list.map(col=>{ const on=(val||'transparent')===col; const trans=col==='transparent';
+        return h('button',{key:col,onClick:()=>onSel(col),title:col,style:{width:26,height:26,borderRadius:7,cursor:'pointer',padding:0,border:on?'2px solid '+this.CHROME:'1px solid #e0e0dc',background:trans?'#fff':col,backgroundImage:trans?'linear-gradient(45deg,#ddd 25%,transparent 25%,transparent 75%,#ddd 75%),linear-gradient(45deg,#ddd 25%,#fff 25%,#fff 75%,#ddd 75%)':undefined,backgroundSize:trans?'8px 8px':undefined,backgroundPosition:trans?'0 0,4px 4px':undefined}}); })); };
+    const sizeRow=(dim,label)=>{ const sz=n[dim]||{mode:dim==='w'?'fill':'hug'};
+      return group(label, h('div',{style:{display:'flex',gap:8,alignItems:'center'}},
+        h('div',{style:{flex:1,minWidth:0}}, this.seg([{v:'hug',label:'Hug'},{v:'fixed',label:'Fixed'},{v:'fill',label:'Fill'}], sz.mode, (v)=>self.setSize(n.id,dim,{mode:v}))),
+        sz.mode==='fixed'? h('div',{style:{width:84,flex:'none'}}, numInput(sz.px||160,(val)=>self.setSize(n.id,dim,{px:val}),'px',8)) : null)); };
+    const actBtn=(label,fn,o)=>{ o=o||{}; return h('button',{onClick:fn,style:{display:'flex',alignItems:'center',justifyContent:'center',gap:7,flex:1,padding:'9px 10px',borderRadius:9,border:'1px solid '+(o.danger?'#f0d6d6':'#e6e6e3'),background:'#fff',color:o.danger?'#c0392b':'#3a3a35',fontSize:13,fontWeight:500,cursor:'pointer',fontFamily:'inherit'},'style-hover':o.danger?'background:#fdf3f2;':'background:#f6f6f5;'},label); };
+
+    const path=this.ancestors(n.id);
+    const crumb=h('div',{style:{display:'flex',alignItems:'center',gap:2,flexWrap:'wrap',marginBottom:14}},
+      path.map((p,i)=>h('span',{key:p.id,style:{display:'inline-flex',alignItems:'center',gap:2}},
+        i>0?h('span',{style:{color:'#cfcfca',fontSize:11}},'/'):null,
+        h('button',{onClick:()=>self.setState({selected:p.id}),style:{fontFamily:'inherit',fontSize:11.5,fontWeight:p.id===n.id?600:500,color:p.id===n.id?this.CHROME:'#9a9a94',background:'none',border:'none',padding:'2px 4px',cursor:'pointer',borderRadius:5,maxWidth:130,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}, this.nodeName(p)))));
+
+    const kindLabel = isRoot?'Page' : this.nodeName(n);
+    const header=h('div',{style:{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:16}},
+      h('div',{style:{fontSize:16,fontWeight:600,letterSpacing:'-0.01em'}}, kindLabel),
+      h('div',{style:{fontSize:11,fontWeight:600,color:this.CHROME,background:'#f0effc',padding:'3px 8px',borderRadius:6,textTransform:'capitalize'}}, isRoot?'Canvas':n.kind));
+
+    const body=[ sizeRow('w','Width'), sizeRow('h','Height') ];
+
+    if(n.kind==='frame'){
+      body.push(divider());
+      body.push(group('Layout', this.seg([{v:'flex',label:'Flex'},{v:'grid',label:'Grid'}], n.layout, (v)=>self.updateNode(n.id,{layout:v}))));
+      if(n.layout==='flex'){
+        body.push(group('Direction', this.seg([{v:'col',label:'Vertical'},{v:'row',label:'Horizontal'}], n.dir, (v)=>self.updateNode(n.id,{dir:v}))));
+        body.push(twoCol(
+          group('Justify', selectCtl([{v:'start',label:'Start'},{v:'center',label:'Center'},{v:'end',label:'End'},{v:'between',label:'Space between'}], n.justify, (v)=>self.updateNode(n.id,{justify:v})),0),
+          group('Align', selectCtl([{v:'start',label:'Start'},{v:'center',label:'Center'},{v:'end',label:'End'},{v:'stretch',label:'Stretch'}], n.align, (v)=>self.updateNode(n.id,{align:v})),0)));
+        body.push(group('Wrap children', h('div',{style:{display:'flex',alignItems:'center',gap:10}}, toggle(!!n.wrap,()=>self.updateNode(n.id,{wrap:!n.wrap})), h('span',{style:{fontSize:13,color:'#7c7c76'}}, n.wrap?'Wrapping':'No wrap'))));
+      } else {
+        body.push(group('Columns', this.stepperCtl(n.gridCols||2,(v)=>self.updateNode(n.id,{gridCols:v}),1,6)));
+        body.push(twoCol(
+          group('Justify', selectCtl([{v:'start',label:'Start'},{v:'center',label:'Center'},{v:'end',label:'End'},{v:'stretch',label:'Stretch'}], n.justify, (v)=>self.updateNode(n.id,{justify:v})),0),
+          group('Align', selectCtl([{v:'start',label:'Start'},{v:'center',label:'Center'},{v:'end',label:'End'},{v:'stretch',label:'Stretch'}], n.align, (v)=>self.updateNode(n.id,{align:v})),0)));
+      }
+      body.push(twoCol( group('Gap', numInput(n.gap||0,(v)=>self.updateNode(n.id,{gap:v}),'px',0),0), group('Padding', numInput(n.pad||0,(v)=>self.updateNode(n.id,{pad:v}),'px',0),0) ));
+      body.push(divider());
+      body.push(group('Background', swatches(n.bg,(v)=>self.updateNode(n.id,{bg:v}))));
+      body.push(group('Corner radius', numInput(n.radius||0,(v)=>self.updateNode(n.id,{radius:v}),'px',0)));
+    } else if(n.kind==='text'){
+      body.push(divider());
+      body.push(group('Text', h('textarea',{value:n.text,onChange:(e)=>self.updateNode(n.id,{text:e.target.value}),rows:2,style:{width:'100%',fontFamily:'inherit',fontSize:13.5,color:'#28281f',border:'1px solid #e6e6e3',borderRadius:8,padding:'8px 10px',resize:'vertical',outline:'none',boxSizing:'border-box',lineHeight:1.5}})));
+      body.push(twoCol(
+        group('Size', numInput(n.size||16,(v)=>self.updateNode(n.id,{size:v}),'px',8),0),
+        group('Weight', selectCtl([{v:'400',label:'Regular'},{v:'500',label:'Medium'},{v:'600',label:'Semibold'},{v:'700',label:'Bold'}], String(n.weight||400), (v)=>self.updateNode(n.id,{weight:parseInt(v,10)})),0)));
+      body.push(group('Align', this.seg([{v:'left',label:'Left'},{v:'center',label:'Center'},{v:'right',label:'Right'}], n.align, (v)=>self.updateNode(n.id,{align:v}))));
+      body.push(group('Color', swatches(n.color,(v)=>self.updateNode(n.id,{color:v}))));
+    } else if(n.kind==='image'){
+      body.push(divider());
+      body.push(group('Corner radius', numInput(n.radius||0,(v)=>self.updateNode(n.id,{radius:v}),'px',0)));
+      body.push(h('div',{style:{fontSize:12.5,color:'#a0a09a',lineHeight:1.55,marginBottom:6}},'Image shows a neutral fill in Wireframe and a tinted panel in Styled mode. Set Height to Fixed for a precise size.'));
+    } else if(n.kind==='section'){
+      const m=this.meta(n.type);
+      const showCols=(n.type==='features'&&n.variant!==2)||(n.type==='gallery'&&n.variant!==2);
+      body.push(divider());
+      body.push(group('Variant', h('div',{style:{display:'flex',flexWrap:'wrap',gap:8}}, m.variants.map((v,i)=>h('button',{key:i,onClick:()=>self.setVariant(n.id,i),style:{fontFamily:'inherit',fontSize:12.5,fontWeight:n.variant===i?600:500,padding:'7px 12px',borderRadius:8,cursor:'pointer',border:'1px solid '+(n.variant===i?this.CHROME:'#e6e6e3'),background:n.variant===i?'#f0effc':'#fff',color:n.variant===i?this.CHROME:'#52524d'}},v)))));
+      if(showCols) body.push(group('Columns', this.stepperCtl(n.cols,(v)=>self.setCols(n.id,v),2,n.type==='gallery'?5:4)));
+    }
+
+    if(!isRoot){
+      body.push(divider());
+      body.push(group('Arrange', h('div',{style:{display:'flex',gap:8}}, actBtn('Move up',()=>self.nudge(n.id,-1)), actBtn('Move down',()=>self.nudge(n.id,1)))));
+      body.push(h('div',{style:{display:'flex',gap:8,marginBottom:16}}, actBtn('Duplicate',()=>self.duplicateNode(n.id)), actBtn('Delete',()=>self.removeNode(n.id),{danger:true})));
+      body.push(h('button',{onClick:()=>self.saveToLib(n.id),style:{width:'100%',padding:'11px',borderRadius:10,border:'1px solid '+this.CHROME,background:'#f0effc',color:this.CHROME,fontSize:13.5,fontWeight:600,cursor:'pointer',fontFamily:'inherit'}},'\u2606  Save to my library'));
+    } else {
+      body.push(h('div',{style:{marginTop:6,fontSize:12.5,color:'#9a9a94',lineHeight:1.7}},
+        h('div',{style:{fontWeight:600,color:'#6b6b66',marginBottom:8,fontSize:12}},'Tips'),
+        h('div',{style:{display:'flex',gap:8,marginBottom:7}},h('span',null,'\u2022'),h('span',null,'Every element nests inside any Frame, Columns, or section.')),
+        h('div',{style:{display:'flex',gap:8,marginBottom:7}},h('span',null,'\u2022'),h('span',null,'Set Width / Height to Hug, Fixed, or Fill for auto-layout.')),
+        h('div',{style:{display:'flex',gap:8}},h('span',null,'\u2022'),h('span',null,'Drag an element by its handle to move it between containers.'))));
+    }
+
+    return wrap(h('div',null, crumb, header, ...body));
+  }
+
+  // ================= NODE TREE RENDER =================
+  sizeStyle(node, parent){
+    const st={ boxSizing:'border-box' };
+    const w=node.w||{mode:'fill'}, hg=node.h||{mode:'hug'};
+    const pFlex = parent && parent.kind==='frame' && parent.layout==='flex';
+    const pGrid = parent && parent.kind==='frame' && parent.layout==='grid';
+    const row = parent && parent.dir==='row';
+    const aMap={start:'flex-start',center:'center',end:'flex-end',between:'flex-start',around:'flex-start',stretch:'flex-start'};
+    const mainAxis=(mode,px)=>{ if(mode==='fixed'){ st.flex='0 0 '+px+'px'; } else if(mode==='fill'){ st.flexGrow=1; st.flexShrink=1; st.flexBasis=0; } else { st.flex='0 0 auto'; } };
+    const crossAxis=(mode,px,dim)=>{ if(mode==='fixed'){ st[dim]=px+'px'; st.alignSelf=aMap[parent.align]||'flex-start'; } else if(mode==='fill'){ st.alignSelf='stretch'; } else { st.alignSelf=aMap[parent.align]||'flex-start'; } };
+    if(pFlex){
+      if(row){ mainAxis(w.mode,w.px); if(w.mode==='fixed') st.width=w.px+'px'; crossAxis(hg.mode,hg.px,'height'); }
+      else { mainAxis(hg.mode,hg.px); if(hg.mode==='fixed') st.height=hg.px+'px'; crossAxis(w.mode,w.px,'width'); }
+    } else if(pGrid){
+      if(w.mode==='fixed'){ st.width=w.px+'px'; st.justifySelf='start'; } else if(w.mode==='hug'){ st.width='fit-content'; st.justifySelf='start'; }
+      if(hg.mode==='fixed'){ st.height=hg.px+'px'; st.alignSelf='start'; } else if(hg.mode==='hug'){ st.alignSelf='start'; }
+    } else {
+      if(w.mode==='fixed') st.width=w.px+'px'; else if(w.mode==='fill') st.width='100%'; else st.width='fit-content';
+      if(hg.mode==='fixed') st.height=hg.px+'px'; else if(hg.mode==='fill') st.minHeight='100%';
+    }
+    return st;
+  }
+  frameStyle(node){
+    const fj={start:'flex-start',center:'center',end:'flex-end',between:'space-between',around:'space-around',stretch:'stretch'};
+    const gi={start:'start',center:'center',end:'end',stretch:'stretch'};
+    const s={ display:node.layout==='grid'?'grid':'flex', gap:(node.gap||0)+'px', padding:(node.pad||0)+'px', background:node.bg||'transparent', borderRadius:(node.radius||0)+'px' };
+    if(node.layout==='grid'){ s.gridTemplateColumns='repeat('+(node.gridCols||2)+',minmax(0,1fr))'; s.justifyItems=gi[node.justify]||'stretch'; s.alignItems=gi[node.align]||'start'; }
+    else { s.flexDirection=node.dir==='row'?'row':'column'; s.flexWrap=node.wrap?'wrap':'nowrap'; s.justifyContent=fj[node.justify]||'flex-start'; s.alignItems=fj[node.align]||'stretch'; }
+    return s;
+  }
+  dropLine(node, pos){
+    const row = node.layout==='flex' && node.dir==='row';
+    const grid = node.layout==='grid';
+    const glow='0 0 0 3px rgba(91,87,214,.15)';
+    const st = grid ? { gridColumn:'1 / -1', height:3, background:this.CHROME, borderRadius:2, boxShadow:glow }
+      : row ? { width:3, alignSelf:'stretch', minHeight:28, background:this.CHROME, borderRadius:2, boxShadow:glow }
+      : { height:3, width:'100%', background:this.CHROME, borderRadius:2, boxShadow:glow };
+    return React.createElement('div',{ key:'drop-'+pos, style:st });
+  }
+  nodeTag(node){
+    const label = node.kind==='section' ? this.meta(node.type).label
+      : node.kind==='frame' ? (node.layout==='grid'?'Grid':(node.dir==='row'?'Row':'Column'))
+      : node.kind.charAt(0).toUpperCase()+node.kind.slice(1);
+    return React.createElement('div',{ contentEditable:false, style:{ position:'absolute', top:4, left:4, zIndex:30, background:this.CHROME, color:'#fff', fontSize:10.5, fontWeight:600, padding:'3px 7px', borderRadius:6, pointerEvents:'none', letterSpacing:'0.01em', whiteSpace:'nowrap', boxShadow:'0 2px 6px rgba(0,0,0,.18)' } }, label);
+  }
+  nodeToolbar(node){ const h=React.createElement; const self=this;
+    return h('div',{ contentEditable:false, style:{ position:'absolute', top:4, right:4, zIndex:31, display:'flex', alignItems:'center', gap:1, background:'#fff', border:'1px solid #e6e6e3', borderRadius:8, padding:3, boxShadow:'0 4px 14px rgba(0,0,0,.16)' } },
+      this.tbBtn('drag', null, { draggable:true, title:'Drag to move',
+        onDragStart:(e)=>{ self.drag={kind:'move', id:node.id}; const w=e.currentTarget.closest('[data-node-id]'); if(w && e.dataTransfer){ e.dataTransfer.effectAllowed='move'; try{ e.dataTransfer.setData('text/plain', node.id); }catch(x){} e.dataTransfer.setDragImage(w, 20, 16); } },
+        onDragEnd:()=>{ self.drag=null; self.setState({hoverContainer:null, hoverIndex:null}); } }),
+      this.tbBtn('dup', ()=>self.duplicateNode(node.id)),
+      h('div',{style:{width:1,height:18,background:'#ececea',margin:'0 2px'}}),
+      this.tbBtn('del', ()=>self.removeNode(node.id)));
+  }
+  renderNode(node, parent){ const h=React.createElement; const self=this; const s=this.state;
+    const sel = s.selected===node.id;
+    const isRoot = node.id==='root';
+    const size = this.sizeStyle(node, parent);
+    const base = Object.assign({ position:'relative' }, size, { outline: sel?'2px solid '+this.CHROME:'1px dashed rgba(120,120,180,0)', outlineOffset:'-1px', cursor:'default' });
+    const onClick=(e)=>{ e.stopPropagation(); self.setState({ selected:node.id }); };
+    const tag = sel && !isRoot ? this.nodeTag(node) : null;
+    const toolbar = sel && !isRoot ? this.nodeToolbar(node) : null;
+
+    if(node.kind==='frame'){
+      const fs=this.frameStyle(node);
+      const style=Object.assign({}, base, fs);
+      const empty = !node.children || !node.children.length;
+      if(empty && !isRoot) style.minHeight=Math.max(56, fs.minHeight||0);
+      if(s.hoverContainer===node.id) style.boxShadow='inset 0 0 0 2px '+this.CHROME;
+      const kids=[];
+      (node.children||[]).forEach((c,i)=>{ if(s.hoverContainer===node.id && s.hoverIndex===i) kids.push(this.dropLine(node,i)); kids.push(this.renderNode(c,node)); });
+      if(s.hoverContainer===node.id && s.hoverIndex===((node.children||[]).length)) kids.push(this.dropLine(node,'end'));
+      const placeholder = empty ? h('div',{ key:'ph', style:{ flex:1, alignSelf:'stretch', minHeight: isRoot?'60vh':44, display:'flex', alignItems:'center', justifyContent:'center', border:'1.5px dashed '+(s.hoverContainer===node.id?this.CHROME:'#dcdcd7'), borderRadius:isRoot?0:8, color:'#a8a8a2', fontSize:13, pointerEvents:'none', background:s.hoverContainer===node.id?'#f6f5fe':'transparent', textAlign:'center', padding:16 } }, isRoot?'Empty page — drag elements from the left, or pick one to begin':'Empty container — drop elements here') : null;
+      return h('div',{ key:node.id, 'data-node-id':node.id, 'data-container':'1', onClick, style }, placeholder, ...kids, tag, toolbar);
+    }
+    if(node.kind==='text'){
+      const wf=this.isWF();
+      const style=Object.assign({}, base, { fontSize:node.size, fontWeight:node.weight, color:wf?'transparent':node.color, textAlign:node.align, lineHeight:1.4, minWidth:12, padding:'2px 0' });
+      const inner = wf
+        ? h('div',{ style:{ height:Math.max(8, node.size*0.62), width:'100%', minWidth:60, background:'#e7e7e4', borderRadius:4 } })
+        : h('span',{ contentEditable:true, suppressContentEditableWarning:true, spellCheck:false,
+            onClick:(e)=>e.stopPropagation(),
+            onBlur:(e)=>self.updateNode(node.id,{ text:e.currentTarget.textContent }),
+            style:{ outline:'none', cursor:'text', display:'block', minWidth:8 } }, node.text);
+      return h('div',{ key:node.id, 'data-node-id':node.id, onClick, style }, inner, tag, toolbar);
+    }
+    if(node.kind==='image'){
+      const a=this.acc(); const wf=this.isWF();
+      const style=Object.assign({}, base, { borderRadius:node.radius, overflow:'hidden', background: wf?'#e8e8e5':'linear-gradient(135deg,'+a.soft+' 0%, #fbfbfa 100%)', border: wf?'none':'1px solid '+a.soft, display:'flex', alignItems:'center', justifyContent:'center' });
+      if((node.h||{}).mode==='hug') style.minHeight=120;
+      return h('div',{ key:node.id, 'data-node-id':node.id, onClick, style }, this.imgGlyph(wf?'#cdcdc9':this.shade(a.accent,0.55), 34), tag, toolbar);
+    }
+    if(node.kind==='section'){
+      const style=Object.assign({}, base);
+      return h('div',{ key:node.id, 'data-node-id':node.id, onClick, style }, this.renderBlock(node), tag, toolbar);
+    }
+    return null;
+  }
+
+  renderCanvas(){ const h=React.createElement; const self=this; const s=this.state;
+    const fw = this.mob?390:1180;
+    const frame = h('div',{ style:{ width:fw, background:'#fff', borderRadius:this.mob?14:10, boxShadow:'0 1px 2px rgba(0,0,0,.06), 0 12px 40px rgba(0,0,0,.07)', overflow:'hidden', zoom:s.fit, border:'1px solid #e9e9e6', minHeight:200 } },
+      this.renderNode(s.tree, null));
+    return h('div',{
+        ref:(n)=>self.canvasRef=n,
+        onDragOver:(e)=>self.onCanvasOver(e), onDrop:(e)=>self.onCanvasDrop(e), onDragLeave:(e)=>self.onCanvasLeave(e),
+        onClick:(e)=>{ if(e.target===e.currentTarget) self.setState({selected:'root'}); },
+        style:{minHeight:'100%', padding:'44px 24px', display:'flex', justifyContent:'center', alignItems:'flex-start'}},
+      frame);
+  }
+  tbBtn(kind,fn,extra){ const h=React.createElement; extra=extra||{};
+    const map={ drag:'\u2630', up:'\u2191', down:'\u2193', dup:'\u2398', del:'\u00D7' };
+    const titles={drag:'Drag to reorder',up:'Move up',down:'Move down',dup:'Duplicate',del:'Delete'};
+    return h('div',Object.assign({title:titles[kind],onClick:fn?((e)=>{e.stopPropagation();fn();}):undefined,
+      style:{width:26,height:26,display:'flex',alignItems:'center',justifyContent:'center',borderRadius:6,cursor:kind==='drag'?'grab':'pointer',color:kind==='del'?'#c0392b':'#5a5a54',fontSize:kind==='dup'?15:14,userSelect:'none'},
+      'style-hover':kind==='del'?'background:#fdeeed;':'background:#f3f3f1;'},extra), map[kind]);
+  }
+
+  renderVals(){
+    const s=this.state;
+    return {
+      deviceToggle: this.seg([{v:'desktop',label:'Desktop',icon:this.ico('desktop')},{v:'mobile',label:'Mobile',icon:this.ico('mobile')}], s.device, (v)=>{ this.setState({device:v},()=>this.recompute()); }),
+      fidelityToggle: this.seg([{v:'wireframe',label:'Wireframe',icon:this.ico('wire')},{v:'styled',label:'Styled',icon:this.ico('styled')}], s.fidelity, (v)=>this.setState({fidelity:v})),
+      themeControl: React.createElement('div',{style:{display:'flex',alignItems:'center',gap:6,padding:'0 4px'}},
+        Object.keys(this.themes).map(k=>{ const on=s.theme===k; const t=this.themes[k];
+          return React.createElement('button',{key:k,onClick:()=>this.setState({theme:k}),title:k,
+            style:{width:on?20:16,height:on?20:16,borderRadius:'50%',background:t.dot,border:on?'2px solid #fff':'2px solid transparent',boxShadow:on?'0 0 0 2px '+t.dot:'0 0 0 1px rgba(0,0,0,.08)',cursor:'pointer',padding:0,transition:'all .1s'}}); })),
+      zoomControl: React.createElement('div',{style:{fontSize:12.5,fontVariantNumeric:'tabular-nums',color:'#9a9a94',fontFamily:'"Geist Mono",monospace',minWidth:38,textAlign:'right'}}, Math.round(s.fit*100)+'%'),
+      clearAll: ()=>this.clearAll(),
+      docSwitcher: this.renderDocSwitcher(),
+      paletteEl: this.renderPalette(),
+      canvasEl: this.renderCanvas(),
+      inspectorEl: this.renderInspector(),
+    };
+  }
+}
+</script>
+</body>
+</html>

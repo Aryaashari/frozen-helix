@@ -1,0 +1,144 @@
+- generic [ref=e6]:
+  - generic [ref=e7]:
+    - generic [ref=e8]:
+      - generic [ref=e10]: widgets
+      - generic [ref=e11]: WebApp
+    - button "undo" [ref=e13] [cursor=pointer]:
+      - generic [ref=e14]: undo
+    - button "redo" [ref=e15] [cursor=pointer]:
+      - generic [ref=e16]: redo
+    - generic [ref=e17]:
+      - generic [ref=e18]: Ready
+      - button "Save" [ref=e19] [cursor=pointer]
+  - generic [ref=e20]:
+    - generic [ref=e22]:
+      - generic [ref=e23]:
+        - generic [ref=e24] [cursor=pointer]: Tools
+        - generic [ref=e25] [cursor=pointer]: Layers
+      - generic [ref=e28]:
+        - generic [ref=e29]:
+          - generic [ref=e30]: Shapes
+          - generic [ref=e31] [cursor=pointer]:
+            - generic [ref=e32]: crop_square
+            - generic [ref=e33]: Frame
+            - generic [ref=e34]: F
+          - generic [ref=e35] [cursor=pointer]:
+            - generic [ref=e36]: radio_button_unchecked
+            - generic [ref=e37]: Circle
+            - generic [ref=e38]: O
+        - generic [ref=e40]:
+          - generic [ref=e41]: Text
+          - generic [ref=e42] [cursor=pointer]:
+            - generic [ref=e43]: title
+            - generic [ref=e44]: Heading
+            - generic [ref=e45]: H
+          - generic [ref=e46] [cursor=pointer]:
+            - generic [ref=e47]: text_fields
+            - generic [ref=e48]: Text
+            - generic [ref=e49]: T
+        - generic [ref=e51]:
+          - generic [ref=e52]: Media
+          - generic [ref=e53] [cursor=pointer]:
+            - generic [ref=e54]: image
+            - generic [ref=e55]: Image
+          - generic [ref=e56] [cursor=pointer]:
+            - generic [ref=e57]: horizontal_rule
+            - generic [ref=e58]: Divider
+          - generic [ref=e59] [cursor=pointer]:
+            - generic [ref=e60]: smart_button
+            - generic [ref=e61]: Button
+    - generic [ref=e63]:
+      - generic [ref=e64]: layers
+      - generic [ref=e65]: Drop elements here
+    - generic [ref=e66]:
+      - generic [ref=e67]:
+        - generic [ref=e68]: Typography
+        - generic [ref=e69]:
+          - generic [ref=e70]: Size
+          - generic [ref=e73]: "16"
+        - generic [ref=e74]:
+          - generic [ref=e75]: Weight
+          - combobox [ref=e77] [cursor=pointer]:
+            - option "100"
+            - option "200"
+            - option "300"
+            - option "400" [selected]
+            - option "500"
+            - option "600"
+            - option "700"
+            - option "800"
+            - option "900"
+        - generic [ref=e78]:
+          - generic [ref=e79]: Color
+          - generic [ref=e81]:
+            - textbox [ref=e82] [cursor=pointer]: "#1b1b19"
+            - textbox "#000000" [ref=e83]: "#1b1b19"
+        - generic [ref=e84]:
+          - generic [ref=e85]: Leading
+          - generic [ref=e87]:
+            - slider [ref=e88] [cursor=pointer]: "140"
+            - generic [ref=e89]: "140"
+      - generic [ref=e90]:
+        - generic [ref=e91]: Layout
+        - generic [ref=e92]:
+          - generic [ref=e93]: Dir
+          - generic [ref=e94]:
+            - button "Row" [ref=e95] [cursor=pointer]
+            - button "Col" [ref=e96] [cursor=pointer]
+        - generic [ref=e97]:
+          - generic [ref=e98]: Gap
+          - generic [ref=e101]: "16"
+        - generic [ref=e102]:
+          - generic [ref=e103]: Pad
+          - generic [ref=e106]: "16"
+      - generic [ref=e107]:
+        - generic [ref=e108]: Style
+        - generic [ref=e109]:
+          - generic [ref=e110]: BG
+          - generic [ref=e112]:
+            - textbox [ref=e113] [cursor=pointer]: "#ffffff"
+            - textbox "#000000" [ref=e114]: "#ffffff"
+        - generic [ref=e115]:
+          - generic [ref=e116]: Radius
+          - generic [ref=e119]: "8"
+        - generic [ref=e120]:
+          - generic [ref=e121]: Shadow
+          - generic [ref=e123] [cursor=pointer]:
+            - checkbox
+        - generic [ref=e125]:
+          - generic [ref=e126]: Opacity
+          - generic [ref=e128]:
+            - slider [ref=e129] [cursor=pointer]: "100"
+            - generic [ref=e130]: "100"
+      - generic [ref=e131]:
+        - generic [ref=e132]: All Controls
+        - generic [ref=e133]:
+          - generic [ref=e134]: Input
+          - textbox "Type here…" [ref=e136]
+        - generic [ref=e137]:
+          - generic [ref=e138]: Area
+          - textbox "Multi-line…" [ref=e140]
+        - generic [ref=e141]:
+          - generic [ref=e142]: Check
+          - generic [ref=e144] [cursor=pointer]:
+            - checkbox "Enabled" [checked] [ref=e145]
+            - text: Enabled
+        - generic [ref=e146]:
+          - generic [ref=e147]: Toggle
+          - generic [ref=e149] [cursor=pointer]:
+            - checkbox [checked]
+        - generic [ref=e151]:
+          - generic [ref=e152]: Scrub
+          - generic [ref=e155]: "42.0"
+        - generic [ref=e156]:
+          - generic [ref=e157]: Select
+          - combobox [ref=e159] [cursor=pointer]:
+            - option "Default"
+            - option "Sans-serif" [selected]
+            - option "Serif"
+            - option "Mono"
+        - generic [ref=e160]:
+          - generic [ref=e161]: Buttons
+          - generic [ref=e162]:
+            - button "Cancel" [ref=e163] [cursor=pointer]
+            - button "Apply" [ref=e164] [cursor=pointer]

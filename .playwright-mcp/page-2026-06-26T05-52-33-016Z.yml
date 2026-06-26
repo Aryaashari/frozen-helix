@@ -1,0 +1,182 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]: Right sheet
+      - button "close" [ref=e5] [cursor=pointer]:
+        - generic [ref=e6]: close
+    - generic [ref=e8]:
+      - generic [ref=e9]: Right sheet
+      - paragraph [ref=e10]: This is a right sheet. Click outside or press Escape to close.
+      - generic [ref=e11]:
+        - generic [ref=e12]: Name
+        - textbox "Enter name…" [ref=e14]
+      - generic [ref=e15]:
+        - generic [ref=e16]: Color
+        - generic [ref=e18]:
+          - textbox [ref=e19] [cursor=pointer]: "#5b57d6"
+          - textbox "#000000" [ref=e20]: "#5b57d6"
+      - generic [ref=e21]:
+        - generic [ref=e22]: Size
+        - generic [ref=e25]: "16"
+      - button "Apply" [ref=e27] [cursor=pointer]
+  - generic [ref=e28]:
+    - generic [ref=e29]:
+      - generic [ref=e30]: Left sheet
+      - button "close" [ref=e31] [cursor=pointer]:
+        - generic [ref=e32]: close
+    - generic [ref=e34]:
+      - generic [ref=e35]: Left sheet
+      - paragraph [ref=e36]: This is a left sheet. Click outside or press Escape to close.
+      - generic [ref=e37]:
+        - generic [ref=e38]: Name
+        - textbox "Enter name…" [ref=e40]
+      - generic [ref=e41]:
+        - generic [ref=e42]: Color
+        - generic [ref=e44]:
+          - textbox [ref=e45] [cursor=pointer]: "#5b57d6"
+          - textbox "#000000" [ref=e46]: "#5b57d6"
+      - generic [ref=e47]:
+        - generic [ref=e48]: Size
+        - generic [ref=e51]: "16"
+      - button "Apply" [ref=e53] [cursor=pointer]
+  - generic [ref=e54]:
+    - generic [ref=e56]:
+      - generic [ref=e57]: Bottom sheet
+      - button "close" [ref=e58] [cursor=pointer]:
+        - generic [ref=e59]: close
+    - generic [ref=e61]:
+      - generic [ref=e62]: Bottom sheet
+      - paragraph [ref=e63]: This is a bottom sheet. Click outside or press Escape to close.
+      - generic [ref=e64]:
+        - generic [ref=e65]: Name
+        - textbox "Enter name…" [ref=e67]
+      - generic [ref=e68]:
+        - generic [ref=e69]: Color
+        - generic [ref=e71]:
+          - textbox [ref=e72] [cursor=pointer]: "#5b57d6"
+          - textbox "#000000" [ref=e73]: "#5b57d6"
+      - generic [ref=e74]:
+        - generic [ref=e75]: Size
+        - generic [ref=e78]: "16"
+      - button "Apply" [ref=e80] [cursor=pointer]
+  - generic [ref=e81]:
+    - generic [ref=e83]:
+      - generic [ref=e84]: Top sheet
+      - button "close" [ref=e85] [cursor=pointer]:
+        - generic [ref=e86]: close
+    - generic [ref=e88]:
+      - generic [ref=e89]: Top sheet
+      - paragraph [ref=e90]: This is a top sheet. Click outside or press Escape to close.
+      - generic [ref=e91]:
+        - generic [ref=e92]: Name
+        - textbox "Enter name…" [ref=e94]
+      - generic [ref=e95]:
+        - generic [ref=e96]: Color
+        - generic [ref=e98]:
+          - textbox [ref=e99] [cursor=pointer]: "#5b57d6"
+          - textbox "#000000" [ref=e100]: "#5b57d6"
+      - generic [ref=e101]:
+        - generic [ref=e102]: Size
+        - generic [ref=e105]: "16"
+      - button "Apply" [ref=e107] [cursor=pointer]
+  - paragraph [ref=e111]: Sheet without a title bar. Build your own header inside the content.
+  - generic [ref=e112]:
+    - generic [ref=e113]:
+      - link [ref=e114] [cursor=pointer]:
+        - /url: /
+        - img [ref=e115]
+      - generic [ref=e116]:
+        - link "framework" [ref=e118] [cursor=pointer]:
+          - /url: /framework/
+        - link "ux" [ref=e120] [cursor=pointer]:
+          - /url: /framework/ux/
+        - link "Sheet" [ref=e122] [cursor=pointer]:
+          - /url: /framework/ux/Sheet/
+    - generic [ref=e123]:
+      - generic [ref=e126]:
+        - generic [ref=e128]:
+          - generic [ref=e130]: arrow_right
+          - link "ai" [ref=e131] [cursor=pointer]:
+            - /url: /ai/
+        - generic [ref=e132]:
+          - generic [ref=e133]:
+            - generic [ref=e135]: arrow_right
+            - link "framework" [ref=e136] [cursor=pointer]:
+              - /url: /framework/
+          - generic [ref=e137]:
+            - generic [ref=e139]:
+              - generic [ref=e141]: arrow_right
+              - link "core" [ref=e142] [cursor=pointer]:
+                - /url: /framework/core/
+            - link "css" [ref=e145] [cursor=pointer]:
+              - /url: /framework/css/
+            - generic [ref=e147]:
+              - generic [ref=e149]: arrow_right
+              - link "dum" [ref=e150] [cursor=pointer]:
+                - /url: /framework/dum/
+            - generic [ref=e152]:
+              - generic [ref=e154]: arrow_right
+              - link "ext" [ref=e155] [cursor=pointer]:
+                - /url: /framework/ext/
+            - generic [ref=e157]:
+              - generic [ref=e159]: arrow_right
+              - link "game" [ref=e160] [cursor=pointer]:
+                - /url: /framework/game/
+            - generic [ref=e162]:
+              - generic [ref=e164]: arrow_right
+              - link "lib" [ref=e165] [cursor=pointer]:
+                - /url: /framework/lib/
+            - generic [ref=e167]:
+              - generic [ref=e169]: arrow_right
+              - link "ui" [ref=e170] [cursor=pointer]:
+                - /url: /framework/ui/
+            - generic [ref=e171]:
+              - generic [ref=e172]:
+                - generic [ref=e174]: arrow_right
+                - link "ux" [ref=e175] [cursor=pointer]:
+                  - /url: /framework/ux/
+              - generic [ref=e176]:
+                - link "CommandPalette" [ref=e179] [cursor=pointer]:
+                  - /url: /framework/ux/CommandPalette/
+                - link "Explorer" [ref=e182] [cursor=pointer]:
+                  - /url: /framework/ux/Explorer/
+                - link "Sheet" [ref=e185] [cursor=pointer]:
+                  - /url: /framework/ux/Sheet/
+        - generic [ref=e187]:
+          - generic [ref=e189]: arrow_right
+          - link "html" [ref=e190] [cursor=pointer]:
+            - /url: /html/
+        - link "layout" [ref=e193] [cursor=pointer]:
+          - /url: /layout/
+        - link "playwright" [ref=e196] [cursor=pointer]:
+          - /url: /playwright/
+        - generic [ref=e198]:
+          - generic [ref=e200]: arrow_right
+          - link "styles" [ref=e201] [cursor=pointer]:
+            - /url: /styles/
+        - generic [ref=e203]:
+          - generic [ref=e205]: arrow_right
+          - link "test" [ref=e206] [cursor=pointer]:
+            - /url: /test/
+        - link "theme" [ref=e209] [cursor=pointer]:
+          - /url: /theme/
+      - generic [ref=e210]:
+        - generic [ref=e211]:
+          - heading "Sheet" [level=1] [ref=e212]
+          - paragraph [ref=e213]: Slide-in drawer from any side. Backdrop closes on click, Escape closes on keyboard.
+          - generic [ref=e214]:
+            - heading "Sides" [level=2] [ref=e215]
+            - generic [ref=e216]:
+              - button "Right" [ref=e218] [cursor=pointer]
+              - button "Left" [ref=e220] [cursor=pointer]
+              - button "Bottom" [ref=e222] [cursor=pointer]
+              - button "Top" [ref=e224] [cursor=pointer]
+          - generic [ref=e225]:
+            - heading "No title bar" [level=2] [ref=e226]
+            - button "Open (no title)" [ref=e228] [cursor=pointer]
+          - generic [ref=e229]:
+            - heading "API" [level=2] [ref=e230]
+            - generic [ref=e231]: "const s = ux.sheet({ content: myView, // View | HTMLElement side: 'right', // 'left' | 'right' | 'bottom' | 'top' size: 320, // px title: 'Settings', // optional header title on_close: () => {}, // optional callback }); s.open(); s.close(); s.toggle(); s.set_content(newView); // swap content s.destroy(); // remove from DOM"
+        - link [ref=e233] [cursor=pointer]:
+          - /url: /
+          - img [ref=e234]

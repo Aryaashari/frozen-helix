@@ -5,7 +5,11 @@ description: Guide for writing UI code in this project using the Lew42/View fram
 
 # View System Guide
 
-This project uses a custom reactive framework called **Lew42**. There is no React, Vue, JSX, or template language — UI is built imperatively in plain JavaScript using the `View` class and a small set of element helper functions.
+This project uses a custom reactive framework called **Lew42**. There is no React, Vue, JSX, or template language — UI is built imperatively in plain JavaScript using the `View` class and a small set of element helper functions.  You can find the View class at /public/framework/core/View/View.js.
+
+It's important to understand that the `class App` `awaits import("/path/to/page.js")`, and that page.js is where the rendering usually happens.  Before the dynamic import, we pre-render the app (`app.render()`), and explicitly set `View.set_captor(app.$root)`.  When the `page.js` loads, any `el()` get captured to the `app.$root`.  However, the app's views have not been appended to the body, yet.  And so, we're essentially rendering off-dom.  Only when the page.js resolves, do we then `app.inject()`, which throws the whole thing into the document.body at once.
+
+And so, there's no need to worry about iteration triggering rapid repaints (jank), because it's all off-dom.  At least for the initial load.  Any future `update()` re-rendering, post inject, would affect the dom. 
 
 ---
 
@@ -101,7 +105,7 @@ Key methods:
 | `.text(val)` | Set/get `textContent` |
 | `.html(val)` | Set/get `innerHTML` |
 | `.style(prop, val)` | Set/get inline style; also accepts an object |
-| `.on(event, cb)` | Add event listener |
+| `.on(event, cb)` | Add event listener using .el.addEventListener() |
 | `.click(cb)` | Shorthand for `.on("click", cb)` |
 | `.append(...)` | Manually append child(ren) |
 | `.empty(...)` | Clear and re-render content |
