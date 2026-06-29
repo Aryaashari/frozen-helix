@@ -6,6 +6,14 @@ If we want this to be the best framework in the world, it has to be the simplest
 
 Use snake_case, not camelCase, for vars, methods, args, but prefer short, single words, to avoid underscores (_), when possible.
 
+**Construction sequence:** `constructor()` → `assign()` → `instantiate()` → `initialize()`. `instantiate()` is where all setup work happens — it may call sub-methods (`instantiate_draggable()`, `instantiate_list()`, etc.) and always ends by calling `initialize()`. `initialize()` is the empty hook at the very end, for subclasses to override for post-construction customization. Never put setup work in `initialize()` — that's backwards. `initialize()` calls nothing; it just provides a clean override point.
+
+**Naming conventions:**
+- **No `_` prefix on methods or properties** unless something is genuinely private from subclasses and shouldn't be called by anyone (rare). If 90% of a class's methods start with `_`, something is wrong. Normal instance state (`this.start_x`, `this.dragging`) needs no prefix.
+- **Use readable full names.** `start_x` not `sx`, `start_width` not `sw`. The code is the documentation — short cryptic names make it harder to read, not easier.
+- **Lean into Views.** Accept View objects (`this.view`, `this.handle`) and use their API (`.on()`, `.ac()`, `.rc()`, `.style()`) instead of unwrapping to raw elements unless you need a raw DOM feature (e.g. `setPointerCapture`). Keep the `view.el` access minimal and explicit.
+- **Follow existing framework patterns.** For drag/interaction classes use `this.view` (element being dragged), `this.handle` (element that initiates drag), `this.container` (children container). Lifecycle hooks are `start`, `move`, `stop` — called as `if (this.start) this.start(e)` so they can be passed as constructor opts or overridden in subclasses.
+
 When generating CSS: Don't use rems, use ems.  My rems are hyper-responsive (get way too small, bad for text).
 
 Always use the view-guide skill, when creating HTML.
@@ -16,7 +24,7 @@ When generating code, keep it as simple as possible, easy to read, add comments.
 
 Always look for readme.md's, create them when they're not present, and update them with information they were lacking.  Every directory can have a readme.
 
-You have the Playwright MCP attached, use it for UI testing.
+Don't use Playwright MCP unless asked, we're getting "Browser is already in use" errors.
 
 ## Tech Stack
 
@@ -28,6 +36,14 @@ You have the Playwright MCP attached, use it for UI testing.
 No React, Vue, or JSX. No bundler. Imports are bare `/framework/...` paths served directly.
 
 ---
+
+## Object Oriented Design
+
+Each class should attempt to produce a minimal, easy, developer friendly API with minimal usage confusion.  Most classes could benefit from a helper creator function.  For example, `div()` creates a `new View({ tag: "div" })`, or `ui.tabs()` creates `new Tabs()`.  This is mostly for organization and ease of use.  Always simplify the API, thinking about what makes the most sense in the long run.
+
+You can `extend View`, or just add `.render()` which just has `div()` inside, or maybe `.render(){ new this.constructor.View(); }`, for example.
+
+For new Classes, lean into the `new this.constructor.View()` pattern, so that you can `ThingN.View = class extends ThingN-1.View {}`, and cherry pick methods to override for easy extension.
 
 ## Key Architectural Concepts
 
@@ -63,7 +79,19 @@ Key rule: **lean into List**. If a class manages a group of things — test case
 
 ## Class Progression Pattern
 
-Complex classes evolve through numbered subfolders: `0/`, `1/`, `2/`, etc. Variants can also use **words** instead of numbers when the versions are distinct by role rather than cumulative capability — e.g. `class Saver` → `MemorySaver`, `FileSaver`, `LocalStorageSaver`, `CollectionSaver`. Word-named variants live in flat files under the module folder rather than subfolders; numbers are for layered progression where each level extends the last. These can be combined arbitrarily — `Thing/0/0/`, `Thing/0/1/`, `Thing/Blue/4/15/` are all valid. The sub-folder levels just mean: this thing, at this variant, at this version.
+Semver conflicts with path-based versioning.  With semver, 0.0.1 leads to 0.0.2, which leads to 0.1.0, which leads to 1.0.0.  But from a directory standpoint, Thing/0/0/1/ could work, but is a bit excessive.
+
+Instead, we're going to lean into this pattern:  Thing/0/Thing0.js should convert on a minimal "learning" class, that represents Thing/1/Thing1.js as best it can.  The idea of the "0th" variant, is that it's sort of the best starting point to learn from.  It has as much as it can, while being as minimal as it can.
+
+The number 1 variant will aim to be a very stable variant.  It will likely take a lot of iteration.  And so we can have 1/0, 1/1, 1/2, etc... 
+
+And number 2+ will be substantial leaps of features/complexity.
+
+Any version could use similar strategy:  Thing/0/0/Thing0.0.js could strip down Thing0.js even more.  Thing/0/1/Thing0.1.js could import Thing0.0.js, and so on.
+
+Also, using framework/core.js's `{ mixin }` to mix several variants together, might not be a bad idea.  It allows you to organize toggle-able chunks of functionality.
+
+Variants can also use **words** instead of numbers when the versions are distinct by role rather than cumulative capability — e.g. `class Saver` → `MemorySaver`, `FileSaver`, `LocalStorageSaver`, `CollectionSaver`. Word-named variants live in flat files under the module folder rather than subfolders; numbers are for layered progression where each level extends the last. These can be combined arbitrarily — `Thing/0/0/`, `Thing/0/1/`, `Thing/Blue/4/15/` are all valid. The sub-folder levels just mean: this thing, at this variant, at this version.
 
 ```
 framework/core/Item/
@@ -121,7 +149,7 @@ frozen-helix/
       core/            ← fundamental primitives
         Item/          ← Item0–Item9 + Item.js (→ Item9)
         List/          ← List0–List8 + List.js (→ List8)
-        Test/          ← Test0, Test1
+        Test/          ← Test3 (blessed), Test0/Test1 (compat)
         View/          ← DOM abstraction
         App/           ← App singleton
         Events/        ← on/off/emit base class
@@ -172,7 +200,6 @@ The new system replaces `Component` with `Item`. The migration is additive: old 
 
 ## Dev Conventions
 
-- **No comments** unless the WHY is non-obvious.
 - **No console.log clutter** in committed code (use it while debugging, remove it).
 - **`ready` promises** — `item.ready` should mean "data loaded, children instantiated, ready to call get/set".
 - **`toJSON()`** — nested Items implement `toJSON(){ return this.data }` so `JSON.stringify` traverses the object graph naturally.
@@ -181,11 +208,32 @@ The new system replaces `Component` with `Item`. The migration is additive: old 
 - **Class-attached test suites** — test suites live on the class they test: `Item0.test = new Test0({ class: Item0 })`. The `.test.js` file (e.g. `Item0.test.js`) sets this up and re-exports the class. Higher levels import the lower class from its `.test.js` file to get the suite attached: `import Item0 from "../0/Item0.test.js"`. Then `Item1.test.add(Item0.test)` inherits the full contract.
 - **Run node tests after edits** — after editing a class that has a `.test.js` file, run it: `node --import ./scripts/register.mjs public/framework/core/Item/0/Item0.test.js`. The `register.mjs` loader maps `/framework/...` imports and stubs browser-only modules (App, View). Exit 0 = all passed; failures print to stdout with ✓/✗ per assertion. Do this before reporting a change as working. If no `.test.js` exists yet, note it as a gap.
 - **`readme.md` per module** — every module folder (`core/Foo/`, `ext/Bar/`) should have a `readme.md` design doc. When working in a module, check for its readme and update it: record decisions made, clear up questions that got answered, note new open questions, and add direction when a conversation leads somewhere. Keep readmes living documents, not snapshots.
-- **Node-only guard in `.test.js` files** — do NOT use `import { fileURLToPath } from 'url'` at the top level (browser page.js files import test files and this crashes them). Use this pattern at the bottom instead:
-  ```js
-  if (typeof process !== 'undefined' && process.argv[1] === (await import('url')).fileURLToPath(import.meta.url)) {
-      await suite.run();
-      suite.print();
-  }
-  ```
-  The `&&` short-circuits in the browser so `import('url')` is never evaluated.
+
+## Testing with Test3
+
+**Use Test3 for all new tests.** Read `public/framework/core/Test/3/readme.md` before writing tests.
+
+```js
+// MyClass.node.test.js
+import MyClass from './MyClass.js';
+import { test, assert } from '/framework/core/Test/3/Test3.js';
+
+export default MyClass.test = test(MyClass, () => {
+
+test("description", () => {
+    const obj = new MyClass({ capture: false }); // capture:false for fixture objects
+    assert(obj.value === 1, "default value");
+});
+
+});
+```
+
+- **File naming**: `*.node.test.js` — imported directly by `run-all.mjs`, no spawn.
+- **`capture: false`** on any `new Test3(...)` or fixture object created *inside* a test body.
+- **Variadic**: `test(MyClass, BaseClass.test, fn)` — inherited tests run before `fn`'s children.
+- **Browser**: `import test_obj from "./MyClass.node.test.js"; test_obj.render();` in `page.js`.
+- **Node**: `node --import ./scripts/register.mjs path/to/MyClass.node.test.js` or `node scripts/run-all.mjs`.
+
+**Legacy**: Existing 26 suites use Test0/Test1 — do not migrate them. `app.js` still exports the original `test`; for Test3 import directly from `/framework/core/Test/3/Test3.js`.
+
+For every task, make sure to consider this `CLAUDE.md` document thoroughly, and consider changes, revisions, updates, as necessary.

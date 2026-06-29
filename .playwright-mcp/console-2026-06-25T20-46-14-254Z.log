@@ -1,6 +1,0 @@
-[     358ms] [LOG] %cSocket connected. color: green; font-weight: bold; @ http://localhost/framework/ext/Socket/Socket.js:52
-[  250080ms] [LOG] %cSocket connected. color: green; font-weight: bold; @ http://localhost/framework/ext/Socket/Socket.js:52
-[  290587ms] [LOG] %cSocket connected. color: green; font-weight: bold; @ http://localhost/framework/ext/Socket/Socket.js:52
-[  291927ms] [LOG] %cSocket connected. color: green; font-weight: bold; @ http://localhost/framework/ext/Socket/Socket.js:52
-[  301193ms] [LOG] %cSocket connected. color: green; font-weight: bold; @ http://localhost/framework/ext/Socket/Socket.js:52
-[  305063ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost/favicon.ico:0

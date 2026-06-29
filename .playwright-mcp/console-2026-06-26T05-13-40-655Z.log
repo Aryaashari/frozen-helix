@@ -1,4 +1,0 @@
-[     350ms] [LOG] navstate was null, now = true @ http://localhost:3131/framework/ext/Lew42/Lew42.js:66
-[     654ms] [LOG] %cSocket connected. color: green; font-weight: bold; @ http://localhost:3131/framework/ext/Socket/Socket.js:52
-[   40051ms] [LOG] %cSocket connected. color: green; font-weight: bold; @ http://localhost:3131/framework/ext/Socket/Socket.js:52
-[   59339ms] [LOG] %cSocket connected. color: green; font-weight: bold; @ http://localhost:3131/framework/ext/Socket/Socket.js:52
