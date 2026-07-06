@@ -14,7 +14,7 @@ export { dum };
 // Framework primitives — importable from /app.js for convenience
 export { default as Item  } from "./framework/core/Item/Item.js";
 export { default as List  } from "./framework/core/List/List.js";
-export { default as Page, page } from "./framework/core/Page/Page.js";
+export { default as Page, page, tabs } from "./framework/core/Page/Page.js";
 export { default as Store } from "./framework/ext/Store/Store.js";
 export { default as FileSaver         } from "./framework/ext/Saver/FileSaver/FileSaver.js";
 export { default as MemorySaver       } from "./framework/ext/Saver/MemorySaver/MemorySaver.js";

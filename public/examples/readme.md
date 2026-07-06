@@ -35,15 +35,15 @@ sub-pages. Nest as deep as you like — every level gets its own button nav, and
 | `interactive.examples.js` | Interactive → Counter / Toggle / Style (real `.click()` handlers) |
 | `pages.examples.js` | Pages (meta) → How it works / Live nesting / This tree |
 
-## Navigation is URL-addressable (Page/2)
+## Navigation: columns + URL routing (Page/3)
 
-`page()` from `/app.js` is now backed by **Page/2** (hash routing). So this tree is
-**deep-linkable and refresh-stable**: click into `Interactive > Counter` and the URL becomes a
-hash you can share or reload; browser back/forward work too. The example sets didn't change — the
-routing came for free when `core/Page/Page.js` was promoted to Page/2.
+`page()` from `/app.js` is now backed by **Page/3**, whose default layout is **columns**
+(`ColumnPager`): drilling into `Interactive > Counter` opens columns side-by-side, with a
+breadcrumb + per-column ✕, and it's deep-linkable / refresh-stable (URL hash). The example sets
+didn't change — both the routing and the column layout came for free as the default moved forward.
 
-(Layout is nested/indented, not flat horizontal columns — that remains a separate presentation
-option; see `core/Page/2/readme.md`.)
+Want in-place tabs instead of columns for a section? Use `tabs("Name", fn)` (also from `/app.js`).
+See `core/Page/3/readme.md` and `core/Page/Pager/readme.md`.
 
 ## Verifying
 
