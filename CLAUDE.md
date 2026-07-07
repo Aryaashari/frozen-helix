@@ -122,6 +122,8 @@ We want the overall architecture to read cleanly.  We want to follow known patte
 - No level is deleted once code depends on it.
 - The `readme.md` in each module folder is the design doc — open questions, decisions, next steps.
 
+**Minimize progressions as things stabilize.** The numbered levels are a *learning/iteration* tool, not a goal — we currently have too many. As a module stabilizes, prefer **consolidating** over adding: fold a variant back into the blessed level, and reach for a **class/config toggle instead of a whole subclass** when the only difference is styling or a flag (e.g. `TabPager` is now just a `.paper-tabs` / `.button-tabs` class on the base Pager, not a distinct layout). Don't spin up `Thing/4/` for a change that a prop or CSS class expresses. Fewer, well-chosen levels > a long ladder of near-duplicates.
+
 **Default version re-export:** A module can publish a stable default by re-exporting the current blessed level from a top-level file:
 ```
 core/Item/Item.js  →  export { default } from "./2/Item2.js";

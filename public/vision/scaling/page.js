@@ -28,59 +28,42 @@ div(() => {
         const rows = [
             ["Many small repos / packages", "Yes", "Many", "No — version skew + merge hell. The thing to avoid."],
             ["Monorepo w/ workspace tooling", "Yes", "1 repo, N pkgs", "Overkill now. Tooling complexity you don't need yet."],
-            ["One repo, tier directories (today)", "Yes, via import paths", "1 repo, 1 ver", "✅ Do this now. Zero tooling."],
-            ["One repo → publish 1 pkg w/ subpath exports", "Yes, via export map", "1 repo, 1 ver", "✅ The graduation step, when Core freezes."],
+            ["One repo, tier directories + absolute-path imports (today)", "Yes, via import paths", "1 repo, 1 ver", "✅ **This is the answer.** Zero tooling, zero build."],
+            ["Publish 1 pkg w/ subpath exports + import map", "Yes, but needs a generated import map (build step)", "1 repo, 1 ver", "Deferred — only if outside users ever `npm i` it."],
         ];
         for (const [a, b, c, d] of rows) el("tr", () => { el("td", () => md(a)); el("td", b); el("td", c); el("td", () => md(d)); });
     }).ac("opt");
 });
 
 div.c("callout good", () => {
-    h2("The mechanism that does it all: subpath exports");
-    md("One `package.json` can expose many independent entry points. That single feature gives you \"import just the View class\" and \"import the whole enterprise Kit\" — from **one package, one version** — no monorepo, no extra repos.");
+    h2("The mechanism you already have: absolute-path imports");
+    md("You don't need `exports`, an import map, or any build step to scale from a single class to the full Kit. **Plain ES-module imports by absolute URL already do it** — the exact thing you use today.");
     el("pre", () => {
-        el("span", "// package.json — one package, many doors\n").ac("c");
-        el("span", `{
-  "name": "frozen-helix",
-  "exports": {
-    ".":      "./public/framework/core/View/View.js",   `).ac("g");
-        el("span", "// minimal start\n").ac("c");
-        el("span", `    "./view": "./public/framework/core/View/View.js",
-    "./app":  "./public/framework/core/App/App.js",
-    "./item": "./public/framework/core/Item/Item.js",
-    "./list": "./public/framework/core/List/List.js",
-    "./page": "./public/framework/core/Page/Page.js",
-    "./ui":   "./public/framework/ui/ui.js",
-    "./ux":   "./public/framework/ux/ux.js"
-    `).ac("g");
-        el("span", "// add a line as each piece is blessed; never expose lab/\n").ac("c");
-        el("span", `  }
-}`).ac("g");
+        el("span", "// Minimal start — just the View class. Nothing else is pulled in.\n").ac("c");
+        el("span", `import { div, h1, p } from "/framework/core/View/View.js";\n\n`).ac("g");
+        el("span", "// Growing app — add a primitive when you actually need it.\n").ac("c");
+        el("span", `import Item from "/framework/core/Item/Item.js";
+import Page from "/framework/core/Page/Page.class.js";\n\n`).ac("g");
+        el("span", "// Full Kit — the barrel. One import, everything blessed.\n").ac("c");
+        el("span", `import app, { Item, List, ui, ux } from "/app.js";`).ac("g");
     }).ac("code");
+    md("That **is** zero-to-enterprise, with zero tooling. The scaling knob is simply *which file you import*: one leaf module for minimal, `/app.js` for everything. The tier directories + the \"`/app.js` re-exports only Core+Kit\" rule are the whole story — no packaging required.");
 });
 
-div(() => {
-    h2("What each user imports");
-    el("pre", () => {
-        el("span", "// Beginner — literally just the View class\n").ac("c");
-        el("span", `import { div, h1, p } from "frozen-helix";\n\n`).ac("g");
-        el("span", "// Growing app — add data + routing when needed\n").ac("c");
-        el("span", `import Item from "frozen-helix/item";
-import Page from "frozen-helix/page";\n\n`).ac("g");
-        el("span", "// Enterprise — the whole Kit, still one versioned package\n").ac("c");
-        el("span", `import { ui } from "frozen-helix/ui";
-import { ux } from "frozen-helix/ux";`).ac("g");
-    }).ac("code");
-    md("Same import paths work today over HTTP (`/framework/core/View/View.js`) and tomorrow as a package — the `exports` map just blesses the stable subset of paths that already exist.");
+div.c("callout", () => {
+    h2("What about npm? Deferred — and deliberately so.");
+    md("Publishing to npm only matters the day an **external** consumer wants to `npm i frozen-helix` and write `\"frozen-helix/item\"` instead of a URL path. Nothing in your own local-first workflow needs it.");
+    md("And it isn't free: browsers don't read a package's `exports` field and won't resolve bare specifiers on their own, so you'd need an **import map** to hand-write or — worse — **generate from `exports`, which is a build step.** That trades away the no-build commitment for ergonomics you don't need yet.");
+    md("**Decision: skip it for now.** Keep absolute-path imports. If you ever publish, revisit then; by that point a tiny generator script (you already have `scripts/`) can emit the map, and it's an opt-in convenience for outside users — never something *your* app depends on.");
 });
 
 div(() => {
     h2("The roadmap (no big bang)");
     el("ol", () => {
-        el("li", () => md("**Now:** apply the tiers in-tree (move Lab, trim `/app.js`). Nothing published. Pure cleanup."));
-        el("li", () => md("**Next:** keep building — but new work lands in `lab/` until it earns promotion to Kit. The blessed surface only grows on purpose."));
-        el("li", () => md("**When Core freezes:** add the `exports` map above. Tag `0.1.0`. You can now `npm i frozen-helix` and still serve it raw over HTTP — same files."));
-        el("li", () => md("**Later, if ever needed:** a piece that genuinely wants its own release cadence (e.g. `game/`) graduates to its own folder/repo. By then it's isolated enough that splitting it is cheap — not a merge."));
+        el("li", () => md("**Now:** apply the tiers in-tree (move Lab, trim `/app.js`). Pure cleanup, no packaging, no build."));
+        el("li", () => md("**Next:** keep building — but new work lands in `lab/` until it earns promotion to Kit. The blessed surface (`/app.js`) only grows on purpose."));
+        el("li", () => md("**Scaling stays free:** import one leaf file for minimal, `/app.js` for the Kit. That's the whole zero-to-enterprise story — no `exports`, no import map, no bundler."));
+        el("li", () => md("**Only if you ever publish externally:** add `exports` + a generated import map then. Explicitly deferred — not part of getting stable."));
     });
 });
 
