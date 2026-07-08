@@ -1,5 +1,7 @@
 import app, { el, div, h1, h2, p } from "/app.js";
 
+app.$root.ac("page");
+
 h1("frozen-helix");
 p("Local-first JS framework and app platform. Static HTML + ES modules + WebSocket persistence.");
 

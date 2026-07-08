@@ -2983,6 +2983,12 @@
 									"path": "framework/ext/Markdown",
 									"type": "file",
 									"full": "framework/ext/Markdown/page.js"
+								},
+								{
+									"name": "readme.md",
+									"path": "framework/ext/Markdown",
+									"type": "file",
+									"full": "framework/ext/Markdown/readme.md"
 								}
 							]
 						},
