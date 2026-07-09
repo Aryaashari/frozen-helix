@@ -1,6 +1,12 @@
 {
 	"files": [
 		{
+			"name": "_redirects",
+			"path": "./",
+			"type": "file",
+			"full": "_redirects"
+		},
+		{
 			"name": "ai",
 			"path": "./",
 			"type": "dir",
@@ -187,6 +193,20 @@
 			"full": "app.js"
 		},
 		{
+			"name": "arya",
+			"path": "./",
+			"type": "dir",
+			"full": "arya",
+			"children": [
+				{
+					"name": "page.js",
+					"path": "arya",
+					"type": "file",
+					"full": "arya/page.js"
+				}
+			]
+		},
+		{
 			"name": "assets",
 			"path": "./",
 			"type": "dir",
@@ -247,13 +267,6 @@
 			"full": "directory.json"
 		},
 		{
-			"name": "docs",
-			"path": "./",
-			"type": "dir",
-			"full": "docs",
-			"children": []
-		},
-		{
 			"name": "examples",
 			"path": "./",
 			"type": "dir",
@@ -304,20 +317,6 @@
 			"full": "framework",
 			"children": [
 				{
-					"name": ".claude",
-					"path": "framework",
-					"type": "dir",
-					"full": "framework/.claude",
-					"children": [
-						{
-							"name": "settings.local.json",
-							"path": "framework/.claude",
-							"type": "file",
-							"full": "framework/.claude/settings.local.json"
-						}
-					]
-				},
-				{
 					"name": ".git",
 					"path": "framework",
 					"type": "file",
@@ -328,6 +327,12 @@
 					"path": "framework",
 					"type": "file",
 					"full": "framework/.gitattributes"
+				},
+				{
+					"name": "README.md",
+					"path": "framework",
+					"type": "file",
+					"full": "framework/README.md"
 				},
 				{
 					"name": "core",
@@ -346,6 +351,12 @@
 									"path": "framework/core/App",
 									"type": "file",
 									"full": "framework/core/App/App.js"
+								},
+								{
+									"name": "ViteApp.js",
+									"path": "framework/core/App",
+									"type": "file",
+									"full": "framework/core/App/ViteApp.js"
 								},
 								{
 									"name": "content.page.js",
@@ -382,12 +393,6 @@
 									"path": "framework/core/App",
 									"type": "file",
 									"full": "framework/core/App/readme.md"
-								},
-								{
-									"name": "ViteApp.js",
-									"path": "framework/core/App",
-									"type": "file",
-									"full": "framework/core/App/ViteApp.js"
 								}
 							]
 						},
@@ -802,6 +807,12 @@
 											"full": "framework/core/List/0/List.css"
 										},
 										{
+											"name": "List0.View.js",
+											"path": "framework/core/List/0",
+											"type": "file",
+											"full": "framework/core/List/0/List0.View.js"
+										},
+										{
 											"name": "List0.js",
 											"path": "framework/core/List/0",
 											"type": "file",
@@ -812,12 +823,6 @@
 											"path": "framework/core/List/0",
 											"type": "file",
 											"full": "framework/core/List/0/List0.test.js"
-										},
-										{
-											"name": "List0.View.js",
-											"path": "framework/core/List/0",
-											"type": "file",
-											"full": "framework/core/List/0/List0.View.js"
 										},
 										{
 											"name": "page.js",
@@ -1104,38 +1109,6 @@
 							]
 						},
 						{
-							"name": "mixin",
-							"path": "framework/core",
-							"type": "dir",
-							"full": "framework/core/mixin",
-							"children": [
-								{
-									"name": "mixin.js",
-									"path": "framework/core/mixin",
-									"type": "file",
-									"full": "framework/core/mixin/mixin.js"
-								},
-								{
-									"name": "mixin.test.js",
-									"path": "framework/core/mixin",
-									"type": "file",
-									"full": "framework/core/mixin/mixin.test.js"
-								},
-								{
-									"name": "page.js",
-									"path": "framework/core/mixin",
-									"type": "file",
-									"full": "framework/core/mixin/page.js"
-								},
-								{
-									"name": "readme.md",
-									"path": "framework/core/mixin",
-									"type": "file",
-									"full": "framework/core/mixin/readme.md"
-								}
-							]
-						},
-						{
 							"name": "Page",
 							"path": "framework/core",
 							"type": "dir",
@@ -1174,12 +1147,6 @@
 									"full": "framework/core/Page/1",
 									"children": [
 										{
-											"name": "page.js",
-											"path": "framework/core/Page/1",
-											"type": "file",
-											"full": "framework/core/Page/1/page.js"
-										},
-										{
 											"name": "Page1.js",
 											"path": "framework/core/Page/1",
 											"type": "file",
@@ -1190,6 +1157,12 @@
 											"path": "framework/core/Page/1",
 											"type": "file",
 											"full": "framework/core/Page/1/Page1.node.test.js"
+										},
+										{
+											"name": "page.js",
+											"path": "framework/core/Page/1",
+											"type": "file",
+											"full": "framework/core/Page/1/page.js"
 										},
 										{
 											"name": "readme.md",
@@ -1205,12 +1178,6 @@
 									"type": "dir",
 									"full": "framework/core/Page/2",
 									"children": [
-										{
-											"name": "page.js",
-											"path": "framework/core/Page/2",
-											"type": "file",
-											"full": "framework/core/Page/2/page.js"
-										},
 										{
 											"name": "Page2.js",
 											"path": "framework/core/Page/2",
@@ -1230,6 +1197,12 @@
 											"full": "framework/core/Page/2/Pager.js"
 										},
 										{
+											"name": "page.js",
+											"path": "framework/core/Page/2",
+											"type": "file",
+											"full": "framework/core/Page/2/page.js"
+										},
+										{
 											"name": "readme.md",
 											"path": "framework/core/Page/2",
 											"type": "file",
@@ -1244,12 +1217,6 @@
 									"full": "framework/core/Page/3",
 									"children": [
 										{
-											"name": "page.js",
-											"path": "framework/core/Page/3",
-											"type": "file",
-											"full": "framework/core/Page/3/page.js"
-										},
-										{
 											"name": "Page3.js",
 											"path": "framework/core/Page/3",
 											"type": "file",
@@ -1262,18 +1229,18 @@
 											"full": "framework/core/Page/3/Page3.node.test.js"
 										},
 										{
+											"name": "page.js",
+											"path": "framework/core/Page/3",
+											"type": "file",
+											"full": "framework/core/Page/3/page.js"
+										},
+										{
 											"name": "readme.md",
 											"path": "framework/core/Page/3",
 											"type": "file",
 											"full": "framework/core/Page/3/readme.md"
 										}
 									]
-								},
-								{
-									"name": "context.js",
-									"path": "framework/core/Page",
-									"type": "file",
-									"full": "framework/core/Page/context.js"
 								},
 								{
 									"name": "Old_App_Like_Page.class.js",
@@ -1286,12 +1253,6 @@
 									"path": "framework/core/Page",
 									"type": "file",
 									"full": "framework/core/Page/Page.class.js"
-								},
-								{
-									"name": "page.js",
-									"path": "framework/core/Page",
-									"type": "file",
-									"full": "framework/core/Page/page.js"
 								},
 								{
 									"name": "Pager",
@@ -1324,12 +1285,6 @@
 											"full": "framework/core/Page/Pager/Pager.js"
 										},
 										{
-											"name": "readme.md",
-											"path": "framework/core/Page/Pager",
-											"type": "file",
-											"full": "framework/core/Page/Pager/readme.md"
-										},
-										{
 											"name": "TabPager.css",
 											"path": "framework/core/Page/Pager",
 											"type": "file",
@@ -1340,8 +1295,26 @@
 											"path": "framework/core/Page/Pager",
 											"type": "file",
 											"full": "framework/core/Page/Pager/TabPager.js"
+										},
+										{
+											"name": "readme.md",
+											"path": "framework/core/Page/Pager",
+											"type": "file",
+											"full": "framework/core/Page/Pager/readme.md"
 										}
 									]
+								},
+								{
+									"name": "context.js",
+									"path": "framework/core/Page",
+									"type": "file",
+									"full": "framework/core/Page/context.js"
+								},
+								{
+									"name": "page.js",
+									"path": "framework/core/Page",
+									"type": "file",
+									"full": "framework/core/Page/page.js"
 								},
 								{
 									"name": "readme.md",
@@ -1350,12 +1323,6 @@
 									"full": "framework/core/Page/readme.md"
 								}
 							]
-						},
-						{
-							"name": "page.js",
-							"path": "framework/core",
-							"type": "file",
-							"full": "framework/core/page.js"
 						},
 						{
 							"name": "Test",
@@ -1370,6 +1337,12 @@
 									"full": "framework/core/Test/0",
 									"children": [
 										{
+											"name": "Test0.js",
+											"path": "framework/core/Test/0",
+											"type": "file",
+											"full": "framework/core/Test/0/Test0.js"
+										},
+										{
 											"name": "page.js",
 											"path": "framework/core/Test/0",
 											"type": "file",
@@ -1380,12 +1353,6 @@
 											"path": "framework/core/Test/0",
 											"type": "file",
 											"full": "framework/core/Test/0/readme.md"
-										},
-										{
-											"name": "Test0.js",
-											"path": "framework/core/Test/0",
-											"type": "file",
-											"full": "framework/core/Test/0/Test0.js"
 										}
 									]
 								},
@@ -1395,18 +1362,6 @@
 									"type": "dir",
 									"full": "framework/core/Test/1",
 									"children": [
-										{
-											"name": "page.js",
-											"path": "framework/core/Test/1",
-											"type": "file",
-											"full": "framework/core/Test/1/page.js"
-										},
-										{
-											"name": "readme.md",
-											"path": "framework/core/Test/1",
-											"type": "file",
-											"full": "framework/core/Test/1/readme.md"
-										},
 										{
 											"name": "Test1.css",
 											"path": "framework/core/Test/1",
@@ -1418,6 +1373,18 @@
 											"path": "framework/core/Test/1",
 											"type": "file",
 											"full": "framework/core/Test/1/Test1.js"
+										},
+										{
+											"name": "page.js",
+											"path": "framework/core/Test/1",
+											"type": "file",
+											"full": "framework/core/Test/1/page.js"
+										},
+										{
+											"name": "readme.md",
+											"path": "framework/core/Test/1",
+											"type": "file",
+											"full": "framework/core/Test/1/readme.md"
 										}
 									]
 								},
@@ -1427,18 +1394,6 @@
 									"type": "dir",
 									"full": "framework/core/Test/3",
 									"children": [
-										{
-											"name": "page.js",
-											"path": "framework/core/Test/3",
-											"type": "file",
-											"full": "framework/core/Test/3/page.js"
-										},
-										{
-											"name": "readme.md",
-											"path": "framework/core/Test/3",
-											"type": "file",
-											"full": "framework/core/Test/3/readme.md"
-										},
 										{
 											"name": "Test3.css",
 											"path": "framework/core/Test/3",
@@ -1456,6 +1411,18 @@
 											"path": "framework/core/Test/3",
 											"type": "file",
 											"full": "framework/core/Test/3/Test3.node.test.js"
+										},
+										{
+											"name": "page.js",
+											"path": "framework/core/Test/3",
+											"type": "file",
+											"full": "framework/core/Test/3/page.js"
+										},
+										{
+											"name": "readme.md",
+											"path": "framework/core/Test/3",
+											"type": "file",
+											"full": "framework/core/Test/3/readme.md"
 										}
 									]
 								},
@@ -1465,6 +1432,18 @@
 									"type": "dir",
 									"full": "framework/core/Test/Original",
 									"children": [
+										{
+											"name": "Test.css",
+											"path": "framework/core/Test/Original",
+											"type": "file",
+											"full": "framework/core/Test/Original/Test.css"
+										},
+										{
+											"name": "Test.js",
+											"path": "framework/core/Test/Original",
+											"type": "file",
+											"full": "framework/core/Test/Original/Test.js"
+										},
 										{
 											"name": "ai-test-runner.md",
 											"path": "framework/core/Test/Original",
@@ -1488,34 +1467,92 @@
 											"path": "framework/core/Test/Original",
 											"type": "file",
 											"full": "framework/core/Test/Original/refactor.md"
-										},
-										{
-											"name": "Test.css",
-											"path": "framework/core/Test/Original",
-											"type": "file",
-											"full": "framework/core/Test/Original/Test.css"
-										},
-										{
-											"name": "Test.js",
-											"path": "framework/core/Test/Original",
-											"type": "file",
-											"full": "framework/core/Test/Original/Test.js"
 										}
 									]
-								},
-								{
-									"name": "readme.md",
-									"path": "framework/core/Test",
-									"type": "file",
-									"full": "framework/core/Test/readme.md"
 								},
 								{
 									"name": "Test.js",
 									"path": "framework/core/Test",
 									"type": "file",
 									"full": "framework/core/Test/Test.js"
+								},
+								{
+									"name": "readme.md",
+									"path": "framework/core/Test",
+									"type": "file",
+									"full": "framework/core/Test/readme.md"
 								}
 							]
+						},
+						{
+							"name": "View",
+							"path": "framework/core",
+							"type": "dir",
+							"full": "framework/core/View",
+							"children": [
+								{
+									"name": "ResizeObserver.js",
+									"path": "framework/core/View",
+									"type": "file",
+									"full": "framework/core/View/ResizeObserver.js"
+								},
+								{
+									"name": "View.js",
+									"path": "framework/core/View",
+									"type": "file",
+									"full": "framework/core/View/View.js"
+								},
+								{
+									"name": "file.js",
+									"path": "framework/core/View",
+									"type": "file",
+									"full": "framework/core/View/file.js"
+								},
+								{
+									"name": "page.js",
+									"path": "framework/core/View",
+									"type": "file",
+									"full": "framework/core/View/page.js"
+								}
+							]
+						},
+						{
+							"name": "mixin",
+							"path": "framework/core",
+							"type": "dir",
+							"full": "framework/core/mixin",
+							"children": [
+								{
+									"name": "mixin.js",
+									"path": "framework/core/mixin",
+									"type": "file",
+									"full": "framework/core/mixin/mixin.js"
+								},
+								{
+									"name": "mixin.test.js",
+									"path": "framework/core/mixin",
+									"type": "file",
+									"full": "framework/core/mixin/mixin.test.js"
+								},
+								{
+									"name": "page.js",
+									"path": "framework/core/mixin",
+									"type": "file",
+									"full": "framework/core/mixin/page.js"
+								},
+								{
+									"name": "readme.md",
+									"path": "framework/core/mixin",
+									"type": "file",
+									"full": "framework/core/mixin/readme.md"
+								}
+							]
+						},
+						{
+							"name": "page.js",
+							"path": "framework/core",
+							"type": "file",
+							"full": "framework/core/page.js"
 						},
 						{
 							"name": "util",
@@ -1586,38 +1623,6 @@
 											"full": "framework/core/util/mixin/readme.md"
 										}
 									]
-								}
-							]
-						},
-						{
-							"name": "View",
-							"path": "framework/core",
-							"type": "dir",
-							"full": "framework/core/View",
-							"children": [
-								{
-									"name": "file.js",
-									"path": "framework/core/View",
-									"type": "file",
-									"full": "framework/core/View/file.js"
-								},
-								{
-									"name": "page.js",
-									"path": "framework/core/View",
-									"type": "file",
-									"full": "framework/core/View/page.js"
-								},
-								{
-									"name": "ResizeObserver.js",
-									"path": "framework/core/View",
-									"type": "file",
-									"full": "framework/core/View/ResizeObserver.js"
-								},
-								{
-									"name": "View.js",
-									"path": "framework/core/View",
-									"type": "file",
-									"full": "framework/core/View/View.js"
 								}
 							]
 						}
@@ -1798,16 +1803,16 @@
 									"full": "framework/ext/Component/0",
 									"children": [
 										{
-											"name": "component-0.json",
-											"path": "framework/ext/Component/0",
-											"type": "file",
-											"full": "framework/ext/Component/0/component-0.json"
-										},
-										{
 											"name": "Component0.js",
 											"path": "framework/ext/Component/0",
 											"type": "file",
 											"full": "framework/ext/Component/0/Component0.js"
+										},
+										{
+											"name": "component-0.json",
+											"path": "framework/ext/Component/0",
+											"type": "file",
+											"full": "framework/ext/Component/0/component-0.json"
 										},
 										{
 											"name": "faster.json",
@@ -1868,6 +1873,70 @@
 									"path": "framework/ext/Component",
 									"type": "file",
 									"full": "framework/ext/Component/Component.js"
+								},
+								{
+									"name": "Deep.js",
+									"path": "framework/ext/Component",
+									"type": "file",
+									"full": "framework/ext/Component/Deep.js"
+								},
+								{
+									"name": "Deep.page.js",
+									"path": "framework/ext/Component",
+									"type": "file",
+									"full": "framework/ext/Component/Deep.page.js"
+								},
+								{
+									"name": "File",
+									"path": "framework/ext/Component",
+									"type": "dir",
+									"full": "framework/ext/Component/File",
+									"children": [
+										{
+											"name": "FileComponent.js",
+											"path": "framework/ext/Component/File",
+											"type": "file",
+											"full": "framework/ext/Component/File/FileComponent.js"
+										},
+										{
+											"name": "file-component.json",
+											"path": "framework/ext/Component/File",
+											"type": "file",
+											"full": "framework/ext/Component/File/file-component.json"
+										},
+										{
+											"name": "other.json",
+											"path": "framework/ext/Component/File",
+											"type": "file",
+											"full": "framework/ext/Component/File/other.json"
+										},
+										{
+											"name": "page.js",
+											"path": "framework/ext/Component/File",
+											"type": "file",
+											"full": "framework/ext/Component/File/page.js"
+										},
+										{
+											"name": "parent.json",
+											"path": "framework/ext/Component/File",
+											"type": "file",
+											"full": "framework/ext/Component/File/parent.json"
+										},
+										{
+											"name": "sub",
+											"path": "framework/ext/Component/File",
+											"type": "dir",
+											"full": "framework/ext/Component/File/sub",
+											"children": [
+												{
+													"name": "file-component.json",
+													"path": "framework/ext/Component/File/sub",
+													"type": "file",
+													"full": "framework/ext/Component/File/sub/file-component.json"
+												}
+											]
+										}
+									]
 								},
 								{
 									"name": "component.json",
@@ -2002,70 +2071,6 @@
 									]
 								},
 								{
-									"name": "Deep.js",
-									"path": "framework/ext/Component",
-									"type": "file",
-									"full": "framework/ext/Component/Deep.js"
-								},
-								{
-									"name": "Deep.page.js",
-									"path": "framework/ext/Component",
-									"type": "file",
-									"full": "framework/ext/Component/Deep.page.js"
-								},
-								{
-									"name": "File",
-									"path": "framework/ext/Component",
-									"type": "dir",
-									"full": "framework/ext/Component/File",
-									"children": [
-										{
-											"name": "file-component.json",
-											"path": "framework/ext/Component/File",
-											"type": "file",
-											"full": "framework/ext/Component/File/file-component.json"
-										},
-										{
-											"name": "FileComponent.js",
-											"path": "framework/ext/Component/File",
-											"type": "file",
-											"full": "framework/ext/Component/File/FileComponent.js"
-										},
-										{
-											"name": "other.json",
-											"path": "framework/ext/Component/File",
-											"type": "file",
-											"full": "framework/ext/Component/File/other.json"
-										},
-										{
-											"name": "page.js",
-											"path": "framework/ext/Component/File",
-											"type": "file",
-											"full": "framework/ext/Component/File/page.js"
-										},
-										{
-											"name": "parent.json",
-											"path": "framework/ext/Component/File",
-											"type": "file",
-											"full": "framework/ext/Component/File/parent.json"
-										},
-										{
-											"name": "sub",
-											"path": "framework/ext/Component/File",
-											"type": "dir",
-											"full": "framework/ext/Component/File/sub",
-											"children": [
-												{
-													"name": "file-component.json",
-													"path": "framework/ext/Component/File/sub",
-													"type": "file",
-													"full": "framework/ext/Component/File/sub/file-component.json"
-												}
-											]
-										}
-									]
-								},
-								{
 									"name": "page.js",
 									"path": "framework/ext/Component",
 									"type": "file",
@@ -2128,13 +2133,6 @@
 													"path": "framework/ext/Dir/0/test1",
 													"type": "file",
 													"full": "framework/ext/Dir/0/test1/file.ext"
-												},
-												{
-													"name": "sub",
-													"path": "framework/ext/Dir/0/test1",
-													"type": "dir",
-													"full": "framework/ext/Dir/0/test1/sub",
-													"children": []
 												}
 											]
 										}
@@ -2343,22 +2341,10 @@
 									"full": "framework/ext/Draggable/Movable.js"
 								},
 								{
-									"name": "page.js",
-									"path": "framework/ext/Draggable",
-									"type": "file",
-									"full": "framework/ext/Draggable/page.js"
-								},
-								{
 									"name": "Previewable.js",
 									"path": "framework/ext/Draggable",
 									"type": "file",
 									"full": "framework/ext/Draggable/Previewable.js"
-								},
-								{
-									"name": "readme.md",
-									"path": "framework/ext/Draggable",
-									"type": "file",
-									"full": "framework/ext/Draggable/readme.md"
 								},
 								{
 									"name": "Rewidth.js",
@@ -2371,6 +2357,18 @@
 									"path": "framework/ext/Draggable",
 									"type": "file",
 									"full": "framework/ext/Draggable/Sortable.js"
+								},
+								{
+									"name": "page.js",
+									"path": "framework/ext/Draggable",
+									"type": "file",
+									"full": "framework/ext/Draggable/page.js"
+								},
+								{
+									"name": "readme.md",
+									"path": "framework/ext/Draggable",
+									"type": "file",
+									"full": "framework/ext/Draggable/readme.md"
 								},
 								{
 									"name": "test",
@@ -2505,16 +2503,16 @@
 									"full": "framework/ext/File/0",
 									"children": [
 										{
-											"name": "default-data.json",
-											"path": "framework/ext/File/0",
-											"type": "file",
-											"full": "framework/ext/File/0/default-data.json"
-										},
-										{
 											"name": "File0.js",
 											"path": "framework/ext/File/0",
 											"type": "file",
 											"full": "framework/ext/File/0/File0.js"
+										},
+										{
+											"name": "default-data.json",
+											"path": "framework/ext/File/0",
+											"type": "file",
+											"full": "framework/ext/File/0/default-data.json"
 										},
 										{
 											"name": "page.js",
@@ -2829,12 +2827,6 @@
 							"full": "framework/ext/Lew42",
 							"children": [
 								{
-									"name": "favicon.png",
-									"path": "framework/ext/Lew42",
-									"type": "file",
-									"full": "framework/ext/Lew42/favicon.png"
-								},
-								{
 									"name": "Lew42.css",
 									"path": "framework/ext/Lew42",
 									"type": "file",
@@ -2845,6 +2837,12 @@
 									"path": "framework/ext/Lew42",
 									"type": "file",
 									"full": "framework/ext/Lew42/Lew42.js"
+								},
+								{
+									"name": "favicon.png",
+									"path": "framework/ext/Lew42",
+									"type": "file",
+									"full": "framework/ext/Lew42/favicon.png"
 								},
 								{
 									"name": "mlogo.png",
@@ -2887,12 +2885,6 @@
 											"full": "framework/ext/List/Component/ListComponent.js"
 										},
 										{
-											"name": "page.js",
-											"path": "framework/ext/List/Component",
-											"type": "file",
-											"full": "framework/ext/List/Component/page.js"
-										},
-										{
 											"name": "Sortable",
 											"path": "framework/ext/List/Component",
 											"type": "dir",
@@ -2913,12 +2905,24 @@
 											]
 										},
 										{
+											"name": "page.js",
+											"path": "framework/ext/List/Component",
+											"type": "file",
+											"full": "framework/ext/List/Component/page.js"
+										},
+										{
 											"name": "test.json",
 											"path": "framework/ext/List/Component",
 											"type": "file",
 											"full": "framework/ext/List/Component/test.json"
 										}
 									]
+								},
+								{
+									"name": "List.View.js",
+									"path": "framework/ext/List",
+									"type": "file",
+									"full": "framework/ext/List/List.View.js"
 								},
 								{
 									"name": "List.css",
@@ -2931,12 +2935,6 @@
 									"path": "framework/ext/List",
 									"type": "file",
 									"full": "framework/ext/List/List.js"
-								},
-								{
-									"name": "List.View.js",
-									"path": "framework/ext/List",
-									"type": "file",
-									"full": "framework/ext/List/List.View.js"
 								},
 								{
 									"name": "page.js",
@@ -2967,16 +2965,16 @@
 							"full": "framework/ext/Markdown",
 							"children": [
 								{
-									"name": "example.md",
-									"path": "framework/ext/Markdown",
-									"type": "file",
-									"full": "framework/ext/Markdown/example.md"
-								},
-								{
 									"name": "Markdown.js",
 									"path": "framework/ext/Markdown",
 									"type": "file",
 									"full": "framework/ext/Markdown/Markdown.js"
+								},
+								{
+									"name": "example.md",
+									"path": "framework/ext/Markdown",
+									"type": "file",
+									"full": "framework/ext/Markdown/example.md"
 								},
 								{
 									"name": "page.js",
@@ -2998,6 +2996,18 @@
 							"type": "dir",
 							"full": "framework/ext/Module",
 							"children": [
+								{
+									"name": "Module.js",
+									"path": "framework/ext/Module",
+									"type": "file",
+									"full": "framework/ext/Module/Module.js"
+								},
+								{
+									"name": "Module0.js",
+									"path": "framework/ext/Module",
+									"type": "file",
+									"full": "framework/ext/Module/Module0.js"
+								},
 								{
 									"name": "draggable.js",
 									"path": "framework/ext/Module",
@@ -3257,22 +3267,10 @@
 									]
 								},
 								{
-									"name": "Module.js",
-									"path": "framework/ext/Module",
-									"type": "file",
-									"full": "framework/ext/Module/Module.js"
-								},
-								{
 									"name": "module.styles.css",
 									"path": "framework/ext/Module",
 									"type": "file",
 									"full": "framework/ext/Module/module.styles.css"
-								},
-								{
-									"name": "Module0.js",
-									"path": "framework/ext/Module",
-									"type": "file",
-									"full": "framework/ext/Module/Module0.js"
 								},
 								{
 									"name": "page.js",
@@ -3353,12 +3351,6 @@
 									"full": "framework/ext/Page/page.js"
 								}
 							]
-						},
-						{
-							"name": "page.js",
-							"path": "framework/ext",
-							"type": "file",
-							"full": "framework/ext/page.js"
 						},
 						{
 							"name": "Router",
@@ -3499,16 +3491,16 @@
 									]
 								},
 								{
-									"name": "readme.md",
-									"path": "framework/ext/Saver",
-									"type": "file",
-									"full": "framework/ext/Saver/readme.md"
-								},
-								{
 									"name": "Saver.js",
 									"path": "framework/ext/Saver",
 									"type": "file",
 									"full": "framework/ext/Saver/Saver.js"
+								},
+								{
+									"name": "readme.md",
+									"path": "framework/ext/Saver",
+									"type": "file",
+									"full": "framework/ext/Saver/readme.md"
 								}
 							]
 						},
@@ -3533,6 +3525,12 @@
 							"full": "framework/ext/Splitter",
 							"children": [
 								{
+									"name": "Splitter.js",
+									"path": "framework/ext/Splitter",
+									"type": "file",
+									"full": "framework/ext/Splitter/Splitter.js"
+								},
+								{
 									"name": "page.js",
 									"path": "framework/ext/Splitter",
 									"type": "file",
@@ -3543,12 +3541,6 @@
 									"path": "framework/ext/Splitter",
 									"type": "file",
 									"full": "framework/ext/Splitter/readme.md"
-								},
-								{
-									"name": "Splitter.js",
-									"path": "framework/ext/Splitter",
-									"type": "file",
-									"full": "framework/ext/Splitter/Splitter.js"
 								}
 							]
 						},
@@ -3558,12 +3550,6 @@
 							"type": "dir",
 							"full": "framework/ext/Store",
 							"children": [
-								{
-									"name": "readme.md",
-									"path": "framework/ext/Store",
-									"type": "file",
-									"full": "framework/ext/Store/readme.md"
-								},
 								{
 									"name": "Store.js",
 									"path": "framework/ext/Store",
@@ -3575,6 +3561,12 @@
 									"path": "framework/ext/Store",
 									"type": "file",
 									"full": "framework/ext/Store/Store.test.js"
+								},
+								{
+									"name": "readme.md",
+									"path": "framework/ext/Store",
+									"type": "file",
+									"full": "framework/ext/Store/readme.md"
 								}
 							]
 						},
@@ -3605,12 +3597,6 @@
 									"full": "framework/ext/Thing_old/BaseThing.js"
 								},
 								{
-									"name": "page.js",
-									"path": "framework/ext/Thing_old",
-									"type": "file",
-									"full": "framework/ext/Thing_old/page.js"
-								},
-								{
 									"name": "ServerThing.js",
 									"path": "framework/ext/Thing_old",
 									"type": "file",
@@ -3621,6 +3607,12 @@
 									"path": "framework/ext/Thing_old",
 									"type": "file",
 									"full": "framework/ext/Thing_old/Thing.js"
+								},
+								{
+									"name": "page.js",
+									"path": "framework/ext/Thing_old",
+									"type": "file",
+									"full": "framework/ext/Thing_old/page.js"
 								}
 							]
 						},
@@ -3630,18 +3622,6 @@
 							"type": "dir",
 							"full": "framework/ext/Todo",
 							"children": [
-								{
-									"name": "page.js",
-									"path": "framework/ext/Todo",
-									"type": "file",
-									"full": "framework/ext/Todo/page.js"
-								},
-								{
-									"name": "readme.md",
-									"path": "framework/ext/Todo",
-									"type": "file",
-									"full": "framework/ext/Todo/readme.md"
-								},
 								{
 									"name": "TodoItem.js",
 									"path": "framework/ext/Todo",
@@ -3659,6 +3639,18 @@
 									"path": "framework/ext/Todo",
 									"type": "file",
 									"full": "framework/ext/Todo/TodoList.js"
+								},
+								{
+									"name": "page.js",
+									"path": "framework/ext/Todo",
+									"type": "file",
+									"full": "framework/ext/Todo/page.js"
+								},
+								{
+									"name": "readme.md",
+									"path": "framework/ext/Todo",
+									"type": "file",
+									"full": "framework/ext/Todo/readme.md"
 								}
 							]
 						},
@@ -3668,6 +3660,12 @@
 							"type": "dir",
 							"full": "framework/ext/Toolbar",
 							"children": [
+								{
+									"name": "Toolbar.js",
+									"path": "framework/ext/Toolbar",
+									"type": "file",
+									"full": "framework/ext/Toolbar/Toolbar.js"
+								},
 								{
 									"name": "page.js",
 									"path": "framework/ext/Toolbar",
@@ -3679,12 +3677,6 @@
 									"path": "framework/ext/Toolbar",
 									"type": "file",
 									"full": "framework/ext/Toolbar/readme.md"
-								},
-								{
-									"name": "Toolbar.js",
-									"path": "framework/ext/Toolbar",
-									"type": "file",
-									"full": "framework/ext/Toolbar/Toolbar.js"
 								}
 							]
 						},
@@ -3701,6 +3693,12 @@
 									"full": "framework/ext/WebApp/0",
 									"children": [
 										{
+											"name": "WebApp0.js",
+											"path": "framework/ext/WebApp/0",
+											"type": "file",
+											"full": "framework/ext/WebApp/0/WebApp0.js"
+										},
+										{
 											"name": "page.js",
 											"path": "framework/ext/WebApp/0",
 											"type": "file",
@@ -3711,12 +3709,6 @@
 											"path": "framework/ext/WebApp/0",
 											"type": "file",
 											"full": "framework/ext/WebApp/0/readme.md"
-										},
-										{
-											"name": "WebApp0.js",
-											"path": "framework/ext/WebApp/0",
-											"type": "file",
-											"full": "framework/ext/WebApp/0/WebApp0.js"
 										}
 									]
 								},
@@ -3726,6 +3718,12 @@
 									"type": "dir",
 									"full": "framework/ext/WebApp/1",
 									"children": [
+										{
+											"name": "WebApp1.js",
+											"path": "framework/ext/WebApp/1",
+											"type": "file",
+											"full": "framework/ext/WebApp/1/WebApp1.js"
+										},
 										{
 											"name": "page.js",
 											"path": "framework/ext/WebApp/1",
@@ -3737,12 +3735,6 @@
 											"path": "framework/ext/WebApp/1",
 											"type": "file",
 											"full": "framework/ext/WebApp/1/readme.md"
-										},
-										{
-											"name": "WebApp1.js",
-											"path": "framework/ext/WebApp/1",
-											"type": "file",
-											"full": "framework/ext/WebApp/1/WebApp1.js"
 										}
 									]
 								},
@@ -3761,16 +3753,16 @@
 									]
 								},
 								{
-									"name": "readme.md",
-									"path": "framework/ext/WebApp",
-									"type": "file",
-									"full": "framework/ext/WebApp/readme.md"
-								},
-								{
 									"name": "WebApp.js",
 									"path": "framework/ext/WebApp",
 									"type": "file",
 									"full": "framework/ext/WebApp/WebApp.js"
+								},
+								{
+									"name": "readme.md",
+									"path": "framework/ext/WebApp",
+									"type": "file",
+									"full": "framework/ext/WebApp/readme.md"
 								}
 							]
 						},
@@ -3793,28 +3785,10 @@
 											"full": "framework/ext/WebEditor/0/Canvas0.js"
 										},
 										{
-											"name": "page.js",
-											"path": "framework/ext/WebEditor/0",
-											"type": "file",
-											"full": "framework/ext/WebEditor/0/page.js"
-										},
-										{
 											"name": "Props0.js",
 											"path": "framework/ext/WebEditor/0",
 											"type": "file",
 											"full": "framework/ext/WebEditor/0/Props0.js"
-										},
-										{
-											"name": "readme.md",
-											"path": "framework/ext/WebEditor/0",
-											"type": "file",
-											"full": "framework/ext/WebEditor/0/readme.md"
-										},
-										{
-											"name": "save.json",
-											"path": "framework/ext/WebEditor/0",
-											"type": "file",
-											"full": "framework/ext/WebEditor/0/save.json"
 										},
 										{
 											"name": "Sidebar0.js",
@@ -3833,6 +3807,24 @@
 											"path": "framework/ext/WebEditor/0",
 											"type": "file",
 											"full": "framework/ext/WebEditor/0/WebTree0.js"
+										},
+										{
+											"name": "page.js",
+											"path": "framework/ext/WebEditor/0",
+											"type": "file",
+											"full": "framework/ext/WebEditor/0/page.js"
+										},
+										{
+											"name": "readme.md",
+											"path": "framework/ext/WebEditor/0",
+											"type": "file",
+											"full": "framework/ext/WebEditor/0/readme.md"
+										},
+										{
+											"name": "save.json",
+											"path": "framework/ext/WebEditor/0",
+											"type": "file",
+											"full": "framework/ext/WebEditor/0/save.json"
 										}
 									]
 								},
@@ -3855,28 +3847,10 @@
 											"full": "framework/ext/WebEditor/1/Layers1.js"
 										},
 										{
-											"name": "page.js",
-											"path": "framework/ext/WebEditor/1",
-											"type": "file",
-											"full": "framework/ext/WebEditor/1/page.js"
-										},
-										{
 											"name": "Props1.js",
 											"path": "framework/ext/WebEditor/1",
 											"type": "file",
 											"full": "framework/ext/WebEditor/1/Props1.js"
-										},
-										{
-											"name": "readme.md",
-											"path": "framework/ext/WebEditor/1",
-											"type": "file",
-											"full": "framework/ext/WebEditor/1/readme.md"
-										},
-										{
-											"name": "save.json",
-											"path": "framework/ext/WebEditor/1",
-											"type": "file",
-											"full": "framework/ext/WebEditor/1/save.json"
 										},
 										{
 											"name": "Sidebar1.js",
@@ -3895,6 +3869,24 @@
 											"path": "framework/ext/WebEditor/1",
 											"type": "file",
 											"full": "framework/ext/WebEditor/1/WebTree1.js"
+										},
+										{
+											"name": "page.js",
+											"path": "framework/ext/WebEditor/1",
+											"type": "file",
+											"full": "framework/ext/WebEditor/1/page.js"
+										},
+										{
+											"name": "readme.md",
+											"path": "framework/ext/WebEditor/1",
+											"type": "file",
+											"full": "framework/ext/WebEditor/1/readme.md"
+										},
+										{
+											"name": "save.json",
+											"path": "framework/ext/WebEditor/1",
+											"type": "file",
+											"full": "framework/ext/WebEditor/1/save.json"
 										}
 									]
 								},
@@ -3965,22 +3957,10 @@
 											"full": "framework/ext/Workspace/0/Card0.js"
 										},
 										{
-											"name": "page.js",
-											"path": "framework/ext/Workspace/0",
-											"type": "file",
-											"full": "framework/ext/Workspace/0/page.js"
-										},
-										{
 											"name": "Panel0.js",
 											"path": "framework/ext/Workspace/0",
 											"type": "file",
 											"full": "framework/ext/Workspace/0/Panel0.js"
-										},
-										{
-											"name": "readme.md",
-											"path": "framework/ext/Workspace/0",
-											"type": "file",
-											"full": "framework/ext/Workspace/0/readme.md"
 										},
 										{
 											"name": "Workspace0.css",
@@ -3993,6 +3973,18 @@
 											"path": "framework/ext/Workspace/0",
 											"type": "file",
 											"full": "framework/ext/Workspace/0/Workspace0.js"
+										},
+										{
+											"name": "page.js",
+											"path": "framework/ext/Workspace/0",
+											"type": "file",
+											"full": "framework/ext/Workspace/0/page.js"
+										},
+										{
+											"name": "readme.md",
+											"path": "framework/ext/Workspace/0",
+											"type": "file",
+											"full": "framework/ext/Workspace/0/readme.md"
 										}
 									]
 								},
@@ -4003,6 +3995,12 @@
 									"full": "framework/ext/Workspace/readme.md"
 								}
 							]
+						},
+						{
+							"name": "page.js",
+							"path": "framework/ext",
+							"type": "file",
+							"full": "framework/ext/page.js"
 						}
 					]
 				},
@@ -4231,12 +4229,6 @@
 					"full": "framework/page.js"
 				},
 				{
-					"name": "README.md",
-					"path": "framework",
-					"type": "file",
-					"full": "framework/README.md"
-				},
-				{
 					"name": "ui",
 					"path": "framework",
 					"type": "dir",
@@ -4453,12 +4445,6 @@
 							]
 						},
 						{
-							"name": "page.js",
-							"path": "framework/ux",
-							"type": "file",
-							"full": "framework/ux/page.js"
-						},
-						{
 							"name": "Popover",
 							"path": "framework/ux",
 							"type": "dir",
@@ -4479,17 +4465,17 @@
 							]
 						},
 						{
-							"name": "readme.md",
-							"path": "framework/ux",
-							"type": "file",
-							"full": "framework/ux/readme.md"
-						},
-						{
 							"name": "Sheet",
 							"path": "framework/ux",
 							"type": "dir",
 							"full": "framework/ux/Sheet",
 							"children": [
+								{
+									"name": "Sheet.js",
+									"path": "framework/ux/Sheet",
+									"type": "file",
+									"full": "framework/ux/Sheet/Sheet.js"
+								},
 								{
 									"name": "page.js",
 									"path": "framework/ux/Sheet",
@@ -4501,12 +4487,6 @@
 									"path": "framework/ux/Sheet",
 									"type": "file",
 									"full": "framework/ux/Sheet/readme.md"
-								},
-								{
-									"name": "Sheet.js",
-									"path": "framework/ux/Sheet",
-									"type": "file",
-									"full": "framework/ux/Sheet/Sheet.js"
 								}
 							]
 						},
@@ -4516,12 +4496,6 @@
 							"type": "dir",
 							"full": "framework/ux/Tabs",
 							"children": [
-								{
-									"name": "readme.md",
-									"path": "framework/ux/Tabs",
-									"type": "file",
-									"full": "framework/ux/Tabs/readme.md"
-								},
 								{
 									"name": "Tabs.css",
 									"path": "framework/ux/Tabs",
@@ -4533,6 +4507,12 @@
 									"path": "framework/ux/Tabs",
 									"type": "file",
 									"full": "framework/ux/Tabs/Tabs.js"
+								},
+								{
+									"name": "readme.md",
+									"path": "framework/ux/Tabs",
+									"type": "file",
+									"full": "framework/ux/Tabs/readme.md"
 								}
 							]
 						},
@@ -4543,16 +4523,16 @@
 							"full": "framework/ux/Toast",
 							"children": [
 								{
-									"name": "readme.md",
-									"path": "framework/ux/Toast",
-									"type": "file",
-									"full": "framework/ux/Toast/readme.md"
-								},
-								{
 									"name": "Toast.js",
 									"path": "framework/ux/Toast",
 									"type": "file",
 									"full": "framework/ux/Toast/Toast.js"
+								},
+								{
+									"name": "readme.md",
+									"path": "framework/ux/Toast",
+									"type": "file",
+									"full": "framework/ux/Toast/readme.md"
 								}
 							]
 						},
@@ -4563,18 +4543,30 @@
 							"full": "framework/ux/Tooltip",
 							"children": [
 								{
-									"name": "readme.md",
-									"path": "framework/ux/Tooltip",
-									"type": "file",
-									"full": "framework/ux/Tooltip/readme.md"
-								},
-								{
 									"name": "Tooltip.js",
 									"path": "framework/ux/Tooltip",
 									"type": "file",
 									"full": "framework/ux/Tooltip/Tooltip.js"
+								},
+								{
+									"name": "readme.md",
+									"path": "framework/ux/Tooltip",
+									"type": "file",
+									"full": "framework/ux/Tooltip/readme.md"
 								}
 							]
+						},
+						{
+							"name": "page.js",
+							"path": "framework/ux",
+							"type": "file",
+							"full": "framework/ux/page.js"
+						},
+						{
+							"name": "readme.md",
+							"path": "framework/ux",
+							"type": "file",
+							"full": "framework/ux/readme.md"
 						},
 						{
 							"name": "ux.js",
@@ -5153,12 +5145,6 @@
 					]
 				}
 			]
-		},
-		{
-			"name": "_redirects",
-			"path": "./",
-			"type": "file",
-			"full": "_redirects"
 		}
 	]
 }
